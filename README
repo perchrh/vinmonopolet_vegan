@@ -1,0 +1,6 @@
+Requires Selenium for Python.
+
+Install it like this (Ubuntu/Debian):
+sudo apt-get install python-pip
+sudo pip install -U selenium
+
