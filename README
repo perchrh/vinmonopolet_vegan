@@ -4,3 +4,5 @@ Install it like this (Ubuntu/Debian):
 sudo apt-get install python-pip
 sudo pip install -U selenium
 
+
+Get updated wine.json from http://barnivore.com/api

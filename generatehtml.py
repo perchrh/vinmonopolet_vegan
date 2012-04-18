@@ -9,6 +9,8 @@ sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 
 file = codecs.open('vegan-wine-companies-at-vinmonopolet', encoding='utf-8')
 
+#TODO also output wine type and region
+
 print u"<h1>Veganske vinfirma på Vinmonopolet</h1>"
 print u"<ul>"
 for company in file:

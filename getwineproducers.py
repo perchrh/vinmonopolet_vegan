@@ -33,11 +33,11 @@ def generate_name_variations(name):
 
     variations = []
     #remove parts of te name that may not be used by vinmonopolet, like "winery" "corp" and so
-    name_parts = name.split(" ")
+    name_parts = name.strip().split(" ")
     short_name = u""
     exclude_list = ["winery", "company", "pty", "ltd", "ltd.", "vineyard", "estate", "plc", "cellar", "winemaker",
                     "group", "international", "wines", "limited", "agricola", "winework", "wineries", "farm",
-                    "family", "vigneron", "merchant"]
+                    "family", "vigneron", "merchant", "at", "of", "the"]
     for part in name_parts:
         found = False
         for exclude in exclude_list:
@@ -57,7 +57,7 @@ def generate_name_variations(name):
             variation = u" ".join(variation.split(" ")[0:-1])
         while variation.endswith("-") or variation.endswith("&"):
             variation = variation[0:-1] #remove them again, in case there are new ones after stripping away words
-        variations.append(variation)
+        variations.append(variation.strip())
 
         #add mutations of the name as well as the name
         variations.append(
@@ -66,34 +66,52 @@ def generate_name_variations(name):
         variations.append(variation.replace(" ", "-", 2))
         variations.append(reCombining.sub('', unicodedata.normalize('NFD', unicode(variation))))
 
-    return set(variations)
+    names = set()
+    for name in variations:
+       names.add(name.strip())
+    names.discard("wine") #too general name
+
+    return names
 
 
-def build_company_name_list():
+def build_company_name_list(partial=False):
+    company_names = set()
+
+    if partial:
+       for knowncompany in codecs.open("partial-vegan-wine-companies-at-vinmonopolet", encoding='utf-8'):
+          company_names.add(knowncompany.strip())
+    else:
+       for knowncompany in codecs.open("vegan-wine-companies-at-vinmonopolet", encoding='utf-8'):
+           company_names.add(knowncompany.strip())
+
     file = codecs.open('wine.json', encoding='utf-8')
     data = file.read()
     companies = json.loads(data)
-    company_names = set()
+ 
     for candidate in companies:
         status = candidate['company']['status']
-        #if status == 'Vegan Friendly': # or status == 'Has Some Vegan Options':
-        if status == 'Has Some Vegan Options':
-            name = candidate['company']['company_name']
+        if (status == 'Has Some Vegan Options' and partial) or (status == 'Vegan Friendly' and not partial):
+            name = candidate['company']['company_name'].lower().strip()
             company_names |= generate_name_variations(name)
     file.close()
-    company_names.discard("")
-    company_names.discard(" ")
+
+    names_to_remove = set()
+    for company in company_names: 
+       if len(company) < 3:
+          names_to_remove.add(company)
+    company_names -= names_to_remove
+
     sorted_companies = list(company_names)
     sorted_companies.sort()
     return sorted_companies
 
 
 def check_company(browser, company):
-    #TODO filter on type (vin) and country too
+    #TODO filter on country too
     search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=" + "\"" + urllib.quote(
         company.strip().encode("utf-8")) + "\""
     browser.get(search_url)
-    time.sleep(0.2) # Let the page load, will be added to the API
+    time.sleep(0.2) # Let the page load
     search_result = browser.find_element_by_css_selector("h1.title")
     if search_result.text != "Vareutvalg: ingen treff":
         productlinktexts = browser.find_elements_by_css_selector("#productList h3 a")
@@ -102,12 +120,14 @@ def check_company(browser, company):
             browser.get(link)
 
             data = browser.find_elements_by_css_selector("div.productData li")
+            product_name = browser.find_element_by_css_selector("div.head h1").text
 
             manufacturer_name = "ukjent produsent"
             type_name = "ukjent type"
             region_name = "ukjent region"
             grossist = "ukjent grossist"
-            product_name = browser.find_element_by_css_selector("div.head h1").text
+            produktutvalg = "ukjent produktutvalg"
+            varenummer = "ukjent varenummer"
 
             for field in data:
                 field_name = field.find_element_by_css_selector("strong").text
@@ -119,22 +139,37 @@ def check_company(browser, company):
                     region_name = field.find_element_by_css_selector("span").text
                 elif field_name == "Grossist:":
                     grossist = field.find_element_by_css_selector("span").text
+                elif field_name == "Produktutvalg:":
+                    produktutvalg = field.find_element_by_css_selector("span").text
+                elif field_name == "Varenummer:":
+                    varenummer = field.find_element_by_css_selector("span").text
 
-            if len(LongestCommonSubstring(manufacturer_name.lower(), company.lower())) >= 4:
-                #don't add company if the name does not match
-                html_link = "<a href='" + search_url + "'>" + company + "</a>"
-                print company, "search ->", "<li>", ", ".join(
-                    [manufacturer_name, product_name, type_name, region_name, html_link]), "</li>"
+            if not type_name.lower().find("vin") >=0 :  #must be a wine to match
+                 pass
+            elif len(LongestCommonSubstring(manufacturer_name.lower(), company.lower())) >= 4: #name must look similiar
+                html_link_company = "<a href='%s'>%s</a>" % (search_url, company)
+                html_link_product = "<a href='%s'>%s</a>" % (link, varenummer)
+		print "Search for %s yielded possible match:" % company
+                print "<li>%s, %s. %s fra %s (%s) - %s (varenummer %s)</li>" % (manufacturer_name, product_name, type_name, region_name, produktutvalg, html_link_company, html_link_product)
             elif manufacturer_name == "ukjent produsent":
-                print company, "search ->", "Could not find manufacturer of ", product_name, "by", grossist, link
+                print "Missing manufacturer data for company", company, "and product", product_name, "by grocer ", grossist, link
 
 
 if __name__ == "__main__":
     browser = webdriver.Firefox() # Get local session of firefox
-    company_names = build_company_name_list()
 
+    print "Vegan Friendly wine manufacturers (candidates):"
+    print "-------------------------------------"
+    company_names = build_company_name_list()
     for company in company_names:
         check_company(browser, company)
+
+    print "Wine manufacturers with some vegan options (candidates):"
+    print "-------------------------------------"
+    company_names = build_company_name_list(true)
+    for company in company_names:
+        check_company(browser, company)
+
 
     browser.close()
 
