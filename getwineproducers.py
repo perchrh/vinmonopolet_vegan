@@ -70,6 +70,10 @@ def generate_name_variations(name):
     for name in variations:
        names.add(name.strip())
     names.discard("wine") #too general name
+    names.discard("hills") #too general name
+    names.discard("creek") #too general name
+    names.discard("view") #too general name
+    names.discard("weingut") #too general name
 
     return names
 
@@ -152,7 +156,7 @@ def check_company(browser, company):
 		print "Search for %s yielded possible match:" % company
                 print "<li>%s, %s. %s fra %s (%s) - %s (varenummer %s)</li>" % (manufacturer_name, product_name, type_name, region_name, produktutvalg, html_link_company, html_link_product)
             elif manufacturer_name == "ukjent produsent":
-                print "Missing manufacturer data for company", company, "and product", product_name, "by grocer ", grossist, link
+                print "Missing manufacturer data for company", company, "and product", product_name, "by grocer", grossist, link
 
 
 if __name__ == "__main__":
@@ -166,7 +170,7 @@ if __name__ == "__main__":
 
     print "Wine manufacturers with some vegan options (candidates):"
     print "-------------------------------------"
-    company_names = build_company_name_list(true)
+    company_names = build_company_name_list(True)
     for company in company_names:
         check_company(browser, company)
 
