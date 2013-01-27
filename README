@@ -9,3 +9,6 @@ Install pip, instruction at http://www.pip-installer.org/en/latest/installing.ht
 sudo pip install -U selenium
 
 Get updated wine.json from http://barnivore.com/api
+
+Run python getwineproducers.py | tee results
+and get the matching wines from 'results' afterwards
