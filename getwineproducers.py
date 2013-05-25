@@ -1,272 +1,380 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import json
-import codecs
-import sys
 import unicodedata
-import re
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-import urllib
 import time
+from selenium import webdriver
+import urllib.parse
+from difflib import SequenceMatcher
+import string
 
-sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-
-
-#returns the longest common substring
-def lcs(S1, S2):
-    M = [[0] * (1 + len(S2)) for i in xrange(1 + len(S1))]
-    longest, x_longest = 0, 0
-    for x in xrange(1, 1 + len(S1)):
-        for y in xrange(1, 1 + len(S2)):
-            if S1[x - 1] == S2[y - 1]:
-                M[x][y] = M[x - 1][y - 1] + 1
-                if M[x][y] > longest:
-                    longest = M[x][y]
-                    x_longest = x
-            else:
-                M[x][y] = 0
-    return S1[x_longest - longest: x_longest]
+vegan_friendly_output_filename = "vegan-friendly-searchresult-vinmonopolet.json"
+some_vegan_products_output_filename = "some-vegan-options-searchresult-vinmonopolet.json"
 
 
-def namesAreSimilarEnough(companyName, manufacturer_name):
-    return len(lcs(manufacturer_name.lower(), companyName.lower())) >= 4
-
-#replaces accented characters
-def replaceAccents(variation):
-    reCombining = re.compile(u'[\u0300-\u036f\u1dc0-\u1dff\u20d0-\u20ff\ufe20-\ufe2f]', re.U)
-    return reCombining.sub('', unicodedata.normalize('NFD', unicode(variation)))
-
-
-def replaceAccents2(variation):
-    return ''.join((c for c in unicodedata.normalize('NFD', variation) if unicodedata.category(c) != 'Mn'))
+def LongestCommonSubstringSize(S1, S2):
+    cleanString1 = cleanString(S1)
+    cleanString2 = cleanString(S2)
+    matcher = SequenceMatcher(None, cleanString1, cleanString2)
+    match = matcher.find_longest_match(0, len(cleanString1), 0, len(cleanString2))
+    return match.size
 
 
-def endsWithCommonWord(variation):
-    if not variation:
-        return False
-
-    words = variation.split()
-    lastWord = words[-1].lower()
-    return lastWord in {"and", "wines", "wine", "spirits"}
+def cleanString(S1):
+    return remove_diacritics(S1).lower().strip()
 
 
-def generate_name_variations(name):
-    #these words may not be used as part of the company name at Vinmonopolet
-    excludedWords = {"winery", "company", "pty", "ltd", "ltd.", "vineyard", "estate", "plc", "cellar", "winemaker",
-                     "group", "international", "wines", "limited", "agricola", "winework", "wineries", "farm",
-                     "family", "vigneron", "merchant", "at", "of", "the", "tasting", "room", "l.l.c.", "s.r.l.",
-                     "s.p.a",
-                     "c.", "vinegarden", "s.a.", "cellars", "brands", "signature", "ranch", "distilleries", "inc",
-                     "organic", "sons"}
-    variations = []
-    name_parts = name.lower().strip().split()
+def calculateStringSimilarityPercentage(S1, S2):
+    cleanString1 = cleanString(S1)
+    cleanString2 = cleanString(S2)
+    return SequenceMatcher(None, cleanString1, cleanString2).ratio() * 100
+
+
+def remove_diacritics(s):
+    new_words = []
+    for word in s.split():
+        new_words.append(''.join(x for x in unicodedata.normalize('NFKD', word) if x in string.ascii_letters))
+    return ' '.join(new_words)
+
+
+def derive_short_name(original_name):
+    #Removes parts of the name that may not be used by vinmonopolet, like "winery" "ltd." and so
+    name_parts = original_name.lower().strip().split()
     short_name = u""
+    generic_name_exclude_list = {"winery", "company", "pty", "ltd", "ltd.", "vineyard", "vineyards", "estate", "estates", "plc", "cellar",
+                                 "winemaker", "group", "international", "wines", "limited", "agricola", "winework", "wineries",
+                                 "farm", "family", "vigneron", "merchant", "at", "of", "the", "de", "du", "cellars", "vintners",
+                                 "agr.", "gmbh", "weinkellerei", "s.a.", "F.E.", "dr.", "domaine", "marques", "s.p.a", "c.", "casa", "casas",
+                                 "champagne", "weingut", "weing.", "weinhaus", "a.z.", "inc.", "ag", "dom.", "marq."}
+
     for part in name_parts:
-        if part.lower() not in excludedWords:
-            short_name = short_name + part + u" "
-    variation = short_name.strip()
-    while variation.endswith("-") or variation.endswith("&"):
-        variation = variation[0:-1].strip()
-    while endsWithCommonWord(variation):
-        variation = u" ".join(variation.split()[0:-1]).strip()
-    while variation.endswith("-") or variation.endswith("&"):
-        #remove them again, in case there are new ones after stripping away words
-        variation = variation[0:-1].strip()
+        found = False
+        for exclude in generic_name_exclude_list:
+            if part.find(exclude) >= 0:
+                found = True
+                break
+        if not found:
+            short_name = short_name + part + " "
 
-    #add mutations of the name as well as the name itself
-    variations.append(variation)
-    variations.append(variation.replace(" ", "-", 1))
-    variations.append(variation.replace(" ", "-", 2))
-    variations.append(replaceAccents(variation))
-    variations.append(replaceAccents2(variation))
-
-    names = set()
-    names.add(name.lower().strip()) #always add the original name
-    for variant_name in variations:
-        the_name = variant_name.strip().lower()
-        if len(the_name) > 3:
-            names.add(the_name)
-
-    return names - {"wine", "hills", "creek", "view", "weingut"} #exclude some generic names
+    if not short_name:
+        short_name = original_name # name could not be shortened
+    return short_name.strip()
 
 
-def fetchProcessedCompanyList(partial=False):
-    file = codecs.open('wine.json', encoding='utf-8')
-    data = file.read()
-    companies = json.loads(data)
+def generate_name_variations(original_name):
+    variations = set()
+    search_base = remove_diacritics(original_name).lower().strip()
 
-    companyObjects = list()
-    for candidate in companies:
-        status = candidate['company']['status']
-        if (status == 'Has Some Vegan Options' and partial) or (status == 'Vegan Friendly' and not partial):
-            #add company name aliases
-            candidate["company"]["company_name_aliases"] = generate_name_variations(
-                candidate['company']['company_name'])
-            companyObjects.append(candidate)
+    #remove trailing generic terms of name
+    for variation in [search_base, derive_short_name(search_base)]:
+        while variation.endswith("-") or variation.endswith("&"):
+            variation = variation[0:-1].strip()
+            # todo cleanup, extract method
+        while len(variation.split(" ")) > 1 and (
+                                variation.split()[-1].lower().endswith("and")
+                            or variation.split()[-1].lower().endswith("wines")
+                        or variation.split()[-1].lower().endswith("wine")
+                    or variation.split()[-1].lower().endswith("spirits")
+                or variation.split()[-1].lower().endswith("champagne")
+            or variation.split()[-1].lower().endswith("productions")):
+            variation = u" ".join(variation.split()[0:-1])
+        while variation.strip().endswith("-") or variation.strip().endswith("&"):
+            variation = variation[0:-1].strip()
+        variations.add(variation.strip())
+
+        #allow use of dashes instead of spaces in first part of the name
+        variations.add(variation.replace(" ", "-", 1))
+        variations.add(variation.replace(" ", "-", 2))
+
+    #discard too general names
+    variations -= {"wine", "hills", "creek", "view", "weingut"}
+
+    #Discard too short name variations, but keep the short_name we created
+    variations = {name for name in variations if len(name) > 3 or name == derive_short_name(original_name)}
+
+    #print("DEBUG: returning variations for original: ", original_name, variations)
+    return variations
+
+
+def create_vegan_friendly_company_list_with_name_variations():
+    return build_company_name_list(False)
+
+
+def create_some_vegan_options_company_list_with_name_variations():
+    return build_company_name_list(True)
+
+
+def sort_by_company_name(company_list_tuple):
+    company_dict, variations = company_list_tuple
+    return company_dict["company_name"]
+
+
+def build_company_name_list(allowPartial):
+    #Read known companies from Barnivore data
+    file = open('wine.json', encoding='utf-8')
+    candidate_companies = json.loads(file.read())
     file.close()
 
-    return companyObjects
+    companies = list()
+    for candidate in candidate_companies:
+        status = candidate['company']['status']
+        if (status == 'Has Some Vegan Options' and allowPartial) or (status == 'Vegan Friendly' and not allowPartial):
+            companies.append(( candidate["company"], (generate_name_variations(candidate['company']['company_name']))))
+
+    #Sort company list
+    companies.sort(key=sort_by_company_name)
+
+    return companies
 
 
-def printPotentialProductMatch(search_result):
-    html_link_product = "<a href='%s'>%s</a>" % (search_result["Lenke"], search_result["Varenummer"])
-    print "<li>%s, %s. %s fra %s (%s) med varenummer %s</li>" % (
-        search_result["Produsent"], search_result["Produktnavn"], search_result["Varetype"],
-        search_result["Land/distrikt"], search_result["Produktutvalg"], html_link_product)
+def search_systembolaget_for_company_name_variation(browser, company_name):
+    search_url = "http://www.systembolaget.se/Sok-dryck/?searchquery=\"%s\"" % urllib.parse.quote(company_name.strip().encode("utf-8"))
+    browser.get(search_url)
+    time.sleep(0.3) # Let the page load
 
+    search_result_header = browser.find_element_by_css_selector("h2.filtersHeader")
 
-def checkCompany(browser, company):
-    search_results = []
-    for alias in company["company"]["company_name_aliases"]:
-        encodedCompanyName = urllib.quote(alias.encode("utf-8"))
-        search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=" + "\"" + encodedCompanyName + "\""
-        browser.get(search_url)
-        time.sleep(0.2) # Let the page load
-        search_result_summary = browser.find_element_by_css_selector("h1.title")
-        if search_result_summary.text != "Vareutvalg: ingen treff":
-            productlinktexts = browser.find_elements_by_css_selector("#productList h3 a")
-            productlinks = [link.get_attribute("href") for link in productlinktexts]
-            for link in productlinks:
-                browser.get(link)
+    if search_result_header.text == "Dina val (0 träffar)": return []
 
-                product_name = browser.find_element_by_css_selector("div.head h1").text
-                result_data = {
-                    "Lenke": link,
-                    "Søkeord": alias,
-                    "Firmalenke": search_url,
-                    "Produktnavn": product_name
-                }
+    product_linktexts = browser.find_elements_by_css_selector("table.resultListTable tr td a")
+    product_links = [link.get_attribute("href") for link in product_linktexts]
+    products = []
+    for link in product_links:
+        browser.get(link)
 
-                for field in browser.find_elements_by_css_selector("div.productData li"):
-                    try:
-                        field_name = field.find_element_by_css_selector("strong").text
-                        key = field_name.replace(":", "").strip()
-                        field_value = field.find_element_by_css_selector("span").text
-                        value = field_value.strip()
-                        if value:
-                            result_data[key] = value
-                    except NoSuchElementException:
-                        pass
+        manufacturer_name = "ukjent produsent"
+        grossist = "ukjent grossist"
+        year = "ukjent år"
 
-                if not "Varetype" in result_data: #must have a declared type name
-                    print "WARNING: could not find product type for", result_data
-                    pass
-                elif not result_data["Varetype"].lower().find("vin") >= 0:  #must be a wine to match
-                    pass
-                elif "Produsent" not in result_data:
-                    print "WARNING: Missing manufacturer data for company with alias", alias, "and product", product_name, "by grocer", result_data["Grossist"], link
-                elif namesAreSimilarEnough(alias, result_data["Produsent"]):
-                    search_results.append(result_data)
-                else:
-                    print "WARNING: Ignoring bad match", product_name, "from", result_data["Produsent"]
+        root = browser.find_element_by_css_selector("div.beverageProperties")
+        product_name = root.find_element_by_css_selector("span.produktnamnfet").text
+        type_name = root.find_element_by_css_selector("span.character strong").text
+        product_selection = root.find_element_by_css_selector("h2.sortimenttext")
 
-    if not search_results:
-        company["search_results"] = []
-    else:
-        #delete duplicate products, keep the ones with the most popular alias
-        #check if the sku exist in one of less popular alias, and if so, delete it
-        most_popular_alias = findMostFrequentAliasInSearchResults(search_results)
-        known_skus = set()
-        filtered_search_results = list()
-        for item in search_results:
-            if item["Søkeord"] == most_popular_alias:
-                known_skus.add(item["Varenummer"])
-                filtered_search_results.append(item)
+        sku = ''.join(c for c in root.find_element_by_css_selector("span.produktnamnmager").text if c.isdigit())
+        region_name_parts = root.find_elements_by_css_selector("div.country a ")
+        region_name = ""
+        for name in region_name_parts:
+            region_name += name.text.strip()
 
-        for item in search_results:
-            if item["Søkeord"] == most_popular_alias:
-                continue
+        data = root.find_elements_by_css_selector("ul.beverageFacts li")
 
-            sku = item["Varenummer"]
-            if sku not in known_skus:
-                filtered_search_results.append(item)
+        for field in data:
+            field_name = field.find_element_by_css_selector("span").text.strip()
+            if field_name == "Årgång:":
+                year = field.find_element_by_css_selector("strong").text
+            elif field_name == "Producent:":
+                manufacturer_name = field.find_element_by_css_selector("strong").text
+            elif field_name == "Leverantör:":
+                grossist = field.find_element_by_css_selector("strong").text
 
-        company["search_results"] = filtered_search_results
-
-
-def findMostFrequentAliasInSearchResults(list_of_result_data):
-    aliases = [item["Søkeord"] for item in list_of_result_data]
-    maxAlias = max(set(aliases), key=aliases.count)
-    maxCount = aliases.count(maxAlias)
-
-    return maxAlias, maxCount
-
-
-def prettyJoin(list):
-    stripped_list = [x.strip() for x in list]
-    term_list = []
-    for term in stripped_list:
-        if term.endswith(","):
-            term_list.append(term[0:-1]).strip()
+        if type_name.lower().find("vin") < 0:
+            continue
+        elif manufacturer_name == "ukjent produsent":
+            print("Missing manufacturer data for company", company_name, "and product", product_name, "by grocer", grossist, link)
+            continue
         else:
-            term_list.append(term)
-    filtered_list = sorted(set([x for x in term_list if x]))
+            products.append({
+                "manufacturer_name": manufacturer_name,
+                "product_name": product_name,
+                "type": type_name,
+                "region": region_name,
+                "selection": product_selection,
+                "company_search_page": search_url,
+                "product_page": link,
+                "year": year,
+                "sku": sku
+            })
 
-    if len(filtered_list) == 1:
-        return filtered_list[0]
-
-    return " og ".join([", ".join(filtered_list[0:-1]), filtered_list[-1]])
-
-
-def printCompanySummary(potential_matches, company_name):
-    (most_frequent_alias, count) = findMostFrequentAliasInSearchResults(potential_matches)
-    company_link = None
-    company_types = set()
-    company_regions = set()
-    company_order_categories = set()
-    inBasisUtvalg = False
-    for result_data in potential_matches:
-        if result_data["Søkeord"] == most_frequent_alias:
-            company_link = result_data["Firmalenke"]
-
-            type = result_data["Varetype"]
-            company_types.add(type)
-
-            region = (result_data["Land/distrikt"].replace(u", Øvrige", u"").replace(u", ", u"/", 1))
-            company_regions.add(region)
-
-            category = result_data["Produktutvalg"]
-            company_order_categories.add(category)
-            if "Basisutvalg" == category:
-                inBasisUtvalg = True
-
-    print "<a href='%s'>%s</a>. %d varer. %s. %s fra %s." % (
-        company_link, company_name, count, "<b>Basisutvalg</b>" if inBasisUtvalg else company_order_categories.pop(),
-        prettyJoin(list(company_types)), prettyJoin(list(company_regions)))
+    return products
 
 
-def printCompany(company):
-    potential_matches = company["search_results"]
-    if potential_matches:
-        print "Potential match for company", company["company"]["company_name"], ":"
-        printCompanySummary(potential_matches, company["company"]["company_name"])
-        print "<ul>"
+def search_vinmonopolet_for_company_name_variation(browser, company_name):
+    search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=\"%s\"" % urllib.parse.quote(company_name.strip().encode("utf-8"))
+    browser.get(search_url)
+    time.sleep(0.3) # Let the page load
+    search_result = browser.find_element_by_css_selector("h1.title")
 
-        for result_data in potential_matches:
-            printPotentialProductMatch(result_data)
+    if search_result.text == "Vareutvalg: ingen treff": return []
 
-        print "</ul>"
-        print ""
+    product_linktexts = browser.find_elements_by_css_selector("#productList h3 a")
+    product_links = [link.get_attribute("href") for link in product_linktexts]
+    products = []
+    for link in product_links:
+        browser.get(link)
+
+        data = browser.find_elements_by_css_selector("div.productData li")
+        product_name = browser.find_element_by_css_selector("div.head h1").text
+
+        manufacturer_name = "ukjent produsent"
+        type_name = "ukjent type"
+        region_name = "ukjent region"
+        grossist = "ukjent grossist"
+        product_selection = "ukjent produktutvalg"
+        sku = "ukjent varenummer"
+        year = "ukjent år"
+
+        for field in data:
+            field_name = field.find_element_by_css_selector("strong").text
+            if field_name == "Produsent:":
+                manufacturer_name = field.find_element_by_css_selector("span").text
+            elif field_name == "Varetype:":
+                type_name = field.find_element_by_css_selector("span").text
+            elif field_name == "Land/distrikt:":
+                region_name = field.find_element_by_css_selector("span").text
+            elif field_name == "Grossist:":
+                grossist = field.find_element_by_css_selector("span").text
+            elif field_name == "Produktutvalg:":
+                product_selection = field.find_element_by_css_selector("span").text
+            elif field_name == "Varenummer:":
+                sku = field.find_element_by_css_selector("span").text
+            elif field_name == "Årgang:":
+                year = field.find_element_by_css_selector("span").text
+
+        type_name_lower = type_name.lower()
+        if type_name_lower.find("vin") < 0 and type_name_lower.find("champ") < 0 and type_name_lower.find("alkoholfr") < 0 and type_name_lower.find("gjæret") < 0:
+            continue
+        elif manufacturer_name == "ukjent produsent":
+            print("Missing manufacturer data for company", company_name, "and product", product_name, "by grocer", grossist, link)
+            continue
+        else:
+            products.append({
+                "manufacturer_name": manufacturer_name,
+                "product_name": product_name,
+                "type": type_name,
+                "region": region_name,
+                "selection": product_selection,
+                "company_search_page": search_url,
+                "product_page": link,
+                "year": year,
+                "sku": sku
+            })
+
+    return products
+
+
+def translate_country_name(country):
+    #poor man's translation to Norwegian
+    return country.replace("italy", "italia"). \
+        replace("france", "frankrike"). \
+        replace("germany", "tyskland"). \
+        replace("spain", "spania"). \
+        replace("south africa", "sør-afrika")
+
+
+def countries_differ(company_dict, region):
+    if "country" in company_dict.keys():
+        clean_country = translate_country_name(company_dict["country"].lower().strip()).replace("-", " ")
+        clean_region = region.lower().strip().replace("-", " ")
+        country_not_matching = clean_region.find(clean_country) == -1 #not found, ergo different
+        return country_not_matching
+    return False #otherwise cannot say
+
+
+def find_products_from_manufacturer(company_dict, name_variations):
+    original_name = company_dict["company_name"]
+    print("Searching Vinmonopolet for producer='%s' with name variations='%s'" % (original_name, name_variations))
+
+    company_products_found_in_search = {}
+    for variation in name_variations:
+        for product in search_vinmonopolet_for_company_name_variation(browser, variation):
+            if not LongestCommonSubstringSize(original_name, product["manufacturer_name"]) >= 4:
+            #print("Warning: ignoring product with too big difference in original company name and search result's company name: '%s' != '%s'" % (
+            #   original_name, product["manufacturer_name"]))
+                continue # search result doesn't contain a similar company name as in the search query
+            elif calculateStringSimilarityPercentage(derive_short_name(original_name), derive_short_name(product["manufacturer_name"])) < 80:
+                if not original_name.lower().startswith(variation.lower()): #allow mismatch because of added words
+                    # print("Warning: ignoring product with too big difference in original company name and search result's company name: '%s' != '%s'" % (
+                    #    original_name, product["manufacturer_name"]))
+                    continue # search result doesn't contain a similar company name as in the search query
+            elif countries_differ(company_dict, product["region"]):
+                print("Warning: country looks different for this product, expected '%s' and got '%s'" % (translate_country_name(company_dict["country"]), product["region"]))
+                pass
+
+            sku = product["sku"]
+            if not sku in company_products_found_in_search.keys():
+                company_products_found_in_search[sku] = product
+            else:
+                #already added.. keep the entry with the longest search string hit, as that is assumed to be the most precise name
+                old_entry = company_products_found_in_search[sku]
+                if len(old_entry["company_search_page"]) < len(product["company_search_page"]):
+                    company_products_found_in_search[sku] = product
+
+    return company_products_found_in_search
+
+
+def read_previously_searched_companies(inputfile):
+    previously_searched_companies = list()
+    file = open(inputfile, encoding='utf-8')
+    search_results_from_previous_run = json.loads(file.read())
+    file.close()
+    for company in search_results_from_previous_run:
+        previously_searched_companies.append(company)
+    return previously_searched_companies
+
+
+def partition_by_previously_searched_companies(company_and_name_variations_tuple, inputfile):
+    previously_searched_companies = read_previously_searched_companies(inputfile)
+    last_company_searched_for = previously_searched_companies[-1]["company_name"]
+    to_process = []
+    is_adding = False
+    for company_dict, name_variations in company_and_name_variations_tuple:
+        company_name = company_dict["company_name"]
+        if is_adding:
+            to_process.append((company_dict, name_variations))
+        else:
+            print("Skipping already processed company %s found in %s while resuming previous search" % (company_name, inputfile))
+
+        if company_name == last_company_searched_for:
+            is_adding = True
+
+    return to_process, previously_searched_companies
+
+
+def search_for_wines_and_write_results_file(company_and_name_variations_tuple, outputfile, is_resuming=False):
+    all_companies = []
+
+    if is_resuming:
+        #TODO write every company to output file, even when there are no search results. That way we know better which companies have been searched for and not
+        to_process_company_and_name_variations_tuple, previously_searched_companies = partition_by_previously_searched_companies(company_and_name_variations_tuple, outputfile)
+        company_and_name_variations_tuple = to_process_company_and_name_variations_tuple
+        for company_dict in previously_searched_companies:
+            all_companies.append(company_dict)
+
+    for company_dict, name_variations in company_and_name_variations_tuple:
+        company_name = company_dict["company_name"]
+
+        company_products_found_in_search = find_products_from_manufacturer(company_dict, name_variations)
+
+        if (company_products_found_in_search):
+            company_dict["products_found_at_vinmonopolet"] = company_products_found_in_search
+            print("Found %d products for company %s" % (len(company_products_found_in_search), company_name))
+            all_companies.append(company_dict)
+
+            #Write the current list to file, to avoid losing all data in case of network/http server/other problems)
+            f = open(outputfile, mode='w', encoding='utf-8')
+            json.dump(all_companies, f, indent=2, ensure_ascii=False, sort_keys=True)
+            f.flush()
+            f.close()
+
+        time.sleep(0.5) # Don't hammer website
+
 
 if __name__ == "__main__":
     browser = webdriver.Firefox() # Get local session of firefox
+    try:
+        company_list = create_vegan_friendly_company_list_with_name_variations()
+        print("Searching for %d vegan friendly wine companies at Vinmonopolet" % len(company_list))
+        print("Outputting search results to file", vegan_friendly_output_filename)
+        search_for_wines_and_write_results_file(company_list, vegan_friendly_output_filename, is_resuming=False)
 
-    companies = fetchProcessedCompanyList()
-    print "Vegan Friendly wine manufacturers (", len(companies), "candidates ):"
-    print "-------------------------------------"
-    for company in companies:
-        checkCompany(browser, company)
-        printCompany(company)
-
-    companies = fetchProcessedCompanyList(True)
-    print ""
-    print "Wine manufacturers with some vegan options (", len(companies), "candidates ):"
-    print "-------------------------------------"
-    for company in companies:
-        checkCompany(browser, company)
-        printCompany(company)
-
-    browser.close()
-
+        company_list = create_some_vegan_options_company_list_with_name_variations()
+        print("Searching for %d wine manufactureres with some vegan options at Vinmonopolet" % len(company_list))
+        print("Outputting search results to file", some_vegan_products_output_filename)
+        search_for_wines_and_write_results_file(company_list, some_vegan_products_output_filename, is_resuming=False)
+    except Exception as exc:
+        browser.close() #make sure to call close, or /tmp will fill up with large firefox session files
+        raise exc
+    finally:
+        browser.close() #make sure to call close, or /tmp will fill up with large firefox session files

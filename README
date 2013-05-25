@@ -10,5 +10,13 @@ sudo pip install -U selenium
 
 Get updated wine.json from http://barnivore.com/api
 
-Run python getwineproducers.py | tee results
-and get the matching wines from 'results' afterwards
+Run python getwineproducers.py
+and validate the resulting json list
+
+Tips for validating the list
+Regexp-search for company_name|manufacturer_name in the json file,
+then double-check ones where country and name doesn't match exactly.
+Then delete bad ones.
+
+After that parse the json using generatehtml.py and produce a printable version
+
