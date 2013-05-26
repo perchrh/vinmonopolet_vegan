@@ -1,0 +1,6 @@
+Handle synonyms better.
+E.g. "dom." = "domaine",
+"marq." = "marques",
+"agr." = "agricola",
+"weing." = "weingut"
+
