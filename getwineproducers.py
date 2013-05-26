@@ -32,10 +32,7 @@ def calculateStringSimilarityPercentage(S1, S2):
 
 
 def remove_diacritics(s):
-    new_words = []
-    for word in s.split():
-        new_words.append(''.join(x for x in unicodedata.normalize('NFKD', word) if x in string.ascii_letters))
-    return ' '.join(new_words)
+    return ''.join(x for x in unicodedata.normalize('NFKD', s) if x in string.printable)
 
 
 def derive_short_name(original_name):
@@ -45,8 +42,8 @@ def derive_short_name(original_name):
     generic_name_exclude_list = {"winery", "company", "pty", "ltd", "ltd.", "vineyard", "vineyards", "estate", "estates", "plc", "cellar",
                                  "winemaker", "group", "international", "wines", "limited", "agricola", "winework", "wineries",
                                  "farm", "family", "vigneron", "merchant", "at", "of", "the", "de", "du", "cellars", "vintners",
-                                 "agr.", "gmbh", "weinkellerei", "s.a.", "F.E.", "dr.", "domaine", "marques", "s.p.a", "c.", "casa", "casas",
-                                 "champagne", "weingut", "weing.", "weinhaus", "a.z.", "inc.", "ag", "dom.", "marq."}
+                                 "agr.", "gmbh", "weinkellerei", "s.a.", "F.E.", "dr.", "s.p.a", "c.", "casa", "casas",
+                                 "champagne", "weingut", "weing.", "weinhaus", "a.z.", "inc.", "ag", "gebr.", "ch.", "cant.", "winery", "bros", "cast.", "corp"}
 
     for part in name_parts:
         found = False
@@ -55,32 +52,48 @@ def derive_short_name(original_name):
                 found = True
                 break
         if not found:
-            short_name = short_name + part + " "
+            short_name = " ".join([short_name, part])
 
+    while short_name and short_name[-1] not in string.ascii_letters:
+        short_name = short_name[:-1].strip()
     if not short_name:
         short_name = original_name # name could not be shortened
     return short_name.strip()
 
 
+def derive_synonyms(original_name_lower):
+    return {
+        original_name_lower.replace("marques", "marq."),
+        original_name_lower.replace("agricola", "agr."),
+        original_name_lower.replace("weingut", "weing."),
+        original_name_lower.replace("bodegas", "bod."),
+        original_name_lower.replace("domaine", "dom.")
+    }
+
+
 def generate_name_variations(original_name):
     variations = set()
     search_base = remove_diacritics(original_name).lower().strip()
+    terms = {
+        search_base,
+        derive_short_name(search_base)
+    }
+    terms |= derive_synonyms(original_name.lower())
 
     #remove trailing generic terms of name
-    for variation in [search_base, derive_short_name(search_base)]:
-        while variation.endswith("-") or variation.endswith("&"):
-            variation = variation[0:-1].strip()
+    for variation in terms:
             # todo cleanup, extract method
         while len(variation.split(" ")) > 1 and (
-                                variation.split()[-1].lower().endswith("and")
-                            or variation.split()[-1].lower().endswith("wines")
-                        or variation.split()[-1].lower().endswith("wine")
+                                    variation.split()[-1].lower().endswith("and")
+                                or variation.split()[-1].lower().endswith("wines")
+                            or variation.split()[-1].lower().endswith("wine")
+                        or variation.split()[-1].lower().endswith("winery")
                     or variation.split()[-1].lower().endswith("spirits")
                 or variation.split()[-1].lower().endswith("champagne")
             or variation.split()[-1].lower().endswith("productions")):
             variation = u" ".join(variation.split()[0:-1])
-        while variation.strip().endswith("-") or variation.strip().endswith("&"):
-            variation = variation[0:-1].strip()
+        while variation[-1] not in string.ascii_letters:
+            variation = variation[:-1].strip()
         variations.add(variation.strip())
 
         #allow use of dashes instead of spaces in first part of the name
@@ -104,7 +117,6 @@ def create_vegan_friendly_company_list_with_name_variations():
 def create_some_vegan_options_company_list_with_name_variations():
     return build_company_name_list(True)
 
-
 def sort_by_company_name(company_list_tuple):
     company_dict, variations = company_list_tuple
     return company_dict["company_name"]
@@ -120,6 +132,7 @@ def build_company_name_list(allowPartial):
     for candidate in candidate_companies:
         status = candidate['company']['status']
         if (status == 'Has Some Vegan Options' and allowPartial) or (status == 'Vegan Friendly' and not allowPartial):
+            candidate['company']['barnivore_url'] = "http://www.barnivore.com/wine/%s/company" % candidate['company']['id'] #to simplify lookups later
             companies.append(( candidate["company"], (generate_name_variations(candidate['company']['company_name']))))
 
     #Sort company list
@@ -131,7 +144,7 @@ def build_company_name_list(allowPartial):
 def search_systembolaget_for_company_name_variation(browser, company_name):
     search_url = "http://www.systembolaget.se/Sok-dryck/?searchquery=\"%s\"" % urllib.parse.quote(company_name.strip().encode("utf-8"))
     browser.get(search_url)
-    time.sleep(0.3) # Let the page load
+    time.sleep(0.2) # Let the page load
 
     search_result_header = browser.find_element_by_css_selector("h2.filtersHeader")
 
@@ -204,13 +217,23 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
     for link in product_links:
         browser.get(link)
 
-        data = browser.find_elements_by_css_selector("div.productData li")
         product_name = browser.find_element_by_css_selector("div.head h1").text
+
+        expired_from_stock = False
+        for field in browser.find_elements_by_css_selector("table.productTable h3.stock"):
+            if field.text.lower().strip().find("utgått") >= 0:
+                expired_from_stock = True
+        if expired_from_stock:
+            print("Ignoring product that has expired from stock: '%s' - %s " % (product_name, link))
+            continue
+
+        data = browser.find_elements_by_css_selector("div.productData li")
 
         manufacturer_name = "ukjent produsent"
         type_name = "ukjent type"
         region_name = "ukjent region"
-        grossist = "ukjent grossist"
+        grocer = "ukjent grossist"
+        distributor = "ukjent distributør"
         product_selection = "ukjent produktutvalg"
         sku = "ukjent varenummer"
         year = "ukjent år"
@@ -224,19 +247,21 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
             elif field_name == "Land/distrikt:":
                 region_name = field.find_element_by_css_selector("span").text
             elif field_name == "Grossist:":
-                grossist = field.find_element_by_css_selector("span").text
+                grocer = field.find_element_by_css_selector("span").text
             elif field_name == "Produktutvalg:":
                 product_selection = field.find_element_by_css_selector("span").text
             elif field_name == "Varenummer:":
                 sku = field.find_element_by_css_selector("span").text
+            elif field_name == "Distributør:":
+                distributor = field.find_element_by_css_selector("span").text
             elif field_name == "Årgang:":
                 year = field.find_element_by_css_selector("span").text
 
         type_name_lower = type_name.lower()
-        if type_name_lower.find("vin") < 0 and type_name_lower.find("champ") < 0 and type_name_lower.find("alkoholfr") < 0 and type_name_lower.find("gjæret") < 0:
+        if type_name_lower.find("vin") < 0 and type_name_lower.find("champ") < 0 and type_name_lower.find("alkoholfr"):
             continue
         elif manufacturer_name == "ukjent produsent":
-            print("Missing manufacturer data for company", company_name, "and product", product_name, "by grocer", grossist, link)
+            print("Missing manufacturer data for company", company_name, "and product", product_name, "by grocer", grocer, link)
             continue
         else:
             products.append({
@@ -245,6 +270,8 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
                 "type": type_name,
                 "region": region_name,
                 "selection": product_selection,
+                "distributor": distributor,
+                "grocer": grocer,
                 "company_search_page": search_url,
                 "product_page": link,
                 "year": year,
@@ -260,6 +287,7 @@ def translate_country_name(country):
         replace("france", "frankrike"). \
         replace("germany", "tyskland"). \
         replace("spain", "spania"). \
+        replace("austria", "østerrike"). \
         replace("south africa", "sør-afrika")
 
 
@@ -272,6 +300,19 @@ def countries_differ(company_dict, region):
     return False #otherwise cannot say
 
 
+def product_names_differ_too_much(original_name, manufacturer_name, variation):
+    if LongestCommonSubstringSize(original_name, manufacturer_name) < 4:
+        return True # search result doesn't contain a similar company name as in the search query
+    elif calculateStringSimilarityPercentage(derive_short_name(original_name), derive_short_name(manufacturer_name)) < 80 \
+        and calculateStringSimilarityPercentage(original_name, manufacturer_name) < 80 \
+        and not original_name.lower().startswith(variation.lower()): #allow mismatch because of added words
+        print("Warning: ignoring product with too big difference in original company name and search result's company name: '%s' != '%s'" % (
+            derive_short_name(original_name), derive_short_name(manufacturer_name)))
+        return True # search result doesn't contain a similar company name as in the search query
+    else:
+        return False
+
+
 def find_products_from_manufacturer(company_dict, name_variations):
     original_name = company_dict["company_name"]
     print("Searching Vinmonopolet for producer='%s' with name variations='%s'" % (original_name, name_variations))
@@ -279,15 +320,8 @@ def find_products_from_manufacturer(company_dict, name_variations):
     company_products_found_in_search = {}
     for variation in name_variations:
         for product in search_vinmonopolet_for_company_name_variation(browser, variation):
-            if not LongestCommonSubstringSize(original_name, product["manufacturer_name"]) >= 4:
-            #print("Warning: ignoring product with too big difference in original company name and search result's company name: '%s' != '%s'" % (
-            #   original_name, product["manufacturer_name"]))
-                continue # search result doesn't contain a similar company name as in the search query
-            elif calculateStringSimilarityPercentage(derive_short_name(original_name), derive_short_name(product["manufacturer_name"])) < 80:
-                if not original_name.lower().startswith(variation.lower()): #allow mismatch because of added words
-                    # print("Warning: ignoring product with too big difference in original company name and search result's company name: '%s' != '%s'" % (
-                    #    original_name, product["manufacturer_name"]))
-                    continue # search result doesn't contain a similar company name as in the search query
+            if product_names_differ_too_much(company_dict["company_name"], product["manufacturer_name"], variation):
+                continue
             elif countries_differ(company_dict, product["region"]):
                 print("Warning: country looks different for this product, expected '%s' and got '%s'" % (translate_country_name(company_dict["country"]), product["region"]))
                 pass
@@ -306,16 +340,23 @@ def find_products_from_manufacturer(company_dict, name_variations):
 
 def read_previously_searched_companies(inputfile):
     previously_searched_companies = list()
-    file = open(inputfile, encoding='utf-8')
-    search_results_from_previous_run = json.loads(file.read())
-    file.close()
-    for company in search_results_from_previous_run:
-        previously_searched_companies.append(company)
+    try:
+        file = open(inputfile, encoding='utf-8')
+        search_results_from_previous_run = json.loads(file.read())
+        file.close()
+        for company in search_results_from_previous_run:
+            previously_searched_companies.append(company)
+    except Exception as exc:
+        print("Warning: Couldn't read stored search results. Assuming should start from scratch. (Got %s)" % exc)
+        pass
     return previously_searched_companies
 
 
 def partition_by_previously_searched_companies(company_and_name_variations_tuple, inputfile):
     previously_searched_companies = read_previously_searched_companies(inputfile)
+    if not previously_searched_companies:
+        return company_and_name_variations_tuple, []
+
     last_company_searched_for = previously_searched_companies[-1]["company_name"]
     to_process = []
     is_adding = False
@@ -358,7 +399,7 @@ def search_for_wines_and_write_results_file(company_and_name_variations_tuple, o
             f.flush()
             f.close()
 
-        time.sleep(0.5) # Don't hammer website
+        time.sleep(0.3) # Don't hammer website
 
 
 if __name__ == "__main__":
@@ -367,12 +408,12 @@ if __name__ == "__main__":
         company_list = create_vegan_friendly_company_list_with_name_variations()
         print("Searching for %d vegan friendly wine companies at Vinmonopolet" % len(company_list))
         print("Outputting search results to file", vegan_friendly_output_filename)
-        search_for_wines_and_write_results_file(company_list, vegan_friendly_output_filename, is_resuming=False)
+        search_for_wines_and_write_results_file(company_list, vegan_friendly_output_filename, is_resuming=True)
 
         company_list = create_some_vegan_options_company_list_with_name_variations()
         print("Searching for %d wine manufactureres with some vegan options at Vinmonopolet" % len(company_list))
         print("Outputting search results to file", some_vegan_products_output_filename)
-        search_for_wines_and_write_results_file(company_list, some_vegan_products_output_filename, is_resuming=False)
+        search_for_wines_and_write_results_file(company_list, some_vegan_products_output_filename, is_resuming=True)
     except Exception as exc:
         browser.close() #make sure to call close, or /tmp will fill up with large firefox session files
         raise exc

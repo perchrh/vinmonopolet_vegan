@@ -13,9 +13,11 @@ Get updated wine.json from http://barnivore.com/api
 Run python getwineproducers.py
 and validate the resulting json list
 
-Tips for validating the list
+Tips for validating the list:
+The list will include false positives because of intentional fuzzy matching on manufacturers' names.
 Regexp-search for company_name|manufacturer_name in the json file,
-then double-check ones where country and name doesn't match exactly.
+then double-check ones where these fields don't match.
+Also check for when countries don't match exactly.
 Then delete bad ones.
 
 After that parse the json using generatehtml.py and produce a printable version
