@@ -36,14 +36,15 @@ def remove_diacritics(s):
 
 
 def derive_short_name(original_name):
-    #Removes parts of the name that may not be used by vinmonopolet, like "winery" "ltd." and so
+    #Removes parts of the name that may not be used by vinmonopolet, like "winery", "ltd." and so
     name_parts = original_name.lower().strip().split()
     short_name = u""
     generic_name_exclude_list = {"winery", "company", "pty", "ltd", "ltd.", "vineyard", "vineyards", "estate", "estates", "plc", "cellar",
                                  "winemaker", "group", "international", "wines", "limited", "agricola", "winework", "wineries",
-                                 "farm", "family", "vigneron", "merchant", "at", "of", "the", "de", "du", "cellars", "vintners",
+                                 "farm", "family", "vigneron", "vign.", "merchant", "at", "of", "the", "de", "du", "cellars", "vintners",
                                  "agr.", "gmbh", "weinkellerei", "s.a.", "F.E.", "dr.", "s.p.a", "c.", "casa", "casas",
-                                 "champagne", "weingut", "weing.", "weinhaus", "a.z.", "inc.", "ag", "gebr.", "ch.", "cant.", "winery", "bros", "cast.", "corp"}
+                                 "champagne", "weingut", "weing.", "weinhaus", "a.z.", "az,", "inc.", "ag", "gebr.", "ch.", "cant.", "winery", 
+                                 "bros", "cast.", "corp", "di", "dominio", "pty", "il", "est.", "s.r.l", "das", "do"}
 
     for part in name_parts:
         found = False
