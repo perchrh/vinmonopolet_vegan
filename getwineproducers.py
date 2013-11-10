@@ -82,7 +82,7 @@ def generate_name_variations(original_name):
 
     #remove trailing generic terms of name
     for variation in terms:
-            # todo cleanup, extract method
+    # todo cleanup, extract method
         while len(variation.split(" ")) > 1 and (
                                     variation.split()[-1].lower().endswith("and")
                                 or variation.split()[-1].lower().endswith("wines")
@@ -117,6 +117,7 @@ def create_vegan_friendly_company_list_with_name_variations():
 def create_some_vegan_options_company_list_with_name_variations():
     return build_company_name_list(True)
 
+
 def sort_by_company_name(company_list_tuple):
     company_dict, variations = company_list_tuple
     return company_dict["company_name"]
@@ -141,64 +142,95 @@ def build_company_name_list(allowPartial):
     return companies
 
 
+def visit_product_page_systembolaget(browser, company_name, company_search_results_url):
+    manufacturer_name = "ukjent produsent"
+    grocer = "ukjent grossist"
+    year = "ukjent år"
+    product_selection ="ukjent utvalg"
+
+    root = browser.find_element_by_css_selector("div.beverageProperties")
+    product_name = root.find_element_by_css_selector("span.produktnamnfet").text
+    type_name = root.find_element_by_css_selector("span.character strong").text
+    try:
+        product_selection = root.find_element_by_css_selector("h2.sortimenttext").text
+    except:
+        #sometimes this section is not available
+        pass
+
+    sku = ''.join(c for c in root.find_element_by_css_selector("span.produktnamnmager").text if c.isdigit())
+
+    region_name = root.find_element_by_css_selector("div.country").text
+
+    data = root.find_elements_by_css_selector("ul.beverageFacts li")
+
+    for field in data:
+        field_name = field.find_element_by_css_selector("span").text.strip()
+        if field_name.startswith("Årgång"):
+            year = field.find_element_by_css_selector("strong").text
+        elif field_name.startswith("Producent") and not field_name.startswith("Producenten"):
+            manufacturer_name = field.find_element_by_css_selector("strong").text
+        elif field_name.startswith("Leverantör"):
+            grocer = field.find_element_by_css_selector("strong").text
+
+    if type_name.lower().find("vin") < 0:
+        return None
+    elif manufacturer_name == "ukjent produsent":
+        print("Missing manufacturer data for company", company_name, "and product", product_name, "by grocer", grocer, browser.current_url)
+        return None
+    else:
+        return {
+            "manufacturer_name": manufacturer_name,
+            "product_name": product_name,
+            "type": type_name,
+            "region": region_name,
+            "grocer": grocer,
+            "selection": product_selection,
+            "company_search_page": company_search_results_url,
+            "product_page": browser.current_url,
+            "year": year,
+            "sku": sku
+        }
+
+
 def search_systembolaget_for_company_name_variation(browser, company_name):
-    search_url = "http://www.systembolaget.se/Sok-dryck/?searchquery=\"%s\"" % urllib.parse.quote(company_name.strip().encode("utf-8"))
+    search_url = "http://www.systembolaget.se/Sok-dryck/?searchquery=\"%s\"&sortfield=Default&sortdirection=Ascending&hitsoffset=0&page=1&searchview=All&groupfiltersheader=Default&filters=searchquery" % urllib.parse.quote(
+        company_name.strip().encode("utf-8"))
     browser.get(search_url)
     time.sleep(0.2) # Let the page load
 
+    empty_result = False
+    try:
+        noresult = browser.find_element_by_css_selector("#resultList .noResult").text
+        empty_result = True
+    except:
+        pass
+
+    if empty_result: return []
+
+    is_single_hit_result = False
+    try:
+        browser.find_element_by_css_selector("div.beverageProperties")
+        is_single_hit_result = True
+    except:
+        pass
+
+    if is_single_hit_result:
+        #it' a single result product page
+        product = visit_product_page_systembolaget(browser, company_name, search_url)
+        return [product]
+
     search_result_header = browser.find_element_by_css_selector("h2.filtersHeader")
 
-    if search_result_header.text == "Dina val (0 träffar)": return []
+    if search_result_header.text.find("(0 träffar)") >= 0: return []
 
     product_linktexts = browser.find_elements_by_css_selector("table.resultListTable tr td a")
     product_links = [link.get_attribute("href") for link in product_linktexts]
     products = []
     for link in product_links:
         browser.get(link)
-
-        manufacturer_name = "ukjent produsent"
-        grossist = "ukjent grossist"
-        year = "ukjent år"
-
-        root = browser.find_element_by_css_selector("div.beverageProperties")
-        product_name = root.find_element_by_css_selector("span.produktnamnfet").text
-        type_name = root.find_element_by_css_selector("span.character strong").text
-        product_selection = root.find_element_by_css_selector("h2.sortimenttext")
-
-        sku = ''.join(c for c in root.find_element_by_css_selector("span.produktnamnmager").text if c.isdigit())
-        region_name_parts = root.find_elements_by_css_selector("div.country a ")
-        region_name = ""
-        for name in region_name_parts:
-            region_name += name.text.strip()
-
-        data = root.find_elements_by_css_selector("ul.beverageFacts li")
-
-        for field in data:
-            field_name = field.find_element_by_css_selector("span").text.strip()
-            if field_name == "Årgång:":
-                year = field.find_element_by_css_selector("strong").text
-            elif field_name == "Producent:":
-                manufacturer_name = field.find_element_by_css_selector("strong").text
-            elif field_name == "Leverantör:":
-                grossist = field.find_element_by_css_selector("strong").text
-
-        if type_name.lower().find("vin") < 0:
-            continue
-        elif manufacturer_name == "ukjent produsent":
-            print("Missing manufacturer data for company", company_name, "and product", product_name, "by grocer", grossist, link)
-            continue
-        else:
-            products.append({
-                "manufacturer_name": manufacturer_name,
-                "product_name": product_name,
-                "type": type_name,
-                "region": region_name,
-                "selection": product_selection,
-                "company_search_page": search_url,
-                "product_page": link,
-                "year": year,
-                "sku": sku
-            })
+        product = visit_product_page_systembolaget(browser, company_name, search_url)
+        if product:
+            products.append(product)
 
     return products
 
@@ -315,7 +347,7 @@ def product_names_differ_too_much(original_name, manufacturer_name, variation):
 
 def find_products_from_manufacturer(company_dict, name_variations):
     original_name = company_dict["company_name"]
-    print("Searching Vinmonopolet for producer='%s' with name variations='%s'" % (original_name, name_variations))
+    print("Searching for wine producer='%s' with name variations='%s'" % (original_name, name_variations))
 
     company_products_found_in_search = {}
     for variation in name_variations:
