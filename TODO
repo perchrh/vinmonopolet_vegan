@@ -4,3 +4,7 @@ E.g. "dom." = "domaine",
 "agr." = "agricola",
 "weing." = "weingut"
 
+Handle different sources, like Systembolaget
+
+Make link to Barnivore in html too
+

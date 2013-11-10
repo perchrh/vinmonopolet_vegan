@@ -1,8 +1,9 @@
 Requires Selenium for Python.
+Uses python 3.x.
 
 Install it like this (Ubuntu/Debian):
-sudo apt-get install python-pip
-sudo pip install -U selenium
+sudo apt-get install python3-pip
+sudo pip3 install -U selenium
 
 Or for Mac
 Install pip, instruction at http://www.pip-installer.org/en/latest/installing.html
@@ -15,10 +16,10 @@ and validate the resulting json list
 
 Tips for validating the list:
 The list will include false positives because of intentional fuzzy matching on manufacturers' names.
-Regexp-search for company_name|manufacturer_name in the json file,
-then double-check ones where these fields don't match.
+Regexp-search for company_name|manufacturer_name in the json file to highlight these fields. 
+Then for each company's wine list check if there is a name mismatch.
 Also check for when countries don't match exactly.
 Then delete bad ones.
 
-After that parse the json using generatehtml.py and produce a printable version
+After that, parse the json using generatehtml.py to produce a printable version
 
