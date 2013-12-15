@@ -5,6 +5,6 @@ E.g. "dom." = "domaine",
 "weing." = "weingut"
 
 Handle different sources, like Systembolaget
+Handle beer and liquor, very similar handling to wine.
 
-Make link to Barnivore in html too
 

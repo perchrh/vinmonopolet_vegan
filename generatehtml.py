@@ -90,6 +90,7 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         types = set()
         selections = set()
         company_search_pages = set()
+        company_url = company_dict['barnivore_url']
 
         products = company_dict["products_found_at_vinmonopolet"]
         product_count = len(products)
@@ -104,9 +105,14 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         company_search_result_page = next(iter(company_search_pages))
         basisutvalg = "Basisutvalg" in selections
 
-        print("<li><a href='%s'>%s</a>. %s. %s. %s fra %s." % (
-            company_search_result_page, "; ".join(names), str(product_count) + " varer" if product_count > 1 else "1 vare",
-            "<strong>Basisutvalg</strong>" if basisutvalg else "Bestillingsutvalg", pretty_join(types), pretty_join(regions, lowercase_tail=False)
+        print("<li><a href='%s'>%s</a>. %s. %s. %s fra %s. <a href='%s'>[Barnivore]</a>" % (
+            company_search_result_page,
+            "; ".join(names),
+            str(product_count) + " varer" if product_count > 1 else "1 vare",
+            "<strong>Basisutvalg</strong>" if basisutvalg else "Bestillingsutvalg",
+            pretty_join(types),
+            pretty_join(regions, lowercase_tail=False),
+            company_url
         ))
         print("<ul>")
         for product in products.values():
