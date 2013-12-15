@@ -71,7 +71,8 @@ for company in companies_with_the_most_products[:9]:
     print("<li><a href='%s'>%s</a>. %s. %s (%d varer)</li>" % (company_link, company_name_from_vinmonopolet, types_list, regions_list, sort_by_product_count(company)))
 print("</ul>")
 
-print("<p>Vinmonopolet har %d veganske viner fra %d produsenter. %d av disse vinene er i basisutvalget, som er ekstra lett å få tak i.</p>" % (total_product_count, len(all_companies), basisutvalg_count))
+print("<p>Vinmonopolet har %d veganske viner fra %d produsenter. %d av disse vinene er i basisutvalget, som er ekstra lett å få tak i.</p>" % (
+    total_product_count, len(all_companies), basisutvalg_count))
 
 for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-options-searchresult-vinmonopolet.json"]:
     print("<h5>Veganske vinfirma på Vinmonopolet - %s</h5>" % filename)

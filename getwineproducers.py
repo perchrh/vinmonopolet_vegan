@@ -4,10 +4,12 @@
 import json
 import unicodedata
 import time
-from selenium import webdriver
 import urllib.parse
 from difflib import SequenceMatcher
 import string
+
+from selenium import webdriver
+
 
 vegan_friendly_output_filename = "vegan-friendly-searchresult-vinmonopolet.json"
 some_vegan_products_output_filename = "some-vegan-options-searchresult-vinmonopolet.json"
@@ -39,17 +41,21 @@ def derive_short_name(original_name):
     #Removes parts of the name that may not be used by vinmonopolet, like "winery", "ltd." and so
     name_parts = original_name.lower().strip().split()
     short_name = u""
-    generic_name_exclude_list = {"winery", "company", "pty", "ltd", "ltd.", "vineyard", "vineyards", "estate", "estates", "plc", "cellar",
+    generic_name_exclude_list = {"winery", "company", "pty", "ltd", "vineyard", "vineyards", "estate", "estates", "plc", "cellar",
                                  "winemaker", "group", "international", "wines", "limited", "agricola", "winework", "wineries",
-                                 "farm", "family", "vigneron", "vign.", "merchant", "at", "of", "the", "de", "du", "cellars", "vintners",
-                                 "agr.", "gmbh", "weinkellerei", "s.a.", "F.E.", "dr.", "s.p.a", "c.", "casa", "casas",
-                                 "champagne", "weingut", "weing.", "weinhaus", "a.z.", "az,", "inc.", "ag", "gebr.", "ch.", "cant.", "winery", 
-                                 "bros", "cast.", "corp", "di", "dominio", "pty", "il", "est.", "s.r.l", "das", "do"}
+                                 "farm", "family", "vigneron", "vign", "merchant", "at", "of", "the", "de", "du", "cellars", "vintners",
+                                 "agr", "gmbh", "weinkellerei", "sa", "fe", "dr", "spa", "c", "co", "casa", "casas",
+                                 "champagne", "weingut", "weing", "weinhaus", "az,", "inc", "ag", "gebr", "gebruder", "ch", "cant", "winery",
+                                 "bros", "cast", "corp", "di", "dominio", "pty", "il", "est", "srl", "das", "do", "llc", "bds", "int",
+                                 "bryggeri", "brygghus", "bryghus", "brewery",
+                                 "brewers", "breweries", "brewing", "brouwerij", "birras",
+                                 "beer", "beer house", "brew house", "birra", "brauerei", "brasserie", "bieres", "browerij",
+                                 "bierbrouwerij"}
 
     for part in name_parts:
         found = False
         for exclude in generic_name_exclude_list:
-            if part.find(exclude) >= 0:
+            if part.replace('.', '').find(exclude.lower()) >= 0: # ignore '.' during matching
                 found = True
                 break
         if not found:
@@ -66,9 +72,14 @@ def derive_synonyms(original_name_lower):
     return {
         original_name_lower.replace("marques", "marq."),
         original_name_lower.replace("agricola", "agr."),
+        original_name_lower.replace("vigneron", "vign."),
         original_name_lower.replace("weingut", "weing."),
         original_name_lower.replace("bodegas", "bod."),
-        original_name_lower.replace("domaine", "dom.")
+        original_name_lower.replace("domaine", "dom."),
+        original_name_lower.replace("gebruder", "gebr."),
+        original_name_lower.replace("brothers", "bros."),
+        original_name_lower.replace("doctor", "dr."),
+        original_name_lower.replace("company", "co.")
     }
 
 
@@ -85,10 +96,12 @@ def generate_name_variations(original_name):
     for variation in terms:
     # todo cleanup, extract method
         while len(variation.split(" ")) > 1 and (
-                                    variation.split()[-1].lower().endswith("and")
-                                or variation.split()[-1].lower().endswith("wines")
-                            or variation.split()[-1].lower().endswith("wine")
-                        or variation.split()[-1].lower().endswith("winery")
+                                            variation.split()[-1].lower().endswith("and")
+                                        or variation.split()[-1].lower().endswith("wines")
+                                    or variation.split()[-1].lower().endswith("wine")
+                                or variation.split()[-1].lower().endswith("beer")
+                            or variation.split()[-1].lower().endswith("winery")
+                        or variation.split()[-1].lower().endswith("brewery")
                     or variation.split()[-1].lower().endswith("spirits")
                 or variation.split()[-1].lower().endswith("champagne")
             or variation.split()[-1].lower().endswith("productions")):
@@ -102,12 +115,11 @@ def generate_name_variations(original_name):
         variations.add(variation.replace(" ", "-", 2))
 
     #discard too general names
-    variations -= {"wine", "hills", "creek", "view", "weingut"}
+    variations -= {"hills", "creek", "view"}
 
     #Discard too short name variations, but keep the short_name we created
     variations = {name for name in variations if len(name) > 3 or name == derive_short_name(original_name)}
 
-    #print("DEBUG: returning variations for original: ", original_name, variations)
     return variations
 
 
@@ -147,7 +159,7 @@ def visit_product_page_systembolaget(browser, company_name, company_search_resul
     manufacturer_name = "ukjent produsent"
     grocer = "ukjent grossist"
     year = "ukjent år"
-    product_selection ="ukjent utvalg"
+    product_selection = "ukjent utvalg"
 
     root = browser.find_element_by_css_selector("div.beverageProperties")
     product_name = root.find_element_by_css_selector("span.produktnamnfet").text
@@ -237,7 +249,8 @@ def search_systembolaget_for_company_name_variation(browser, company_name):
 
 
 def search_vinmonopolet_for_company_name_variation(browser, company_name):
-    search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=\"%s\"" % urllib.parse.quote(company_name.strip().encode("utf-8"))
+    # search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=\"%s\"&filterIds=25&filterValues=Øl" % urllib.parse.quote(company_name.strip().encode("utf-8"))
+    search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=\"%s\"&filterIds=25&filterValues=Øl" % urllib.parse.quote(company_name.strip().encode("utf-8"))
     browser.get(search_url)
     time.sleep(0.3) # Let the page load
     search_result = browser.find_element_by_css_selector("h1.title")
@@ -321,6 +334,18 @@ def translate_country_name(country):
         replace("germany", "tyskland"). \
         replace("spain", "spania"). \
         replace("austria", "østerrike"). \
+        replace("norway", "norge"). \
+        replace("denmark", "danmark"). \
+        replace("netherlands", "nederland"). \
+        replace("ireland", "irland"). \
+        replace("belgium", "belgia"). \
+        replace("greece", "hellas"). \
+        replace("hungary", "ungarn"). \
+        replace("croatia", "kroatia"). \
+        replace("finland", "finnland"). \
+        replace("austria", "østerrike"). \
+        replace("slovakia", "slovakia"). \
+        replace("poland", "polen"). \
         replace("south africa", "sør-afrika")
 
 

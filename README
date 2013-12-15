@@ -10,12 +10,14 @@ Install pip, instruction at http://www.pip-installer.org/en/latest/installing.ht
 sudo pip install -U selenium
 
 Get updated wine.json from http://barnivore.com/api
+It may have encoding errors, invalid utf-8 in it. 
+Fix it with this command, iconv --verbose -f utf-8 -t utf-8//ignore wine.json > winenew.json && mv winenew.json wine.json
 
-Run python getwineproducers.py
+Run python3 getwineproducers.py
 and validate the resulting json list
 
 Tips for validating the list:
-The list will include false positives because of intentional fuzzy matching on manufacturers' names.
+The list will include false positives because of intentional fuzzy matching of manufacturers' names.
 Regexp-search for company_name|manufacturer_name in the json file to highlight these fields. 
 Then for each company's wine list check if there is a name mismatch.
 Also check for when countries don't match exactly.
