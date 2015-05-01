@@ -68,7 +68,7 @@ for company in companies_with_the_most_products[:9]:
         regions.add(pretty_format_region(product, subregion_count=1))
     types_list = pretty_join(types)
     regions_list = pretty_join(regions, lowercase_tail=False)
-    print("<li><a href='%s'>%s</a>. %s. %s (%d varer)</li>" % (company_link, company_name_from_vinmonopolet, types_list, regions_list, sort_by_product_count(company)))
+    print("<li><a href='%s'>%s</a>. %s. %s (%d varer i basisutvalget)</li>" % (company_link, company_name_from_vinmonopolet, types_list, regions_list, sort_by_product_count(company)))
 print("</ul>")
 
 print("<p>Vinmonopolet har %d veganske viner fra %d produsenter. %d av disse vinene er i basisutvalget, som er ekstra lett å få tak i.</p>" % (

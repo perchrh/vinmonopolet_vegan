@@ -50,7 +50,7 @@ def derive_short_name(original_name):
                                  "bryggeri", "brygghus", "bryghus", "brewery",
                                  "brewers", "breweries", "brewing", "brouwerij", "birras",
                                  "beer", "beer house", "brew house", "birra", "brauerei", "brasserie", "bieres", "browerij",
-                                 "bierbrouwerij"}
+                                 "bierbrouwerij", "abbazia"}
 
     for part in name_parts:
         found = False
@@ -79,13 +79,18 @@ def derive_synonyms(original_name_lower):
         original_name_lower.replace("gebruder", "gebr."),
         original_name_lower.replace("brothers", "bros."),
         original_name_lower.replace("doctor", "dr."),
-        original_name_lower.replace("company", "co.")
+        original_name_lower.replace("saint", "st."),
+        original_name_lower.replace("company", "co."),
+        original_name_lower.replace("cantine", "cant."),
+        original_name_lower.replace("distilleria", "dist."),
+        original_name_lower.replace("chateau", "ch.")
     }
 
 
 def generate_name_variations(original_name):
     variations = set()
     search_base = remove_diacritics(original_name).lower().strip()
+    search_base = search_base.replace(')', ' ').replace(')', ' ')
     terms = {
         search_base,
         derive_short_name(search_base)
@@ -114,8 +119,8 @@ def generate_name_variations(original_name):
         variations.add(variation.replace(" ", "-", 1))
         variations.add(variation.replace(" ", "-", 2))
 
-    #discard too general names
-    variations -= {"hills", "creek", "view"}
+    #discard too common words
+    variations -= {"hills", "creek", "view", "valley", "ridge"}
 
     #Discard too short name variations, but keep the short_name we created
     variations = {name for name in variations if len(name) > 3 or name == derive_short_name(original_name)}
@@ -249,8 +254,8 @@ def search_systembolaget_for_company_name_variation(browser, company_name):
 
 
 def search_vinmonopolet_for_company_name_variation(browser, company_name):
-    # search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=\"%s\"&filterIds=25&filterValues=Øl" % urllib.parse.quote(company_name.strip().encode("utf-8"))
-    search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=\"%s\"&filterIds=25&filterValues=Øl" % urllib.parse.quote(company_name.strip().encode("utf-8"))
+    #search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=\"%s\"&filterIds=25&filterValues=Øl" % urllib.parse.quote(company_name.strip().encode("utf-8"))
+    search_url = "http://www.vinmonopolet.no/vareutvalg/sok?query=\"%s\"" % urllib.parse.quote(company_name.strip().encode("utf-8"))
     browser.get(search_url)
     time.sleep(0.3) # Let the page load
     search_result = browser.find_element_by_css_selector("h1.title")
@@ -306,7 +311,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
         type_name_lower = type_name.lower()
         if type_name_lower.find("vin") < 0 and type_name_lower.find("champ") < 0 and type_name_lower.find("alkoholfr"):
             continue
-        elif manufacturer_name == "ukjent produsent":
+        if manufacturer_name == "ukjent produsent":
             print("Missing manufacturer data for company", company_name, "and product", product_name, "by grocer", grocer, link)
             continue
         else:
