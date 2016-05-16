@@ -1,151 +1,90 @@
 [
   {
-    "address": "Rua da Aveleda nº2",
-    "barnivore_url": "http://www.barnivore.com/wine/1025/company",
-    "checked_by": "Patr",
-    "city": "Penafiel",
-    "company_name": "Aveleda",
-    "country": "Portugal",
-    "created_on": "2010-03-25T12:04:00.000-04:00",
-    "doubled_by": "Rahoul",
-    "email": "info@aveleda.pt",
-    "fax": "(+351) 255711139",
-    "id": 1025,
-    "notes": "Company email (September 2011):\r\n\"No animal products are used to produce the Casal Garcia rosé wine.\"\r\n\r\nCompany email after being asked to consider vegan alternatives by Patricia:\r\n\"We have really appreciated your inputs and would like to let you know that we are already doing some tests with vegetable gelatins as alternatives to the products we are using. Maybe soon we may have alternatives and good news for you!\"\r\n\r\nCompany email:\r\n\"Casal Garcia uses gelatin in the processing of the product.",
-    "phone": "(+351) 255718200",
-    "postal": "4560-570",
+    "address": "Brown Brothers Milawa, Vineyard Pty Ltd",
+    "barnivore_url": "http://www.barnivore.com/wine/138/company",
+    "checked_by": "Zoe",
+    "city": "PO Box 44 Milawa",
+    "company_name": "Brown Brothers",
+    "country": "Australia",
+    "created_on": "2007-03-20T00:50:00.000-04:00",
+    "doubled_by": "Belinda, Andrew, Sara, Danielle, Sari, Chamindri",
+    "email": "info@brownbrothers.com.au",
+    "fax": "",
+    "id": 138,
+    "notes": "Company email (October 2014):\r\n\"Moscato, Lexia, Orange Muscat and Flora, Dolcetto and Cienna are our Vegan Friendly fruity wines. These details will be up on the Website soon.\"\r\n\r\nCompany email (February 2014):\r\n\"if you click on each wine you fancy on our website, if it is suitable for vegans it will state \"suitable for vegans'. It is up to date.\"\r\n\r\nCompany email (January 2014):\r\n\"Dry Muscat is not vegan.\"\r\n\r\nNote from Sari (December 2013):\r\n\"Hi, you probably know this website, but thought of sending you the linkanyway, for some of the links did not work.\r\nhttp://www.brownbrothers.com.au/uploads/veganapril2011.pdf\r\n\r\nalso chenin blanc 2012 is vegan:\r\nhttp://www.brownbrothers.com.au/wines/brown-brothers/2012-chenin-blanc\"\r\n\r\nCompany email (November 2011):\r\n[from Andrew Harris, Wine Educator, Brown Brothers, AJHarris@brownbrothers.com.au] \r\n\"I have just had a look at your site regarding Brown Brothers wines and would like to thank you for including such a comprehensive listing of our products. I would like to note that the vegan friendly wine list that I sent you is vintage specific and this is not included. Here is an updated list with vintages.\"\r\n\r\nCompany email (September 2011)\r\n\"Product list updated from April 2011 inventory, see http://www.brownbrothers.com.au/newsevents/newsdetail.aspx?newsid=82 for details\"\r\n\r\n\r\nCompany email:\r\nBrown Brothers - Vegan Friendly wines as of May 2009\r\n\r\n2008 Prosecco Sparkling\r\nNV Pinot Noir, Chardonnay and Pinot Meunier Sparkling\r\n2004 Patricia Pinot Noir Chardonnay and Pinot Meunier Sparkling\r\n\r\n2008 Pinot Grigio\r\n2007-2008 Chenin Blanc\r\n2008 Sauvignon Blanc\r\n2008 Viognier\r\n2008 Chardonnay\r\n2008 Vermentino\r\n2008 Limited Release Banksdale Chardonnay\r\n2008 Limited Release Pinot Grigio\r\n2008 Limited Release Riesling\r\n2006 Limited Release Chardonnay\r\n\r\nFruity\r\n\r\n2008 Orange Muscat and Flora\r\n2008 Crouchen and Riesling\r\n\r\nThe Reds that are fine:\r\n\r\n2006 Sparkling Shiraz\r\n2008 Sparkling Cienna\r\n2006 Pinot Noir Rose\r\n2008 Tarrango\r\n2004 Shiraz Mondeuse Cabernet\r\n2004 Patricia Cabernet Sauvignon\r\n2005 Patricia Shiraz\r\n2006 Sangiovese\r\n2006 Everton Red\r\n2006 Limited Release Heathcote Shiraz\r\n2006 Durif\r\n2006 Shiraz\r\n2006 Cabernet Sauvignon\r\n2006 Barbera\r\n2006 Merlot\r\n2006 Tempranillo\r\n\r\nFruity Reds\r\n\r\n2008 Cienna\r\n2008 Dolcetto & Syrah\r\n\r\nCompany email:\r\n\r\nThank you for you enquiry about vegan wines.  Please find a list... that contains no eggs, milk, fish or animal products. Please note that NV is Non Vintage.\r\n\r\nSauvignon Blanc\r\nPinot Grigio\r\nPinot Gris\r\nCrouchen & Riesling\r\nTarrango\r\nTarrango USA\r\nCienna\r\nChenin Blanc\r\nOrange Muscat & Flora\r\nViognier\r\nPinot Grigio\r\nOn Premise Chardonnay\r\nRoussanne\r\nNon Vintage Pinot Chard\r\nVictorian Chardonnay\r\nSauvignon Blanc\r\nCrouchen & Riesling\r\nPatricia Pinot Chardonnay\r\nBlanc de Blanc\r\nChenin Blanc\r\nWhite Everton\r\nNon Vintage Pinot Chard\r\nCrouchen & Riesling\r\nSparkling Shiraz\r\nSauvignon Blanc\r\nNoble Riesling\r\nOrange Muscat & Flora\r\nRoussanne\r\nRiesling\r\nCienna\r\nTempranillo\r\nDurif\r\nSangiovese\r\nVictorian Shiraz\r\nTarrango\r\nPinot Grigio\r\nBarbera\r\nPatricia Shiraz\r\nDolcetto & Syrah\r\nVictorian Chardonnay\r\nChenin Blanc\r\nOrange Muscat & Flora\r\nKing Valley Riesing\r\nSauvignon Blanc\r\nCrouchen & Riesling\r\nPinot Grigio\r\nRoussanne\r\nWhite Everton\r\nPatricia Chardonnay\r\nBarbera\r\nDolcetto & Syrah\r\nVictorian Merlot\r\nRed Everton\r\nVictorian Shiraz\r\nSangiovese\r\nVictorian Cabernet\r\nNebbiolo\r\nRuby Cabernet\r\nTarrango\r\nTempranillo\r\nCienna\r\nPatricia Shiraz\r\nPatricia Merlot\r\nPatricia Pinot Chardonnay\r\nNon Vintage Pinot Chard\r\nSparkling Shiraz\r\nDry Red\r\nGraciano\r\nPatricia Chardonnay\r\nPatricia Shiraz\r\nGraciano\r\nPatricia Merlot\r\nPatricia Cabernet\r\nNoble Riesling\r\nPatricia Pinot Chardonnay\r\nNoble Riesling\r\nPatricia Pinot Chardonnay\r\nPatricia Pinot Chardonnay\r\nReserve Muscat\r\nReserve Port\r\nVery Old Port\r\nLiqueur Muscat\r\nVery Old Tokay\r\nTop Up Port\r\nPatricia Pinot Chardonnay\r\nVic Shiraz\r\nLagrein\r\nVictorian Chardonnay\r\nCienna\r\nCienna Cabernet\r\nBulk Dry Red\r\nPatricia Chardonnay\r\nRose\r\nSangiovese\r\nLtd Release Riesling\r\nPatricia Pinot Chardonnay\r\nNon Vintage Pinot Chard\r\nViognier/Rousanne\r\nGraciano\r\nGraciano\r\nCrouchen & Riesling\r\nShiraz Mondeuse Cabernet\r\nVermentino\r\nVermentino\r\nRed Everton\r\nSauvignon Blanc\r\nTarrango\r\nFutures Shiraz Roussanne\r\nOn Premise Shiraz\r\nOrange Muscat & Flora\r\nDurif\r\nBarbera\r\nViognier\r\nPatricia Pinot Chardonnay\r\nNon Vintage Pinot Chard\r\nOn Premise Chardonnay\r\nSparkling Shiraz\r\nSparkling Shiraz\r\nRiesling\r\nTempranillo\r\nTempranillo\r\nPatricia Merlot",
+    "phone": "005 349 235",
+    "postal": "3678",
     "products_found_at_vinmonopolet": {
-      "5174701": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"aveleda\"",
+      "5668702": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"brown%20brothers\"",
         "distributor": "Trebuchet AS",
         "grocer": "Strøm AS",
-        "manufacturer_name": "Quinta da Aveleda",
-        "product_name": "Casal Garcia Rosé",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rosevin/portugal/casal-garcia-rose/sku-5174701",
-        "region": "Portugal, Minho, Vinho Verde",
+        "manufacturer_name": "Brown Brothers",
+        "product_name": "Brown Brothers Orange Muscat & Flora 2012",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/australia/brown-brothers-orange-muscat-flora-2012/sku-5668702",
+        "region": "Australia, South Eastern Austra, Øvrige",
         "selection": "Bestillingsutvalg",
-        "sku": "5174701",
-        "type": "Rosévin",
+        "sku": "5668702",
+        "type": "Hvitvin",
         "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",
-    "state": "",
+    "state": "Victoria",
     "status": "Has Some Vegan Options",
-    "tag": "Aveleda",
-    "updated_on": "2012-05-16T07:46:27.000-04:00",
-    "url": "http://www.aveleda.pt"
+    "tag": "Brown-Brothers",
+    "updated_on": "2015-06-13T15:29:24.000-04:00",
+    "url": "http://brownbrothers.com.au"
   },
   {
-    "address": "37783 County Road 144",
-    "barnivore_url": "http://www.barnivore.com/wine/151/company",
-    "checked_by": "Kristin",
-    "city": "Clarksburg",
-    "company_name": "Bogle Vineyards",
-    "country": "USA",
-    "created_on": "2007-06-10T23:22:00.000-04:00",
-    "doubled_by": "Rick, Jacki, Michael, Alex",
-    "email": "info@boglewinery.com",
-    "fax": "916-744-1187",
-    "id": 151,
-    "notes": "Company email (January 2015):\r\n\"Thank you for your interest in our Bogle 2012 Old Vine Zinfandel.  I just checked with our Associate Winemaker, and that specific wine was not fined with egg whites.\"\r\n\r\nCompany email (October 2014):\r\n\"We do not use any animal based products in our production other than egg whites.  The egg whites are only used in a case by case basis depending on the astringency level of a particular vintage.  However if you enjoy drinking our white wines, you can continue, as we would never fine a white wine with egg whites.  I checked with our winemaker on newer red vintages that did not use egg whites, I will leave the list below.  Please let me know if you have any other questions, cheers!\r\n \r\nVegan Red’s/No Egg Whites\r\n2012  Petite Sirah\r\n2012  Essential Red\r\n2012  Cabernet Sauvignon\r\n2012  Merlot\r\n2012  Pinot Noir\r\n \r\nAll white wines are vegan, no egg whites added.\r\n \r\n2011 Phantom HAS egg whites, not vegan.\"\r\n\r\nCompany email (November 2013):\r\n\"In fact, there are no animal products used in any of our current vintages with the only exception being our 2011 Essential Red.  Egg whites were used in the fining process, however no trace is left after repeated filtering and final bottling.  So feel free to enjoy the wines as you have in the past, perhaps just avoiding the Essential Red.\"\r\n\r\nCompany email:\r\n\"Bogle winemakers use several products in the production of our wines, including gelatin and egg whites.  These are classic and standard materials used in the making of most wines in California today.\"  ",
-    "phone": "916-744-1139",
-    "postal": "95612",
+    "address": "De Bortoli Road, PO Box 21",
+    "barnivore_url": "http://www.barnivore.com/wine/3218/company",
+    "checked_by": "Danielle",
+    "city": "Bilbul",
+    "company_name": "De Bortoli Wines",
+    "country": "Australia",
+    "created_on": "2014-02-11T19:14:14.000-05:00",
+    "doubled_by": "Madge",
+    "email": "",
+    "fax": "61 2 6966 0199",
+    "id": 3218,
+    "notes": "Note from Madge (December 2014):\r\n\"Company representative gave me a list of their vegan wines, and they seem to have a lot of them!\r\nHere's a list:\r\nDe Bortoli Sacred Hill Chardonnay (2014 Vintage)\r\nDe Bortoli Windy Peak range\r\nDe Bortoli Yarra Valley range\r\nDe Bortoli Bella Riva range\r\nDe Bortoli Deen range (white wines only)\r\nDe Bortoli Gulf Station range\r\nDe Bortoli Riorret range\r\nDe Bortoli Melbra range\"\r\n\r\nCompany email (December 2014): re: Sacred Hill Traminer Riesling\r\n\"To answer your question about the wine being suitable for vegan consumption, unfortunately the short answer is no. Gelatine has been used in the processing of the 2014 vintage, and isinglass and milk have been used along with the gelatine in the previous vintages.\r\nThe only place the wine is manufactured or bottled is at our head winery in Bilbul NSW.\"\r\n\r\nCompany email (February 2014): re: 2011 Yarra Valley Pinot Noir\r\n\"The wine maker has confirmed that this wine is suitable for Vegans:\r\n\r\nCompany email (February 2014):\r\n\"We do on occasions have wines that use gelatine, isinglass,  etc as processing aids, its entirely up  to the winemaker and can change vintage to vintage depending on the conditions of that particular harvest. We do have wines that are suitable for vegans though we make no such claims.\r\nExamples:\r\n2013 Deen De Bortoli Chardonnay\r\n2013 Windy Peak Shiraz \r\n2013 Deen De Bortoli Sauvignon Blanc \r\n2013 Yarra Valley Estate Grown Pinot Noir\"",
+    "phone": "61 2 6966 0100",
+    "postal": "2680",
     "products_found_at_vinmonopolet": {
-      "870401": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bogle%20vineyards\"",
-        "distributor": "SKANLOG VSD AS",
-        "grocer": "Vinarius AS",
-        "manufacturer_name": "Bogle Vineyards",
-        "product_name": "Bogle Old Vine Zinfandel 2012",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/usa/bogle-old-vine-zinfandel-2012/sku-870401",
-        "region": "USA, California, Øvrige",
+      "3455501": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"de%20bortoli\"",
+        "distributor": "Vectura AS",
+        "grocer": "Fondberg AS",
+        "manufacturer_name": "De Bortoli",
+        "product_name": "De Bortoli Estate Grown Yarra Valley Shiraz 2013",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/de-bortoli-estate-grown-yarra-valley-shiraz-2013/sku-3455501",
+        "region": "Australia, Victoria, Yarra Valley",
         "selection": "Bestillingsutvalg",
-        "sku": "870401",
+        "sku": "3455501",
         "type": "Rødvin",
-        "year": "2012"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "CA",
-    "status": "Has Some Vegan Options",
-    "tag": "Bogle-Vineyards",
-    "updated_on": "2015-01-28T22:53:14.000-05:00",
-    "url": "http://boglewinery.com/"
-  },
-  {
-    "address": "13601 Eastside Road",
-    "barnivore_url": "http://www.barnivore.com/wine/62/company",
-    "checked_by": "Jenna",
-    "city": "Hopland",
-    "company_name": "Bonterra Vineyards",
-    "country": "USA",
-    "created_on": "2006-08-31T00:11:00.000-04:00",
-    "doubled_by": "Mo, Michelle, Suzie",
-    "email": "http://www.bonterra.com/greens/contact.aspx",
-    "fax": "",
-    "id": 62,
-    "notes": "Company email (January 2013):\r\n\"All of our white wines are vegan.  All of our reds are fined with egg whites, so they are not.  None are processed anywhere else other than our winery in Hopland which is certified organic (not that that really matters for this specific question).\"\r\n\r\nCompany email (December 2012):\r\n\"In response, while we do offer our various product lists, some products in our stores and the selections offered may actually vary somewhat by state and region. The primary reason for this is that we also attempt to source products locally whenever we can, as we also do not ship our products over really long distances.  Our lists are also not all-inclusive, and are offered moreso as a guideline of possible product selections.  \r\n\r\n\"In response, while we do offer our various product lists, some products in our stores and the selections offered may actually vary somewhat by state and region. The primary reason for this is that we also attempt to source products locally whenever we can, as we also do not ship our products over really long distances.  Our lists are also not all-inclusive, and are offered moreso as a guideline of possible product selections.  \r\n\r\nIn response, to your inquiry regarding our possible vegan wine options, we are enclosing a list of possible vegan wine selections below:\r\n\r\nBonterra-Whites are vegan\t\r\nCastle Rock-All are vegan\t\r\nCharles Shaw-Reds are vegan *occasionally gelatin is used in the whites' refining processes, but that it is removed from the end product\r\nCline Cellars-All are vegan\t\r\nFetzer-Whites are vegan\t\r\nGeorges Dubeouf-All are vegan\t\r\nKendall Jackson-Whites are vegan\t\r\nRosenblum Cellars-All are vegan\"\r\n\r\nOur previous entry was based on feedback from a restaurant, but Jenna set us straight - it's always best to go to the source:\r\n\"One of the wine companies most widely known to be vegan, Bonterra, actually uses egg whites in their fining. You should take them off your wine list and even consider running a blurb - Native Foods, Herbivore, and a ton of other vegan restaurants sell or have sold them, and tons of vegans I know like to drink it. Their white wines are vegan, but their red wines are NOT. I just got off the phone with James Caudill, one of their reps, and he confirmed it.\"\r\n\r\nSeconded by Mo - company email:\r\n\"We use egg whites in the fining process of our red wines. However, our white wines are free of any animal products and are vegetarian and vegan friendly.  Ages ago, it was discovered that egg whites added to wine would aid in removing unwanted tannins. This 'tannin fining' process is used to improve the flavor of red wines by limiting the astringency caused by the tannins. The egg whites settle to the bottom and are then filtered out. All residue of the egg whites is removed from the wine.\"",
-    "phone": "(800) 846-8637",
-    "postal": "95449",
-    "products_found_at_vinmonopolet": {
-      "4651601": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bonterra\"",
-        "distributor": "Cuveco AS",
-        "grocer": "VCT Norway AS",
-        "manufacturer_name": "Bonterra Vinyards",
-        "product_name": "Bonterra Chardonnay 2012",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/usa/bonterra-chardonnay-2012/sku-4651601",
-        "region": "USA, California, Øvrige",
+        "year": "ukjent år"
+      },
+      "3455601": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"de%20bortoli\"",
+        "distributor": "Vectura AS",
+        "grocer": "Fondberg AS",
+        "manufacturer_name": "De Bortoli",
+        "product_name": "De Bortoli Yarra Valley Villages Chardonnay 2012",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/australia/de-bortoli-yarra-valley-villages-chardonnay-2012/sku-3455601",
+        "region": "Australia, Victoria, Yarra Valley",
         "selection": "Bestillingsutvalg",
-        "sku": "4651601",
+        "sku": "3455601",
         "type": "Hvitvin",
-        "year": "2012"
+        "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",
-    "state": "CA",
+    "state": "NSW",
     "status": "Has Some Vegan Options",
-    "tag": "Bonterra-Vineyards",
-    "updated_on": "2013-04-28T21:26:30.000-04:00",
-    "url": "http://www.bonterra.com/greens/home.aspx"
-  },
-  {
-    "address": "5475 Chardonnay Lane",
-    "barnivore_url": "http://www.barnivore.com/wine/1418/company",
-    "checked_by": "Michael",
-    "city": "Santa Maria",
-    "company_name": "Byron Winery",
-    "country": "USA",
-    "created_on": "2010-12-09T11:39:00.000-05:00",
-    "doubled_by": "Nicky",
-    "email": "info@byronwines.com",
-    "fax": "",
-    "id": 1418,
-    "notes": "Company email (August 2014):\r\n\"We do use a bit of casein in our Pinot Blanc, but other than that nothing!\"\r\n\r\nCompany Email:\r\n\"Byron and IO red wines would qualify as vegan.  The Byron whites have had casein additions here and there over the years which would disqualify them....\"",
-    "phone": "(805) 934-4770",
-    "postal": "93454-9600",
-    "products_found_at_vinmonopolet": {
-      "1360201": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"byron\"",
-        "distributor": "SKANLOG VSD AS",
-        "grocer": "Terroir AS",
-        "manufacturer_name": "Byron Winery",
-        "product_name": "Byron Santa Barbara Chardonnay 2012",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/usa/byron-santa-barbara-chardonnay-2012/sku-1360201",
-        "region": "USA, California, Santa Barbara",
-        "selection": "Bestillingsutvalg",
-        "sku": "1360201",
-        "type": "Hvitvin",
-        "year": "2012"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "CA",
-    "status": "Has Some Vegan Options",
-    "tag": "Byron-Winery",
-    "updated_on": "2014-09-28T12:13:06.000-04:00",
-    "url": "www.byronwines.comâ€Ž"
+    "tag": "De-Bortoli-Wines",
+    "updated_on": "2014-12-17T15:28:31.000-05:00",
+    "url": "https://www.debortoli.com.au"
   },
   {
     "address": "Vicolo Aldo Bottega, 2",
@@ -164,33 +103,33 @@
     "postal": "31010",
     "products_found_at_vinmonopolet": {
       "1180001": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bottega\"",
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
         "distributor": "Cuveco AS",
         "grocer": "Vino A/S",
         "manufacturer_name": "Dist. Bottega",
         "product_name": "Bottega Vino dei Poeti Rosé Brut",
         "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/bottega-vino-dei-poeti-rose-brut/sku-1180001",
-        "region": "Italia, Øvrige, Øvrige",
+        "region": "Italia, Øvrige",
         "selection": "Bestillingsutvalg",
         "sku": "1180001",
         "type": "Musserende vin",
         "year": "ukjent år"
       },
       "1181201": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bottega\"",
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
         "distributor": "Cuveco AS",
         "grocer": "Vino A/S",
         "manufacturer_name": "Dist. Bottega",
         "product_name": "Bottega Pink Gold",
         "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/bottega-pink-gold/sku-1181201",
-        "region": "Italia, Øvrige, Øvrige",
+        "region": "Italia, Øvrige",
         "selection": "Bestillingsutvalg",
         "sku": "1181201",
         "type": "Musserende vin",
         "year": "ukjent år"
       },
       "125901": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bottega\"",
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
         "distributor": "Cuveco AS",
         "grocer": "Einar A Engelstad AS",
         "manufacturer_name": "Dist. Bottega",
@@ -203,7 +142,7 @@
         "year": "ukjent år"
       },
       "125904": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bottega\"",
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
         "distributor": "Cuveco AS",
         "grocer": "Einar A Engelstad AS",
         "manufacturer_name": "Dist. Bottega",
@@ -216,7 +155,7 @@
         "year": "ukjent år"
       },
       "1464501": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bottega\"",
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
         "distributor": "Cuveco AS",
         "grocer": "Einar A Engelstad AS",
         "manufacturer_name": "Dist. Bottega",
@@ -229,7 +168,7 @@
         "year": "ukjent år"
       },
       "148701": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bottega\"",
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
         "distributor": "Cuveco AS",
         "grocer": "Vino A/S",
         "manufacturer_name": "Dist. Bottega",
@@ -239,10 +178,49 @@
         "selection": "Bestillingsutvalg",
         "sku": "148701",
         "type": "Rødvin",
-        "year": "2008"
+        "year": "ukjent år"
+      },
+      "1741804": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
+        "distributor": "Cuveco AS",
+        "grocer": "Vino A/S",
+        "manufacturer_name": "Dist. Bottega",
+        "product_name": "Bottega Gold",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/bottega-gold/sku-1741804",
+        "region": "Italia, Veneto",
+        "selection": "Bestillingsutvalg",
+        "sku": "1741804",
+        "type": "Musserende vin",
+        "year": "ukjent år"
+      },
+      "1741904": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
+        "distributor": "Cuveco AS",
+        "grocer": "Vino A/S",
+        "manufacturer_name": "Dist. Bottega",
+        "product_name": "Bottega Pink Gold",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/bottega-pink-gold/sku-1741904",
+        "region": "Italia, Øvrige",
+        "selection": "Bestillingsutvalg",
+        "sku": "1741904",
+        "type": "Musserende vin",
+        "year": "ukjent år"
+      },
+      "2230301": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
+        "distributor": "Cuveco AS",
+        "grocer": "Einar A Engelstad AS",
+        "manufacturer_name": "Dist. Bottega",
+        "product_name": "Bottega Petalo Prosecco",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/bottega-petalo-prosecco/sku-2230301",
+        "region": "Italia, Veneto",
+        "selection": "Bestillingsutvalg",
+        "sku": "2230301",
+        "type": "Musserende vin",
+        "year": "ukjent år"
       },
       "489801": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bottega\"",
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
         "distributor": "Cuveco AS",
         "grocer": "Einar A Engelstad AS",
         "manufacturer_name": "Dist. Bottega",
@@ -252,33 +230,33 @@
         "selection": "Bestillingsutvalg",
         "sku": "489801",
         "type": "Musserende vin",
-        "year": "2012"
+        "year": "ukjent år"
       },
       "976401": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bottega\"",
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
         "distributor": "Cuveco AS",
         "grocer": "AS P Ltz Aass",
         "manufacturer_name": "Dist. Bottega",
         "product_name": "Bottega Vino dei Poeti Prosecco Extra Dry",
         "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/bottega-vino-dei-poeti-prosecco-extra-dry/sku-976401",
         "region": "Italia, Veneto, Øvrige",
-        "selection": "Basisutvalg",
+        "selection": "Bestillingsutvalg",
         "sku": "976401",
         "type": "Musserende vin",
         "year": "ukjent år"
       },
       "9793701": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"bottega\"",
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"dist.%20bottega\"",
         "distributor": "Cuveco AS",
         "grocer": "Vino A/S",
         "manufacturer_name": "Dist. Bottega",
         "product_name": "Bottega Gold Spumante",
         "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/bottega-gold-spumante/sku-9793701",
         "region": "Italia, Veneto, Treviso",
-        "selection": "Bestillingsutvalg",
+        "selection": "Basisutvalg",
         "sku": "9793701",
         "type": "Musserende vin",
-        "year": "2011"
+        "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",
@@ -304,7 +282,8 @@
     "phone": "+27 21 8632450",
     "postal": "7646",
     "products_found_at_vinmonopolet": {
-     "129401": {
+    
+      "129401": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"fairview\"",
         "distributor": "Vectura AS",
         "grocer": "Modern Wines AS",
@@ -315,7 +294,7 @@
         "selection": "Bestillingsutvalg",
         "sku": "129401",
         "type": "Rødvin",
-        "year": "2011"
+        "year": "ukjent år"
       },
       "8050301": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"fairview\"",
@@ -328,7 +307,7 @@
         "selection": "Bestillingsutvalg",
         "sku": "8050301",
         "type": "Rødvin",
-        "year": "2013"
+        "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",
@@ -339,117 +318,94 @@
     "url": "http://www.fairview.co.za"
   },
   {
-    "address": "Ruta Provincial 33,",
-    "barnivore_url": "http://www.barnivore.com/wine/1229/company",
-    "checked_by": "Kelly",
-    "city": "5511 Maip",
-    "company_name": "Familia Zuccardi Winery",
-    "country": "Argentina",
-    "created_on": "2011-02-20T15:59:00.000-05:00",
-    "doubled_by": "Ian, Lindsay, Danielle",
-    "email": "http://www.familiazuccardi.com/contact.php",
+    "address": "Contrada Cerza Grossa, 83050 Sorbo Serpico Av",
+    "barnivore_url": "http://www.barnivore.com/wine/4161/company",
+    "checked_by": "Simona",
+    "city": "",
+    "company_name": "Feudi di San Gregorio",
+    "country": "Italy",
+    "created_on": "2016-01-05T11:33:25.000-05:00",
+    "doubled_by": "",
+    "email": "angelo.nudo@feudi.it",
     "fax": "",
-    "id": 1229,
-    "notes": "Company email (September 2014):\r\n\r\n\"I am afraid to let you know that there are some wines that we have used products containing eggs to filter them, though this is a very expensive treatment. But because of this reason and because we are aware of vegan consumers we are starting to stop this use of products, as you may know some of our wines are from past vintages and have been already bottled so those are the wines my colleague Juan Ignacio was talking about. For  next vintages you will be able to try our wines because they will be with no traces of this kind of products!\r\n\r\nOur Vegan Friendly Wines arriving into Dan Murphy’s by the end of this year:\r\n\r\nZuccardi Serie A Bonarda 2013\r\nZuccardi Serie A Malbec 2013\r\nZuccardi Serie A Chardonnay Viognier 2013\"\r\n\r\nNote from Danielle (June 2014):\r\n\"Unfortunately I didn't see the \"this product has been made with the aid of egg...\" until after I'd purchased it. This is the 2011 Serie A Malbec.\" [If you would like to see a copy of the picture of the label, please email contact@barnivore.com.]\r\n\r\nCompany email (February 2014):\r\n\"All our wines nowadays are vegan friendly. We don't use any animal products or derivatives.\"\r\n\r\nCompany email (January 2011)\r\n\"Our wines DO NOT contain any animal ingredients or animal products.\r\nFor filtration, we use mechanic procedures and mineral materials (like bentonite) sometimes\"\r\n\r\nCompany email (November 2010)\r\n\"Ian, our Wines are 100% vegan-friendly\"\r\n\r\nCompany email (October 2010)\r\n\"We only use bentonite (it's a mineral) for fining our wines. Our wines are vegan.\"\r\n",
-    "phone": "+54 261 441-0000",
+    "id": 4161,
+    "notes": "Company email (November 2015)\r\n\"in riferimento alla sua richiesta, le comunico che per i vini bianchi e i vini rosati non c'è nessun impiego di sostanze di origini animali mentre per i vini rossi il consumo è sconsigliato in quanto vi è l'ausilio di chiarificanti di origine animale.\"\r\n\r\n[Google translation: \"in reference to his request, I inform you that for white wines and rose wines there is no use of substances of animal origin while for red wine consumption is not recommended as there is the use of clarifying agents of animal origin\"]\r\n",
+    "phone": "0825 986610",
     "postal": "",
-    "products_found_at_vinmonopolet": {    
-      "8016301": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"familia%20zuccardi\"",
-        "distributor": "Vectura AS",
-        "grocer": "Vinordia AS",
-        "manufacturer_name": "Familia Zuccardi",
-        "product_name": "Santa Julia Organica Bonarda 2013",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/argentina/santa-julia-organica-bonarda-2013/sku-8016301",
-        "region": "Argentina, Mendoza, Øvrige",
-        "selection": "Bestillingsutvalg",
-        "sku": "8016301",
-        "type": "Rødvin",
-        "year": "2013"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "Mendoza",
-    "status": "Has Some Vegan Options",
-    "tag": "Familia-Zuccardi-Winery",
-    "updated_on": "2014-09-24T16:54:38.000-04:00",
-    "url": "http://www.familiazuccardi.com/"
-  },
-  {
-    "address": "PO Box 532",
-    "barnivore_url": "http://www.barnivore.com/wine/2831/company",
-    "checked_by": "Michelle",
-    "city": "McLaren Vale",
-    "company_name": "Kangarilla Road Vineyard and Winery",
-    "country": "Australia",
-    "created_on": "2013-05-16T07:09:30.000-04:00",
-    "doubled_by": "Danielle",
-    "email": "contactus@kangarillaroad.com.au",
-    "fax": "08 8383 0044",
-    "id": 2831,
-    "notes": "Company email (February 2014):\r\n\"Only our 2011 Cabernet has been fined with egg white. Everything else on our list is vegan friendly. So Primitivo is definitely fine for you.\"\r\n\r\nCompany email (May 2013):\r\n\"Vegan Wines:\r\nGlimmer of Hope Shiraz (2008, 2010, 2011)\r\nOrganic Chardonnay (2012)\r\nViognier (2009)\"\r\n",
-    "phone": "08 8383 0533",
-    "postal": "5171",
     "products_found_at_vinmonopolet": {
-      "957401": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"kangarilla%20road%20vineyard\"",
-        "distributor": "Cuveco AS",
-        "grocer": "Winehouse AS",
-        "manufacturer_name": "Kangarilla Road Vineyard and W",
-        "product_name": "Kangarilla Road Chardonnay 2013",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/australia/kangarilla-road-chardonnay-2013/sku-957401",
-        "region": "Australia, South Australia, Adelaide Hills",
+   
+      "1657101": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"feudi%20di%20san%20gregorio\"",
+        "distributor": "Skanlog As",
+        "grocer": "Gaia Wine & Spirits AS",
+        "manufacturer_name": "Feudi di San Gregorio",
+        "product_name": "Feudi di San Gregorio Campanaro 2012",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/italia/feudi-di-san-gregorio-campanaro-2012/sku-1657101",
+        "region": "Italia, Campania, Irpinia",
         "selection": "Bestillingsutvalg",
-        "sku": "957401",
+        "sku": "1657101",
         "type": "Hvitvin",
-        "year": "2013"
+        "year": "ukjent år"
       },
-      "969201": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"kangarilla%20road%20vineyard\"",
-        "distributor": "Cuveco AS",
-        "grocer": "Winehouse AS",
-        "manufacturer_name": "Kangarilla Road Vineyard and W",
-        "product_name": "Kangarilla Road The Cul de Sac 2012",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/kangarilla-road-the-cul-de-sac-2012/sku-969201",
-        "region": "Australia, South Australia, McLaren Vale",
+      "3310701": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"feudi%20di%20san%20gregorio\"",
+        "distributor": "Skanlog As",
+        "grocer": "Gaia Wine & Spirits AS",
+        "manufacturer_name": "Feudi di San Gregorio",
+        "product_name": "Feudi di San Gregorio Falanghina Sannio 2014",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/italia/feudi-di-san-gregorio-falanghina-sannio-2014/sku-3310701",
+        "region": "Italia, Campania, Sannio",
         "selection": "Bestillingsutvalg",
-        "sku": "969201",
-        "type": "Rødvin",
-        "year": "2012"
-      },
-      "969301": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"kangarilla%20road%20vineyard\"",
-        "distributor": "Cuveco AS",
-        "grocer": "Winehouse AS",
-        "manufacturer_name": "Kangarilla Road Vineyard and W",
-        "product_name": "Kangarilla Road Terzetto 2012",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/kangarilla-road-terzetto-2012/sku-969301",
-        "region": "Australia, South Australia, McLaren Vale",
-        "selection": "Bestillingsutvalg",
-        "sku": "969301",
-        "type": "Rødvin",
-        "year": "2012"
-      },
-      "969401": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"kangarilla%20road%20vineyard\"",
-        "distributor": "Cuveco AS",
-        "grocer": "Winehouse AS",
-        "manufacturer_name": "Kangarilla Road Vineyard and W",
-        "product_name": "Kangarilla Road Organic Chardonnay 2013",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/australia/kangarilla-road-organic-chardonnay-2013/sku-969401",
-        "region": "Australia, South Australia, McLaren Vale",
-        "selection": "Bestillingsutvalg",
-        "sku": "969401",
+        "sku": "3310701",
         "type": "Hvitvin",
-        "year": "2013"
+        "year": "ukjent år"
+      },
+      "3310801": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"feudi%20di%20san%20gregorio\"",
+        "distributor": "Skanlog As",
+        "grocer": "Gaia Wine & Spirits AS",
+        "manufacturer_name": "Feudi di San Gregorio",
+        "product_name": "Feudi di San Gregorio Fiano di Avellino 2014",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/italia/feudi-di-san-gregorio-fiano-di-avellino-2014/sku-3310801",
+        "region": "Italia, Campania, Avellino",
+        "selection": "Bestillingsutvalg",
+        "sku": "3310801",
+        "type": "Hvitvin",
+        "year": "ukjent år"
+      },
+      "3310901": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"feudi%20di%20san%20gregorio\"",
+        "distributor": "Skanlog As",
+        "grocer": "Gaia Wine & Spirits AS",
+        "manufacturer_name": "San Gregorio",
+        "product_name": "Feudi di San Gregorio Greco di Tufo 2014",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/italia/feudi-di-san-gregorio-greco-di-tufo-2014/sku-3310901",
+        "region": "Italia, Campania, Greco di Tufo",
+        "selection": "Bestillingsutvalg",
+        "sku": "3310901",
+        "type": "Hvitvin",
+        "year": "ukjent år"
+      },
+      "617001": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"feudi%20di%20san%20gregorio\"",
+        "distributor": "Skanlog As",
+        "grocer": "Gaia Wine & Spirits AS",
+        "manufacturer_name": "Feudi di San Gregorio",
+        "product_name": "Feudi di San Gregorio Dubl Greco Spumante",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/feudi-di-san-gregorio-dubl-greco-spumante/sku-617001",
+        "region": "Italia, Campania",
+        "selection": "Bestillingsutvalg",
+        "sku": "617001",
+        "type": "Musserende vin",
+        "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",
-    "state": "SA",
+    "state": "",
     "status": "Has Some Vegan Options",
-    "tag": "Kangarilla-Road-Vineyard-and-Winery",
-    "updated_on": "2014-02-13T17:26:02.000-05:00",
-    "url": "http://www.kangarillaroad.com.au/"
+    "tag": "Feudi-di-San-Gregorio",
+    "updated_on": "2016-01-05T11:34:12.000-05:00",
+    "url": "http://www.feudi.it/"
   },
   {
     "address": "PO Box 19",
@@ -478,20 +434,20 @@
         "selection": "Bestillingsutvalg",
         "sku": "5854801",
         "type": "Rødvin",
-        "year": "2013"
+        "year": "ukjent år"
       },
       "5854901": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"kanonkop\"",
         "distributor": "Vectura AS",
         "grocer": "Vinordia AS",
         "manufacturer_name": "Kanonkop Wine Est.",
-        "product_name": "Kanonkop Cabernet Sauvignon 2010",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/sorafrika/kanonkop-cabernet-sauvignon-2010/sku-5854901",
+        "product_name": "Kanonkop Cabernet Sauvignon 2011",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/sorafrika/kanonkop-cabernet-sauvignon-2011/sku-5854901",
         "region": "Sør-Afrika, Coastal Region, Stellenbosch",
         "selection": "Bestillingsutvalg",
         "sku": "5854901",
         "type": "Rødvin",
-        "year": "2010"
+        "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",
@@ -500,43 +456,6 @@
     "tag": "Kanonkop-Wine-Estate",
     "updated_on": "2014-02-18T12:24:16.000-05:00",
     "url": "www.kanonkop.co.za"
-  },
-  {
-    "address": "5007 Fulton Road",
-    "barnivore_url": "http://www.barnivore.com/wine/189/company",
-    "checked_by": "Rick",
-    "city": "Fulton",
-    "company_name": "Kendall-Jackson Wines",
-    "country": "USA",
-    "created_on": "2007-06-26T23:59:00.000-04:00",
-    "doubled_by": "Amy, Danielle",
-    "email": "kjwines@kj.com",
-    "fax": "",
-    "id": 189,
-    "notes": "Company email (February 2014): re: Vintner's Reserve Merlot (2010)\r\n\"VR Merlot is suitable for Vegans – all vintages\"\r\n\r\nCompany email (February 2014): re: Vintner's Reserve Pinot Noir (2011) and Vintner's Reserve Zinfandel (2011)\r\n\"Our Pinot Noir and Zinfandel are absolutely  Vegan suitable.  They were not fined using any animal products or derivatives.  Please feel free to enjoy!\"\r\n\r\nCompany email (January 2009):\r\n\"We do not use egg whites or isinglass to fine any of our white wine. We use egg white on occasion (rarely) to filter red wine.  Our winemaker says that when you filter, often you are filtering out flavor as well, and so he doesn't often use this process.\"\r\n\r\nCompany email (June 2007):\r\n\"Kendall-Jackson may use one of the following as a fining agent in its red wines:\r\nEgg whites\r\nSturgeon bladder\r\nGelatin\r\nThese fining agents are used to soften tannins from the seeds and grapes prior to bottling.  After the agents react with the wine, they are racked away and there should be no residue left in the final product.\r\nThe above-listed fining agents are not used in our white wines, as the grapes are pressed immediately upon arrival and there is minimal contact between the juice, seeds and skins.\"",
-    "phone": "800-769-3649",
-    "postal": "95439",
-    "products_found_at_vinmonopolet": {
-      "3019701": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"kendall-jackson\"",
-        "distributor": "Cuveco AS",
-        "grocer": "AMKA AS",
-        "manufacturer_name": "Kendall-Jackson",
-        "product_name": "Kendall-Jackson Vintner's Reserve Pinot Noir 2011",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/usa/kendalljackson-vintners-reserve-pinot-noir-2011/sku-3019701",
-        "region": "USA, California, Øvrige",
-        "selection": "Bestillingsutvalg",
-        "sku": "3019701",
-        "type": "Rødvin",
-        "year": "2011"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "CA",
-    "status": "Has Some Vegan Options",
-    "tag": "Kendall-Jackson-Wines",
-    "updated_on": "2014-02-13T16:33:22.000-05:00",
-    "url": "http://www.kj.com"
   },
   {
     "address": "Cnr Langmeil & Para Roads",
@@ -554,6 +473,7 @@
     "phone": "+61 8 8563 2595",
     "postal": "5352",
     "products_found_at_vinmonopolet": {
+   
       "5159801": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"langmeil\"",
         "distributor": "Vectura AS",
@@ -565,7 +485,7 @@
         "selection": "Bestillingsutvalg",
         "sku": "5159801",
         "type": "Rødvin",
-        "year": "2010"
+        "year": "ukjent år"
       },
       "5159901": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"langmeil\"",
@@ -578,15 +498,15 @@
         "selection": "Bestillingsutvalg",
         "sku": "5159901",
         "type": "Rødvin",
-        "year": "2011"
+        "year": "ukjent år"
       },
       "5160001": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"langmeil\"",
         "distributor": "Vectura AS",
         "grocer": "VinoVinVinho AS",
         "manufacturer_name": "Langmeil Winery",
-        "product_name": "Langmeil Barossa Freedom 1843 Shiraz 2007",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/langmeil-barossa-freedom-1843-shiraz-2007/sku-5160001",
+        "product_name": "Langmeil Barossa Freedom 1843 Shiraz 2012",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/langmeil-barossa-freedom-1843-shiraz-2012/sku-5160001",
         "region": "Australia, South Australia, Barossa Valley",
         "selection": "Bestillingsutvalg",
         "sku": "5160001",
@@ -604,7 +524,7 @@
         "selection": "Bestillingsutvalg",
         "sku": "9635001",
         "type": "Rødvin",
-        "year": "2008"
+        "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",
@@ -641,9 +561,8 @@
         "selection": "Bestillingsutvalg",
         "sku": "4813301",
         "type": "Rødvin",
-        "year": "2012"
-      }
-    },
+        "year": "ukjent år"
+      },
     "red_yellow_green": "Yellow",
     "state": "Beaune",
     "status": "Has Some Vegan Options",
@@ -651,157 +570,6 @@
     "updated_on": "2009-12-09T10:23:13.000-05:00",
     "url": "http://www.louisjadot.com"
   },
-  {
-    "address": "55 Washington St, Ste 657",
-    "barnivore_url": "http://www.barnivore.com/wine/1645/company",
-    "checked_by": "Melissa",
-    "city": "Brooklyn",
-    "company_name": "Mionetto USA",
-    "country": "USA",
-    "created_on": "2011-01-17T07:51:00.000-05:00",
-    "doubled_by": "",
-    "email": "info@mionettousa.com",
-    "fax": "",
-    "id": 1645,
-    "notes": "Company Email:\r\n\"We forwarded your request to our wine expert in Italy, who confirmed\r\nthat all our wines do not contain animal ingredients and no animal\r\nproducts are used during the production process, since 2009.\"",
-    "phone": "718-596-3339",
-    "postal": "11201",
-    "products_found_at_vinmonopolet": {
-      "1807601": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"mionetto\"",
-        "distributor": "Cuveco AS",
-        "grocer": "Henkell & Co Norge AS",
-        "manufacturer_name": "Mionetto",
-        "product_name": "Mionetto Prosecco Superiore Valdobbiadene Rive di Santo Stefano Millesimato Brut",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/mionetto-prosecco-superiore-valdobbiadene-rive-di-santo-stefano-millesimato-brut/sku-1807601",
-        "region": "Italia, Veneto, Valdobbiadene",
-        "selection": "Bestillingsutvalg",
-        "sku": "1807601",
-        "type": "Musserende vin",
-        "year": "2013"
-      },
-      "880501": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"mionetto\"",
-        "distributor": "Cuveco AS",
-        "grocer": "Henkell & Co Norge AS",
-        "manufacturer_name": "Mionetto",
-        "product_name": "Mionetto Cartizze",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/mionetto-cartizze/sku-880501",
-        "region": "Italia, Veneto, Valdobbiadene",
-        "selection": "Bestillingsutvalg",
-        "sku": "880501",
-        "type": "Musserende vin",
-        "year": "2012"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "",
-    "status": "Has Some Vegan Options",
-    "tag": "Mionetto-USA",
-    "updated_on": "2011-05-16T07:51:00.000-04:00",
-    "url": "http://www.mionettousa.com"
-  },
-  {
-    "address": "10540 Encino Drive",
-    "barnivore_url": "http://www.barnivore.com/wine/1771/company",
-    "checked_by": "Jacob",
-    "city": "Oak View",
-    "company_name": "Ojai Vineyard",
-    "country": "USA",
-    "created_on": "2011-09-28T05:04:16.000-04:00",
-    "doubled_by": "",
-    "email": "info@ojaivineyard.com",
-    "fax": "",
-    "id": 1771,
-    "notes": "Company email (August 2011): \r\n\r\n\"The wine are all manufactured on site and the only animal product used is Ichtyocolle (fish based and equivalent to isinglass) when fining the whites. The reds are not fined. We do not use any other animal products.\" \r\n",
-    "phone": "(805) 649.1674",
-    "postal": "93022",
-    "products_found_at_vinmonopolet": {
-      "869201": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"ojai%20vineyard\"",
-        "distributor": "SKANLOG VSD AS",
-        "grocer": "Vinarius AS",
-        "manufacturer_name": "The Ojai Vineyards",
-        "product_name": "Ojai Pinot Noir 2013",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/usa/ojai-pinot-noir-2013/sku-869201",
-        "region": "USA, California, Santa Barbara",
-        "selection": "Bestillingsutvalg",
-        "sku": "869201",
-        "type": "Rødvin",
-        "year": "2013"
-      },
-      "869401": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"ojai%20vineyard\"",
-        "distributor": "SKANLOG VSD AS",
-        "grocer": "Vinarius AS",
-        "manufacturer_name": "The Ojai Vineyards",
-        "product_name": "Ojai Syrah 2011",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/usa/ojai-syrah-2011/sku-869401",
-        "region": "USA, California, Øvrige",
-        "selection": "Bestillingsutvalg",
-        "sku": "869401",
-        "type": "Rødvin",
-        "year": "2011"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "CA",
-    "status": "Has Some Vegan Options",
-    "tag": "Ojai-Vineyard",
-    "updated_on": "2011-09-28T05:04:16.000-04:00",
-    "url": "http://ojaivineyard.com/"
-  },
-  {
-    "address": "21684 Eighth Street East, #200",
-    "barnivore_url": "http://www.barnivore.com/wine/1759/company",
-    "checked_by": "Jacob",
-    "city": "Sonoma",
-    "company_name": "Patz & Hall Winery",
-    "country": "USA",
-    "created_on": "2011-09-27T04:49:44.000-04:00",
-    "doubled_by": "",
-    "email": "info@patzhall.com",
-    "fax": "(707) 996.3592",
-    "id": 1759,
-    "notes": "Company email (August 2011): \r\n\"100% of our Pinots are “Vegan” and are made without the use of any animal products. Most of the Chardonnays are finned with isinglass, and thus do not qualify as Vegan. We produce 100% of our wines in our Sonoma winery and control the process from grape to bottle.\"",
-    "phone": "(707) 996.3468",
-    "postal": "95476",
-    "products_found_at_vinmonopolet": {
-      "2155401": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"patz%20%26%20hall\"",
-        "distributor": "Vectura AS",
-        "grocer": "Better Wines AS",
-        "manufacturer_name": "Patz & Hall",
-        "product_name": "Patz and Hall Hyde Vineyard Pinot Noir 2012",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/usa/patz-and-hall-hyde-vineyard-pinot-noir-2012/sku-2155401",
-        "region": "USA, California, Carneros",
-        "selection": "Bestillingsutvalg",
-        "sku": "2155401",
-        "type": "Rødvin",
-        "year": "2012"
-      },
-      "2155701": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"patz%20%26%20hall\"",
-        "distributor": "Vectura AS",
-        "grocer": "Better Wines AS",
-        "manufacturer_name": "Patz & Hall",
-        "product_name": "Patz and Hall Jenkins Ranch Pinot Noir 2012",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/usa/patz-and-hall-jenkins-ranch-pinot-noir-2012/sku-2155701",
-        "region": "USA, California, Sonoma Coast",
-        "selection": "Bestillingsutvalg",
-        "sku": "2155701",
-        "type": "Rødvin",
-        "year": "2012"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "CA",
-    "status": "Has Some Vegan Options",
-    "tag": "Patz-Hall-Winery",
-    "updated_on": "2011-09-27T04:49:44.000-04:00",
-    "url": "http://www.patzhall.com"
-  },
-  {
     "address": "Eden Valley Road, PO Box 10",
     "barnivore_url": "http://www.barnivore.com/wine/3233/company",
     "checked_by": "Danielle",
@@ -819,16 +587,16 @@
     "products_found_at_vinmonopolet": {
       "5237301": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"pewsey%20vale%20vineyard\"",
-        "distributor": "SKANLOG VSD AS",
+        "distributor": "Skanlog As",
         "grocer": "Vinarius AS",
         "manufacturer_name": "Pewsey Vale Vineyard",
-        "product_name": "Pewsey Vale Riesling 2011",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/australia/pewsey-vale-riesling-2011/sku-5237301",
+        "product_name": "Pewsey Vale Riesling 2014",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/australia/pewsey-vale-riesling-2014/sku-5237301",
         "region": "Australia, South Australia, Eden Valley",
         "selection": "Bestillingsutvalg",
         "sku": "5237301",
         "type": "Hvitvin",
-        "year": "2011"
+        "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",
@@ -856,7 +624,7 @@
     "products_found_at_vinmonopolet": {
       "1060401": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"sandeman\"",
-        "distributor": "SKANLOG VSD AS",
+        "distributor": "Skanlog As",
         "grocer": "Pernod Ricard Norway AS",
         "manufacturer_name": "Sandeman",
         "product_name": "Sandeman Vau Vintage 2000",
@@ -876,170 +644,6 @@
     "url": "http://www.sandeman.eu/"
   },
   {
-    "address": "602 Bonneau Road",
-    "barnivore_url": "http://www.barnivore.com/wine/808/company",
-    "checked_by": "They contacted us!",
-    "city": "Sonoma",
-    "company_name": "Schug Carneros Estate Winery",
-    "country": "USA",
-    "created_on": "2009-11-25T03:41:00.000-05:00",
-    "doubled_by": "Ryan",
-    "email": "michael@schugwinery.com",
-    "fax": "707 939 9364",
-    "id": 808,
-    "notes": "Company email:\r\n\"Company Email: June 2010\r\n\"At Schug, we use a minimal amount of gelatin and/or isinglass in fining our whites, so they are not Vegan friendly. \r\n\r\nHowever, our sparkling wine, rose and all our current (and near future) red wines are vegan friendly.  (We produce 3 different Pinot Noirs, 2 Merlots, 2 Cabernet Sauvignons, a Cabernet Franc and a Syrah)\"\"\r\n\r\nEmail Direct from Winery\r\n\"All Schug current release red wines are Vegan.  No animal products are used\r\nin the processing/filtration of these wines.\r\n\r\nSchug’s Rouge de Noirs is the same.\r\n\r\nSchug white wines are fined using animal products.\r\n\r\nSchug’s rose wine is Vegan.\"",
-    "phone": "707 939 9363 x 208",
-    "postal": "95476",
-    "products_found_at_vinmonopolet": {
-    
-      "9359301": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"schug%20carneros%20estate\"",
-        "distributor": "Vectura AS",
-        "grocer": "Symposium Wines AS",
-        "manufacturer_name": "Schug Carneros Estate",
-        "product_name": "Schug Carneros Heritage Reserve Pinot Noir 2007",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/usa/schug-carneros-heritage-reserve-pinot-noir-2007/sku-9359301",
-        "region": "USA, California, Carneros",
-        "selection": "Bestillingsutvalg",
-        "sku": "9359301",
-        "type": "Rødvin",
-        "year": "2007"
-      },
-   
-      "9359501": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"schug%20carneros%20estate\"",
-        "distributor": "Vectura AS",
-        "grocer": "Symposium Wines AS",
-        "manufacturer_name": "Schug Carneros Estate",
-        "product_name": "Schug Carneros Pinot Noir 2009",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/usa/schug-carneros-pinot-noir-2009/sku-9359501",
-        "region": "USA, California, Carneros",
-        "selection": "Bestillingsutvalg",
-        "sku": "9359501",
-        "type": "Rødvin",
-        "year": "2009"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "CA",
-    "status": "Has Some Vegan Options",
-    "tag": "Schug-Carneros-Estate-Winery",
-    "updated_on": "2011-02-02T19:41:12.000-05:00",
-    "url": "http://www.schugwinery.com"
-  },
-  {
-    "address": "Cellar Door, 85 Bedford Road",
-    "barnivore_url": "http://www.barnivore.com/wine/2199/company",
-    "checked_by": "Julie",
-    "city": "Renwick",
-    "company_name": "Seresin Estate",
-    "country": "New Zealand",
-    "created_on": "2012-04-14T12:53:19.000-04:00",
-    "doubled_by": "",
-    "email": "info@seresin.co.nz",
-    "fax": "",
-    "id": 2199,
-    "notes": "Company email (April 2012):\r\n\"The 2009 MOMO Pinot Noir is vegan-friendly – it contains no animal products. There are no other places where our MOMO Wines are made other than right here in Marlborough, so this will be true of all the 2009 MOMO Pinot Noir.\r\n \r\nThe only animal product we use for some wines in some vintages is Gelatine, but none of this was used in the 2009 MOMO Pinot Noir.\r\n \r\nThe 2011 MOMO Chardonnay, 2011 MOMO Pinot Gris, 2009 MOMO Riesling are also vegan friendly. The 2010 MOMO Sauvignon Blanc used gelatine, but the certified organic 2011 MOMO Sauvignon which we will release shortly did not.\"\r\n",
-    "phone": "+64 3 572 9408",
-    "postal": "",
-    "products_found_at_vinmonopolet": {
-      "1097101": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"seresin\"",
-        "distributor": "SKANLOG VSD AS",
-        "grocer": "SR Wine Import AS",
-        "manufacturer_name": "Seresin",
-        "product_name": "Seresin MOMO Pinot Noir 2012/2013",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/new-zealand/seresin-momo-pinot-noir-20122013/sku-1097101",
-        "region": "New Zealand, Marlborough, Øvrige",
-        "selection": "Basisutvalg",
-        "sku": "1097101",
-        "type": "Rødvin",
-        "year": "2013"
-      }
-      
-    },
-    "red_yellow_green": "Yellow",
-    "state": "Marlborough",
-    "status": "Has Some Vegan Options",
-    "tag": "Seresin-Estate",
-    "updated_on": "2012-04-14T12:55:24.000-04:00",
-    "url": "http://www.seresin.co.nz/"
-  },
-  {
-    "address": "P.O. Box 811",
-    "barnivore_url": "http://www.barnivore.com/wine/3213/company",
-    "checked_by": "Danielle",
-    "city": "McLaren Vale",
-    "company_name": "Shingleback Wine",
-    "country": "Australia",
-    "created_on": "2014-02-11T16:05:20.000-05:00",
-    "doubled_by": "Tanysha",
-    "email": "wine@shingleback.com.au",
-    "fax": "8 8323 7336",
-    "id": 3213,
-    "notes": "Note from Tanysha (November 2014):\r\n\"These are all 100% vegan\"\r\n\r\nCompany email (March 2014):\r\n[Clarification regarding Red Knot wines] \"In the past we had used egg white (a very ancient and traditional fining agent) only occasionally to aid in the clarification of the Red Knot wine as this product is tightly filtered at bottling. With the introduction of a high tech Cross-flow filter over 4 years ago egg white was no longer required to be used... With our computer recording systems even if 1 litre of older egg fined wine carried over to a younger blend the egg warning was applied.\"\r\n[Barnivore note] Check older vintages of Red Knot for egg warning. The newer vintages (2009 and later, to play it safe) should be vegan-friendly. Just check the label.\r\n\r\nCompany email (February 2014):\r\n\"No animal products are used in our wines. All Shingleback wines are suitable for Vegans\"\r\n",
-    "phone": "08 8323 7388",
-    "postal": "5171",
-    "products_found_at_vinmonopolet": {
-      "1709801": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"shingleback\"",
-        "distributor": "Vectura AS",
-        "grocer": "First Wines AS",
-        "manufacturer_name": "Shingleback Wine",
-        "product_name": "Shingleback Red Knot GSM 2013",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/shingleback-red-knot-gsm-2013/sku-1709801",
-        "region": "Australia, South Australia, McLaren Vale",
-        "selection": "Basisutvalg",
-        "sku": "1709801",
-        "type": "Rødvin",
-        "year": "2013"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "SA",
-    "status": "Has Some Vegan Options",
-    "tag": "Shingleback-Wine",
-    "updated_on": "2014-12-17T21:01:12.000-05:00",
-    "url": "http://www.shingleback.com.au/home"
-  },
-  {
-    "address": "PO Box 399",
-    "barnivore_url": "http://www.barnivore.com/wine/1495/company",
-    "checked_by": "Brian",
-    "city": "Dundee",
-    "company_name": "Sokol Blosser Winery",
-    "country": "USA",
-    "created_on": "2011-04-26T14:50:00.000-04:00",
-    "doubled_by": "",
-    "email": "kitri@sokolblosser.com",
-    "fax": "",
-    "id": 1495,
-    "notes": "Company Email:\r\n\"I’ve attached a piece written by our winemaker Russ Rosner on our estate wines.  As you can see in that article, everything we make here on our estate is vegan- and vegetarian-friendly.  Our two blends, Evolution and Meditrina, do contain some wine made by other properties – so although we do try our hardest to source those pieces of our blends from wineries that we believe are not using animal products in their fining process, we cannot say with absolute certainty that those wines are 100% vegan diet friendly.\"",
-    "phone": "1-800-582-6668",
-    "postal": "97115",
-    "products_found_at_vinmonopolet": {
-      "976301": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"sokol%20blosser\"",
-        "distributor": "Vectura AS",
-        "grocer": "Pure Wine AS",
-        "manufacturer_name": "Sokol Blosser",
-        "product_name": "Sokol Blosser Dundee Hills Pinot Noir 2011",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/usa/sokol-blosser-dundee-hills-pinot-noir-2011/sku-976301",
-        "region": "USA, Oregon, Willamette valley",
-        "selection": "Bestillingsutvalg",
-        "sku": "976301",
-        "type": "Rødvin",
-        "year": "2011"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "OR",
-    "status": "Has Some Vegan Options",
-    "tag": "Sokol-Blosser-Winery",
-    "updated_on": "2011-04-26T14:50:00.000-04:00",
-    "url": "http://sokolblosser.com/"
-  },
-  {
     "address": "",
     "barnivore_url": "http://www.barnivore.com/wine/2024/company",
     "checked_by": "Luc",
@@ -1055,10 +659,49 @@
     "phone": "",
     "postal": "",
     "products_found_at_vinmonopolet": {
-    
+
+      "1741501": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"some%20young%20punks\"",
+        "distributor": "Skanlog As",
+        "grocer": "Chaeos Import AS",
+        "manufacturer_name": "Some Young Punks",
+        "product_name": "Some Young Punks Fierce Allure 2011",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/some-young-punks-fierce-allure-2011/sku-1741501",
+        "region": "Australia, South Australia, McLaren Vale",
+        "selection": "Bestillingsutvalg",
+        "sku": "1741501",
+        "type": "Rødvin",
+        "year": "ukjent år"
+      },
+      "1741601": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"some%20young%20punks\"",
+        "distributor": "Skanlog As",
+        "grocer": "Chaeos Import AS",
+        "manufacturer_name": "Some Young Punks",
+        "product_name": "Some Young Punks Lust Collides 2011",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/some-young-punks-lust-collides-2011/sku-1741601",
+        "region": "Australia, South Australia, McLaren Vale",
+        "selection": "Bestillingsutvalg",
+        "sku": "1741601",
+        "type": "Rødvin",
+        "year": "ukjent år"
+      },
+      "180101": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"some%20young%20punks\"",
+        "distributor": "Skanlog As",
+        "grocer": "Chaeos Import AS",
+        "manufacturer_name": "Some Young Punks",
+        "product_name": "Some Young Punks The Squid's Fist 2013",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/some-young-punks-the-squids-fist-2013/sku-180101",
+        "region": "Australia, South Australia",
+        "selection": "Bestillingsutvalg",
+        "sku": "180101",
+        "type": "Rødvin",
+        "year": "ukjent år"
+      },
       "180301": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"some%20young%20punks\"",
-        "distributor": "SKANLOG VSD AS",
+        "distributor": "Skanlog As",
         "grocer": "Chaeos Import AS",
         "manufacturer_name": "Some Young Punks",
         "product_name": "Some Young Punks Passion has Red Lips 2013",
@@ -1067,11 +710,11 @@
         "selection": "Basisutvalg",
         "sku": "180301",
         "type": "Rødvin",
-        "year": "2013"
+        "year": "ukjent år"
       },
       "539901": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"some%20young%20punks\"",
-        "distributor": "SKANLOG VSD AS",
+        "distributor": "Skanlog As",
         "grocer": "Chaeos Import AS",
         "manufacturer_name": "Some Young Punks",
         "product_name": "Double Love Trouble 2012",
@@ -1080,20 +723,20 @@
         "selection": "Bestillingsutvalg",
         "sku": "539901",
         "type": "Rødvin",
-        "year": "2012"
+        "year": "ukjent år"
       },
       "540001": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"some%20young%20punks\"",
-        "distributor": "SKANLOG VSD AS",
+        "distributor": "Skanlog As",
         "grocer": "Chaeos Import AS",
         "manufacturer_name": "Some Young Punks",
-        "product_name": "Naked on Roller Skates 2013",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/naked-on-roller-skates-2013/sku-540001",
+        "product_name": "Naked on Roller Skates 2013/14",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/naked-on-roller-skates-201314/sku-540001",
         "region": "Australia, South Australia",
         "selection": "Bestillingsutvalg",
         "sku": "540001",
         "type": "Rødvin",
-        "year": "2013"
+        "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",
@@ -1104,119 +747,41 @@
     "url": "http://www.someyoungpunks.com.au/"
   },
   {
-    "address": "Travessa Barão de Forrester 86 Apartado 26",
-    "barnivore_url": "http://www.barnivore.com/wine/2011/company",
-    "checked_by": "Simon",
-    "city": "Vila Nova de Gaia",
-    "company_name": "Symington Family Estates",
-    "country": "Portugal",
-    "created_on": "2011-12-01T16:10:01.000-05:00",
+    "address": "5039 Marshall Rd",
+    "barnivore_url": "http://www.barnivore.com/wine/2855/company",
+    "checked_by": "Rich",
+    "city": "Duncan",
+    "company_name": "Vigneti Zanatta",
+    "country": "Canada",
+    "created_on": "2013-06-10T22:30:45.000-04:00",
     "doubled_by": "",
-    "email": "symington@symington.com",
-    "fax": "+351 22 377 6301",
-    "id": 2011,
-    "notes": "Barnivore note (February 2014): Cockburn's is owned by Pernod Ricard, a major funder of bullfighting.\r\n\r\nCompany email (April 2013):\r\n\"Regarding your question we would like to inform that during the production of Dows Fine Ruby Port more precisely at the fining step it is only used Gelatine from porcine origin. Please note that  this is not an ingredient but a processing aid. No other product from animal source is used.\"\r\n\r\nCompany email (December 2011):\r\n\"In fact, some of the premium Ports (modern LBV, Reserves, Aged Tawnies) are fined with egg components. Those are suitable for vegetarians but not for vegans.\r\n\r\nAlmost all the standard Ports are fined with animal products (Ruby, Tawny, White).\r\n\r\nAnyway, you can enjoy all the Bottle Matured Ports, those are not fined, clarified or filtered:\r\n\r\nVintage Port\r\nQuinta Vintage Port\r\nBottle Aged Late Bottled Vintage (also designated as Bottle Matured Late Bottled Vintage)\r\n\r\nExamples of very good Ports you can drink:\r\nDow’s Vintage Port\r\nWarre’s Vintage Port\r\nCockburn’s Vintage Port\r\nGraham’s Vintage Port\r\nDow’s Quinta do Bomfim Vintage Port\r\nWarre’s Quinta da Cavadinha Vintage Port\r\nCockburn’s Quinta dos Canais Vintage Port\r\nGraham’s Quinta dos Malvedos Vintage Port\r\nWarre’s Bottle Aged LBV\r\nSmith Woodhouse Bottle Matured LBV",
-    "phone": "+351 22 377 6332",
-    "postal": "4431-901",
+    "email": "winery@zanatta.ca",
+    "fax": "",
+    "id": 2855,
+    "notes": "Company email (May 2013):\r\n\"Our products are all manufactured on site. The only product that had animal products used in processing is the Merlot (4 egg whites as fining). All other products can be considered vegan. Fining (when used) is performed with bentonite clay. Sugar can be used in the processing of some wines. Potassium metabisulphite is used as a preservative and anti-oxidant. That pretty much my toolkit (besides yeast and yeast nutrient, again not animal based.\"\r\n",
+    "phone": "250 748 2338",
+    "postal": "V9L 6S3",
     "products_found_at_vinmonopolet": {
-    
-      "1677802": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"symington\"",
-        "distributor": "Cuveco AS",
-        "grocer": "Stenberg & Blom AS",
-        "manufacturer_name": "Symington Family Est.",
-        "product_name": "Dow`s Quinta do Bomfim Vintage 2004",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/portvin/portugal/dows-quinta-do-bomfim-vintage-2004/sku-1677802",
-        "region": "Portugal, Douro, Øvrige",
+      "1872501": {
+        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"vigneti%20zanatta\"",
+        "distributor": "Vectura AS",
+        "grocer": "Selected Wines AS",
+        "manufacturer_name": "Vigneti Zanatta",
+        "product_name": "Zanatta Prosecco Treviso",
+        "product_page": "http://www.vinmonopolet.no/vareutvalg/musserende-vin/italia/zanatta-prosecco-treviso/sku-1872501",
+        "region": "Italia, Veneto",
         "selection": "Bestillingsutvalg",
-        "sku": "1677802",
-        "type": "Portvin",
-        "year": "2004"
-      },
-      "6223701": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"symington\"",
-        "distributor": "Cuveco AS",
-        "grocer": "Stenberg & Blom AS",
-        "manufacturer_name": "Symington Family Est.",
-        "product_name": "Graham's Vintage Port 1983",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/portvin/portugal/grahams-vintage-port-1983/sku-6223701",
-        "region": "Portugal, Douro, Øvrige",
-        "selection": "Bestillingsutvalg",
-        "sku": "6223701",
-        "type": "Portvin",
-        "year": "1983"
-      }
-    },
-    "red_yellow_green": "Yellow",
-    "state": "",
-    "status": "Has Some Vegan Options",
-    "tag": "Symington-Family-Estates",
-    "updated_on": "2013-04-29T20:47:42.000-04:00",
-    "url": "www.symington.com"
-  },
-  {
-    "address": "Eden Valley Road, PO Box 10",
-    "barnivore_url": "http://www.barnivore.com/wine/1190/company",
-    "checked_by": "Tarja",
-    "city": "Angaston",
-    "company_name": "Yalumba Wine Company",
-    "country": "Australia",
-    "created_on": "2010-06-11T11:36:00.000-04:00",
-    "doubled_by": "Kimmi, Pippa, Michelle, Danielle",
-    "email": "info@yalumba.com",
-    "fax": "+61 8 8561 3393",
-    "id": 1190,
-    "notes": "Company email (February 2014): re: Museum Antique Tawny\r\n\"Unfortunately, since your last inquiry three years ago, our fortified wines have not yet reached vegan status, the current batches on the market still contain a small amount of gelatine. Although probably of little consolation, the residual amount is very small and still exceeds the reportable level of 2 mg/L, that is, 4 mg/L in our Antique Tawny and 8 mg/L in our Museum Muscat.\r\n\r\nAlthough we ceased using animal products in our fortifieds in 2010, the nature of our production involves considerable backlog of stock, meaning it will be sometime before these wines reach a level that can be declared vegan-friendly - I'm sorry to say this will possibly take a further 2-3 years for our Antique Tawny and 4-5 years for our Museum Muscat.\r\n\r\nOnce they do become vegan/vegetarian-friendly, we will be including in our list of wines.\"\r\n\r\nNote from Michelle (January 2013):\r\n\"I have discovered Yalumba wineries who make a large range of fabulous vegan wines.\" [PDF included showing vintages through 2011. Please contact them for a copy of the PDF file.}\r\n\r\nFrom the company, January 2012:\r\n\"From 2011, all Yalumba and Hill-Smith Family Vineyard wines have been produced as vegan and vegetarian friendly. [PDF also included of past vintages]\"\r\n\r\nEditor's note: They sent a detailed PDF of all their vegan wines dated December 2010. Please contact them for your copy of the PDF. \r\n\r\nCompany email:\r\n\"Thank you for taking the time to visit our website and enquire about our wines. We have several wines that are vegan-friendly and do not use any animal-derived fining agents, I have attached our list for you. Please note that not all vintages of the same wine are suitable for vegans (only the ones listed) and some of the older vintages may no longer be available in the stores. A few of these may not be available in the US.\r\n\r\nThe entire Oxford Landing range is now vegan-friendly as well as all of our Yalumba 2 litre red wine casks. Also, the entire Yalumba Y Series range starting from 2010 vintage is vegan (some Y Series wines from previous vintages were also vegan, you will see them on the list).\"\r\n\r\nCompany email (June 2010):\r\n\"...I managed to obtain the Yalumba list of vegetarian- and vegan-friendly wines. See attached PDF\" ",
-    "phone": "+61 8 8561 3200",
-    "postal": "5353",
-    "products_found_at_vinmonopolet": {
-      "3191601": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"yalumba\"",
-        "distributor": "SKANLOG VSD AS",
-        "grocer": "Vinarius AS",
-        "manufacturer_name": "Yalumba Winery",
-        "product_name": "Oxford Landing Cabernet Sauvignon Shiraz 2009",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/oxford-landing-cabernet-sauvignon-shiraz-2009/sku-3191601",
-        "region": "Australia, South Australia, Øvrige",
-        "selection": "Bestillingsutvalg",
-        "sku": "3191601",
-        "type": "Rødvin",
+        "sku": "1872501",
+        "type": "Musserende vin",
         "year": "ukjent år"
-      },
-      "3191801": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"yalumba\"",
-        "distributor": "SKANLOG VSD AS",
-        "grocer": "Vinarius AS",
-        "manufacturer_name": "Yalumba Winery",
-        "product_name": "Oxford Landing Chardonnay 2013",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/hvitvin/australia/oxford-landing-chardonnay-2013/sku-3191801",
-        "region": "Australia, South Eastern Austra, Øvrige",
-        "selection": "Bestillingsutvalg",
-        "sku": "3191801",
-        "type": "Hvitvin",
-        "year": "2013"
-      },
-     
-      "5237401": {
-        "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"yalumba\"",
-        "distributor": "SKANLOG VSD AS",
-        "grocer": "Vinarius AS",
-        "manufacturer_name": "Yalumba Winery",
-        "product_name": "Y seriers Shiraz Viognier 2012",
-        "product_page": "http://www.vinmonopolet.no/vareutvalg/rodvin/australia/y-seriers-shiraz-viognier-2012/sku-5237401",
-        "region": "Australia, South Australia, Øvrige",
-        "selection": "Bestillingsutvalg",
-        "sku": "5237401",
-        "type": "Rødvin",
-        "year": "2012"
       }
     },
     "red_yellow_green": "Yellow",
-    "state": "SA",
+    "state": "BC",
     "status": "Has Some Vegan Options",
-    "tag": "Yalumba-Wine-Company",
-    "updated_on": "2014-02-13T10:51:34.000-05:00",
-    "url": "http://yalumba.com/"
+    "tag": "Vigneti-Zanatta",
+    "updated_on": "2013-06-10T22:30:45.000-04:00",
+    "url": "http://zanatta.ca"
   },
   {
     "address": "PO Box 195 Osborn Road",
@@ -1234,10 +799,10 @@
     "phone": "+61 8 8329 4870",
     "postal": "5171",
     "products_found_at_vinmonopolet": {
-    
+     
       "4417401": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"d%27arenberg\"",
-        "distributor": "SKANLOG VSD AS",
+        "distributor": "Skanlog As",
         "grocer": "Trans Nordic Selections AS",
         "manufacturer_name": "d'Arenberg Wines",
         "product_name": "d'Arenberg The Laughing Magpie 2010",
@@ -1246,11 +811,11 @@
         "selection": "Bestillingsutvalg",
         "sku": "4417401",
         "type": "Rødvin",
-        "year": "2010"
+        "year": "ukjent år"
       },
       "4417601": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"d%27arenberg\"",
-        "distributor": "SKANLOG VSD AS",
+        "distributor": "Skanlog As",
         "grocer": "Trans Nordic Selections AS",
         "manufacturer_name": "d'Arenberg Wines",
         "product_name": "d'Arenberg The Stump Jump Red 2011",
@@ -1259,11 +824,11 @@
         "selection": "Bestillingsutvalg",
         "sku": "4417601",
         "type": "Rødvin",
-        "year": "2011"
+        "year": "ukjent år"
       },
       "5907101": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"d%27arenberg\"",
-        "distributor": "SKANLOG VSD AS",
+        "distributor": "Skanlog As",
         "grocer": "Trans Nordic Selections AS",
         "manufacturer_name": "d'Arenberg Wines",
         "product_name": "d'Arenberg The Dead Arm Shiraz 2010",
@@ -1272,11 +837,11 @@
         "selection": "Bestillingsutvalg",
         "sku": "5907101",
         "type": "Rødvin",
-        "year": "2010"
+        "year": "ukjent år"
       },
       "6573101": {
         "company_search_page": "http://www.vinmonopolet.no/vareutvalg/sok?query=\"d%27arenberg\"",
-        "distributor": "SKANLOG VSD AS",
+        "distributor": "Skanlog As",
         "grocer": "Trans Nordic Selections AS",
         "manufacturer_name": "d'Arenberg Wines",
         "product_name": "d'Arenberg The High Trellis Cabernet Sauvignon 2011",
@@ -1285,7 +850,7 @@
         "selection": "Bestillingsutvalg",
         "sku": "6573101",
         "type": "Rødvin",
-        "year": "2011"
+        "year": "ukjent år"
       }
     },
     "red_yellow_green": "Yellow",

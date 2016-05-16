@@ -42,14 +42,14 @@ def derive_short_name(original_name):
     name_parts = original_name.lower().strip().split()
     short_name = u""
     generic_name_exclude_list = {"winery", "company", "pty", "ltd", "vineyard", "vineyards", "estate", "estates", "plc", "cellar",
-                                 "winemaker", "group", "international", "wines", "limited", "agricola", "winework", "wineries",
+                                 "winemaker", "group", "international", "wines", "limited", "agricola", "winework", "wineries", "wine", 
                                  "farm", "family", "vigneron", "vign", "merchant", "at", "of", "the", "de", "du", "cellars", "vintners",
-                                 "agr", "gmbh", "weinkellerei", "sa", "fe", "dr", "spa", "c", "co", "casa", "casas",
-                                 "champagne", "weingut", "weing", "weinhaus", "az,", "inc", "ag", "gebr", "gebruder", "ch", "cant", "winery",
+                                 "agr", "gmbh", "weinkellerei", "sa", "fe", "dr", "spa", "c", "co", "casa", "casas", "ab", "cspa", "fatt",
+                                 "champagne", "weingut", "weing", "weinhaus", "az,", "inc", "ag", "gebr", "gebruder", "ch", "cant", "winery", "vin", 
                                  "bros", "cast", "corp", "di", "dominio", "pty", "il", "est", "srl", "das", "do", "llc", "bds", "int",
-                                 "bryggeri", "brygghus", "bryghus", "brewery",
+                                 "bryggeri", "brygghus", "bryghus", "brewery", 
                                  "brewers", "breweries", "brewing", "brouwerij", "birras",
-                                 "beer", "beer house", "brew house", "birra", "brauerei", "brasserie", "bieres", "browerij",
+                                 "beer", "beer house", "brew house", "birra", "brauerei", "brasserie", "bieres", 
                                  "bierbrouwerij", "abbazia"}
 
     for part in name_parts:
@@ -82,8 +82,11 @@ def derive_synonyms(original_name_lower):
         original_name_lower.replace("saint", "st."),
         original_name_lower.replace("company", "co."),
         original_name_lower.replace("cantine", "cant."),
+        original_name_lower.replace("cantina", "cant.")
         original_name_lower.replace("distilleria", "dist."),
         original_name_lower.replace("chateau", "ch.")
+        original_name_lower.replace("vinicole", "vin.")
+        original_name_lower.replace("fattoria", "fatt.")
     }
 
 
@@ -149,6 +152,11 @@ def build_company_name_list(allowPartial):
 
     companies = list()
     for candidate in candidate_companies:
+        country = candidate['company']['country']
+        if (country == 'USA'): #Too much non-matching data on USA wines, few of them available at Vinmonopolet
+            print("Skipping wine for country =", country, "company =", candidate['company']['company_name'])
+            continue
+
         status = candidate['company']['status']
         if (status == 'Has Some Vegan Options' and allowPartial) or (status == 'Vegan Friendly' and not allowPartial):
             candidate['company']['barnivore_url'] = "http://www.barnivore.com/wine/%s/company" % candidate['company']['id'] #to simplify lookups later
@@ -275,7 +283,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
             if field.text.lower().strip().find("utgått") >= 0:
                 expired_from_stock = True
         if expired_from_stock:
-            print("Ignoring product that has expired from stock: '%s' - %s " % (product_name, link))
+            #print("Ignoring product that has expired from stock: '%s' - %s " % (product_name, link))
             continue
 
         data = browser.find_elements_by_css_selector("div.productData li")

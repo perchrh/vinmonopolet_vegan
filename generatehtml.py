@@ -105,7 +105,8 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         company_search_result_page = next(iter(company_search_pages))
         basisutvalg = "Basisutvalg" in selections
 
-        print("<li><a href='%s'>%s</a>. %s. %s. %s fra %s. <a href='%s'>[Barnivore]</a>" % (
+        print("<li>") #begin company
+        print("<a href='%s'>%s</a>. %s. %s. %s fra %s. <a href='%s'>[Barnivore]</a>" % (
             company_search_result_page,
             "; ".join(names),
             str(product_count) + " varer" if product_count > 1 else "1 vare",
@@ -114,19 +115,21 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
             pretty_join(regions, lowercase_tail=False),
             company_url
         ))
-        print("<ul>")
+        print("<ul>") #begin product list
         for product in products.values():
-            print("<li>%s. %s fra %s (%s) med varenummer <a href='%s'>%s</a>.</li>" % (
+            print("<li>") #begin product
+            print("%s. %s fra %s (%s) med varenummer <a href='%s'>%s</a>." % (
                 product["product_name"],
                 pretty_format_type(product),
                 pretty_format_region(product),
                 product["selection"].replace("Basisutvalg", "<strong>Basisutvalg</strong>"),
                 product["product_page"],
                 product["sku"]))
-        print("</ul>")
-        print("</li>")
+            print("</li>") #end product
+        print("</ul>") #end end product list
+        print("</li>") #end company
 
-    print("</ul>")
+    print("</ul>") #end category
 
     #print skus for storage
     skus = set()
