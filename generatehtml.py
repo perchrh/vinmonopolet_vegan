@@ -5,11 +5,17 @@ import json
 
 
 def pretty_format_region(product, subregion_count=2):
-    return ",".join(product["region"].split(",")[:subregion_count]).replace(", Øvrige", "").replace(", Champagne", "")
+    pretty_region = product["Land"]
+    if subregion_count > 1 and product["Distrikt"]:
+        pretty_region += ", " + product["Distrikt"]
+    if subregion_count > 2 and product["Underdistrikt"]:
+        pretty_region += ", " + product["Underdistrikt"]
+
+    return pretty_region
 
 
 def pretty_format_type(product):
-    return product["type"].split()[0].replace("Champ.", "Champagne")
+    return product["Varetype"].split()[0].replace("Champ.", "Champagne")
 
 
 def pretty_join(items, lowercase_tail=True):
@@ -30,12 +36,12 @@ def pretty_join(items, lowercase_tail=True):
 def sort_by_product_count(company_dict):
     number_in_basis_selection = 0
     for product in company_dict["products_found_at_vinmonopolet"].values():
-        if "Basisutvalg" == product["selection"]: number_in_basis_selection += 1
+        if "Basisutvalget" == product["Utvalg"]: number_in_basis_selection += 1
     return number_in_basis_selection
 
 
 def sort_by_company_name(company_dict):
-    return next(iter(company_dict["products_found_at_vinmonopolet"].values()))["manufacturer_name"]
+    return next(iter(company_dict["products_found_at_vinmonopolet"].values()))["Produsent"]
 
 
 total_product_count = 0
@@ -48,10 +54,21 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
 
     for company_dict in companies:
         products = company_dict["products_found_at_vinmonopolet"]
-        total_product_count += len(products)
-        for product in products.values():
-            if product["selection"] == "Basisutvalg": basisutvalg_count += 1
-        all_companies.append(company_dict)
+        if filename.find("some") >=0:
+            # Ignore some entries for "some vegan options" companies
+            basisutvalget = False
+            for product in products.values():
+                if product["Utvalg"] == "Basisutvalget":
+                    basisutvalget = True
+                    break
+            if basisutvalget and len(products) > 1:
+                total_product_count += len(products)
+                all_companies.append(company_dict)
+        else:
+            total_product_count += len(products)
+            for product in products.values():
+                if product["Utvalg"] == "Basisutvalget": basisutvalg_count += 1
+            all_companies.append(company_dict)
 
 companies_with_the_most_products = list(all_companies)
 companies_with_the_most_products.sort(key=sort_by_product_count, reverse=True)
@@ -61,18 +78,20 @@ for company in companies_with_the_most_products[:9]:
     types = set()
     regions = set()
     products = company["products_found_at_vinmonopolet"].values()
-    company_link = next(iter(products))["company_search_page"] if products else None
-    company_name_from_vinmonopolet = next(iter(products))["manufacturer_name"] if products else None
+    company_link = next(iter(products))["ProdusentSide"] if products else None
+    company_name_from_vinmonopolet = next(iter(products))["Produsent"] if products else None
     for product in products:
         types.add(pretty_format_type(product))
         regions.add(pretty_format_region(product, subregion_count=1))
     types_list = pretty_join(types)
     regions_list = pretty_join(regions, lowercase_tail=False)
-    print("<li><a href='%s'>%s</a>. %s. %s (%d varer i basisutvalget)</li>" % (company_link, company_name_from_vinmonopolet, types_list, regions_list, sort_by_product_count(company)))
+    print("<li><a href='%s'>%s</a>. %s. %s (%d varer i basisutvalget)</li>" % (
+    company_link, company_name_from_vinmonopolet, types_list, regions_list, sort_by_product_count(company)))
 print("</ul>")
 
-print("<p>Vinmonopolet har %d veganske viner fra %d produsenter. %d av disse vinene er i basisutvalget, som er ekstra lett å få tak i.</p>" % (
-    total_product_count, len(all_companies), basisutvalg_count))
+print(
+    "<p>Vinmonopolet har %d veganske viner fra %d produsenter. %d av disse vinene er i basisutvalget, som er ekstra lett å få tak i.</p>" % (
+        total_product_count, len(all_companies), basisutvalg_count))
 
 for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-options-searchresult-vinmonopolet.json"]:
     print("<h5>Veganske vinfirma på Vinmonopolet - %s</h5>" % filename)
@@ -91,47 +110,53 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         selections = set()
         company_search_pages = set()
         company_url = company_dict['barnivore_url']
+        company_name = company_dict['company_name']
 
         products = company_dict["products_found_at_vinmonopolet"]
         product_count = len(products)
         for sku in products.keys():
             product = products[sku]
-            names.add(product["manufacturer_name"])
+            names.add(product["Produsent"])
             regions.add(pretty_format_region(product, subregion_count=1))
             types.add(pretty_format_type(product))
-            selections.add(product["selection"])
-            company_search_pages.add(product["company_search_page"])
+            selections.add(product["Utvalg"])
+            company_search_pages.add(product["ProdusentSide"])
+        names = sorted(names)
 
         company_search_result_page = next(iter(company_search_pages))
-        basisutvalg = "Basisutvalg" in selections
+        basisutvalget = "Basisutvalget" in selections
 
-        print("<li>") #begin company
+        if filename.find("some") >=0 and (not basisutvalget or product_count < 2):
+            # Ignoring producers with only some vegan options and nothing in Basisutvalget
+            continue
+
+        print("<li>")  # begin company
         print("<a href='%s'>%s</a>. %s. %s. %s fra %s. <a href='%s'>[Barnivore]</a>" % (
             company_search_result_page,
             "; ".join(names),
             str(product_count) + " varer" if product_count > 1 else "1 vare",
-            "<strong>Basisutvalg</strong>" if basisutvalg else "Bestillingsutvalg",
+            "<strong>Basisutvalget</strong>" if basisutvalget else "Bestillingsutvalget",
             pretty_join(types),
             pretty_join(regions, lowercase_tail=False),
             company_url
         ))
-        print("<ul>") #begin product list
+        print("<ul>")  # begin product list
         for product in products.values():
-            print("<li>") #begin product
+            print("<li>")  # begin product
             print("%s. %s fra %s (%s) med varenummer <a href='%s'>%s</a>." % (
-                product["product_name"],
+                product["Produktnavn"],
                 pretty_format_type(product),
                 pretty_format_region(product),
-                product["selection"].replace("Basisutvalg", "<strong>Basisutvalg</strong>"),
-                product["product_page"],
-                product["sku"]))
-            print("</li>") #end product
-        print("</ul>") #end end product list
-        print("</li>") #end company
+                product["Utvalg"].replace("Basisutvalget", "<strong>Basisutvalget</strong>"),
+                product["Produktside"],
+                product["Varenummer"]))
+            print("</li>")  # end product
+        print("</ul>")  # end end product list
+        print("</li>")  # end company
 
-    print("</ul>") #end category
+    print("</ul>")  # end category
 
-    #print skus for storage
+    # print skus for storage
     skus = set()
     for company_dict in companies:
         products = company_dict["products_found_at_vinmonopolet"]
