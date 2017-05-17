@@ -130,14 +130,12 @@ def generate_name_variations(original_name):
     #TODO discard all country names and place names
     #TODO discard all adjectives
 
-    # Discard stop words
-    variations -= {"and", "la", "by", "las", "el", "a", "i", "mas", "bon"}
-
     # Discard too short name variations, but keep the short_name we created
-    variations = {name for name in variations if (len(name) > 3 or name == derive_short_name(search_base))}
+    variations = {name for name in variations if (len(name) > 3)}
+    variations.add(derive_short_name(search_base))
 
     # Include the full original name as well
-    # Test to see if this gives false positive because of fuzzy matching at vinmonopolet.no
+    # This gives too many false positive because of fuzzy matching at vinmonopolet.no
     # variations |= original_name.lower()
 
     return variations
@@ -268,7 +266,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
         else:
             products.append(wine_properties)
 
-        time.sleep(0.3)  # Don't hammer the website
+        time.sleep(0.1)  # Don't hammer the website
 
     return products
 
