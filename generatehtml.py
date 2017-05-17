@@ -67,7 +67,11 @@ def trim_non_numeric(str):
 
 
 def sort_by_company_name(company_dict):
-    return next(iter(company_dict["products_found_at_vinmonopolet"].values()))["Produsent"]
+    values = company_dict["products_found_at_vinmonopolet"].values()
+    if not values:
+        # Allow companies without products at this point, we'll simply not print them later
+        return ""
+    return next(iter(values))["Produsent"]
 
 
 use_whitelist = False  # Ignore all wines not in existing white list
@@ -147,7 +151,7 @@ musserende = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("mu
 typer = {"Hvitvin": hvitvin, "Rødvin": rødvin, "Musserende": musserende}
 for vintype, viner in typer.items():
     viner.sort(key=sort_by_product_price)
-    print("<p>%s:</p>" % vintype)
+    print(vintype)
     print("<ul>")
     for i in range(0, min(len(viner), 3)):
         product = viner[i]
@@ -174,7 +178,7 @@ musserende.sort(key=sort_by_trønder_kvotient)
 
 for vintype, viner in typer.items():
     viner.sort(key=sort_by_product_price)
-    print("<p>%s:</p>" % vintype)
+    print(vintype)
     print("<ul>")
     for i in range(0, min(len(viner), 3)):
         product = viner[i]
@@ -197,6 +201,7 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
     file = open(filename, encoding='utf-8')
     companies = json.loads(file.read())
     file.close()
+
 
     print("<ul>")
 
