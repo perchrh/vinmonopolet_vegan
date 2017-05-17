@@ -222,7 +222,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
                 value = values[i].text.strip()
                 wine_properties[key] = value
 
-        if wine_properties["Utvalg"] == "Partiutvalget" or wine_properties["Utvalg"] == "Testutvalget":
+        if wine_properties and wine_properties["Utvalg"] == "Partiutvalget" or wine_properties["Utvalg"] == "Testutvalget":
             # print("Skipping product that's not expected to stay in stores a while")
             continue
 
@@ -266,7 +266,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
         else:
             products.append(wine_properties)
 
-        time.sleep(0.1)  # Don't hammer the website
+        time.sleep(0.5)  # Don't hammer the website
 
     return products
 
@@ -424,7 +424,7 @@ if __name__ == "__main__":
         print("Outputting search results to file", some_vegan_products_output_filename)
         search_for_wines_and_write_results_file(company_list, some_vegan_products_output_filename, is_resuming=True)
     except Exception as exc:
-        browser.close()  # make sure to call close, or /tmp will fill up with large firefox session files
+        browser.close()  # make sure to call close, or /tmp will fill up with large browser session files
         raise exc
     finally:
-        browser.close()  # make sure to call close, or /tmp will fill up with large firefox session files
+        browser.close()  # make sure to call close, or /tmp will fill up with large browser session files
