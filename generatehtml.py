@@ -40,6 +40,12 @@ def sort_by_product_count(company_dict):
     return number_in_basis_selection
 
 
+def sort_by_product_price(product_dict):
+    price_raw = product_dict["ProduktPrisPerEnhet"] # eg. Kr. 106,53 pr. liter
+    price_numeric = "".join([x for x in price_raw if x.isdigit()])
+    return int(price_numeric)
+
+
 def sort_by_company_name(company_dict):
     return next(iter(company_dict["products_found_at_vinmonopolet"].values()))["Produsent"]
 
@@ -64,6 +70,8 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
             if basisutvalget and len(products) > 1:
                 total_product_count += len(products)
                 all_companies.append(company_dict)
+            for product in products.values():
+                if product["Utvalg"] == "Basisutvalget": basisutvalg_count += 1
         else:
             total_product_count += len(products)
             for product in products.values():
@@ -87,6 +95,20 @@ for company in companies_with_the_most_products[:9]:
     regions_list = pretty_join(regions, lowercase_tail=False)
     print("<li><a href='%s'>%s</a>. %s. %s (%d varer i basisutvalget)</li>" % (
     company_link, company_name_from_vinmonopolet, types_list, regions_list, sort_by_product_count(company)))
+print("</ul>")
+
+print("<p>De billigste veganske vinflaskene er:</p>")
+print("<ul>")
+all_products = []
+for company in all_companies:
+    all_products += company["products_found_at_vinmonopolet"].values()
+glass_flasker = [x for x in all_products if x["Emballasjetype"] == "Glass"]
+glass_flasker.sort(key=sort_by_product_price)
+for i in range(0,25):
+    product = glass_flasker[i]
+    print("<li><a href='%s'>%s</a>. %s fra %s produsert av %s (%s, %s)</li>" % (
+        product["Produktside"], product["Produktnavn"], product["Varetype"], product["Land"], product["Produsent"], product["ProduktPris"].lower(),
+    product["ProduktVolum"].lower()))
 print("</ul>")
 
 print(
@@ -125,10 +147,6 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
 
         company_search_result_page = next(iter(company_search_pages))
         basisutvalget = "Basisutvalget" in selections
-
-        if filename.find("some") >=0 and (not basisutvalget or product_count < 2):
-            # Ignoring producers with only some vegan options and nothing in Basisutvalget
-            continue
 
         print("<li>")  # begin company
         print("<a href='%s'>%s</a>. %s. %s. %s fra %s. <a href='%s'>[Barnivore]</a>" % (
