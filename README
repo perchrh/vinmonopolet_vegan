@@ -1,3 +1,7 @@
+Finds vegan wines on Vinmonopolet's website, using the Barnivore API (http://barnivore.com/api).
+Employs fuzzy matching, as the manufacturer names in the databases don't always match, because of abbreviations and omissions of certain generic words
+in the full company name.
+
 Requires Selenium for Python.
 Uses python 3.x.
 
@@ -20,7 +24,7 @@ and validate the resulting json list
 
 Tips for validating the list:
 The list will include false positives because of intentional fuzzy matching of manufacturers' names.
-Regexp-search for company_name|manufacturer_name in the json file to highlight these fields. 
+Regexp-search for Produktnavn|manufacturer_name in the json file to highlight these fields.
 Then for each company's wine list check if there is a name mismatch.
 Also check for when countries don't match exactly.
 Then delete bad ones.
