@@ -55,7 +55,7 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
     for company_dict in companies:
         products = company_dict["products_found_at_vinmonopolet"]
         if filename.find("some") >=0:
-            # Ignore some entries for "some vegan options" companies
+            # Ignore some minor entries for "some vegan options" companies, for ease of manual post-processing
             basisutvalget = False
             for product in products.values():
                 if product["Utvalg"] == "Basisutvalget":
@@ -143,13 +143,13 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         print("<ul>")  # begin product list
         for product in products.values():
             print("<li>")  # begin product
-            print("%s. %s fra %s (%s) med varenummer <a href='%s'>%s</a>." % (
+            print(" <a href='%s'>%s</a> %s fra %s (%s)." % (
+                product["Produktside"],
                 product["Produktnavn"],
                 pretty_format_type(product),
                 pretty_format_region(product),
-                product["Utvalg"].replace("Basisutvalget", "<strong>Basisutvalget</strong>"),
-                product["Produktside"],
-                product["Varenummer"]))
+                product["Utvalg"].replace("Basisutvalget", "<strong>Basisutvalget</strong>")
+                ))
             print("</li>")  # end product
         print("</ul>")  # end end product list
         print("</li>")  # end company
