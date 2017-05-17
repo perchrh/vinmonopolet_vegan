@@ -7,7 +7,7 @@ E.g. "dom." = "domaine",
 Handle different sources, like Systembolaget
 Handle beer and liquor, very similar handling to wine.
 
-Clean up and improve name variations generation - first try without variations, to see if the site search has improved enough
+Clean up and improve name variations generation
 'Agricola Punica (Agripunica)' -> {'agr. punica (agripunica', 'agricola punica (agripunica'}'
 'Abbazia di San Gaudenzio' becomes only '{'abbazia di san gaudenzio'}', should have included a variation without abbazia too?
 'Cavas Parés Baltà, S.A.' -> '{'parés balt', 'cavas parés baltà, s.a'}'
