@@ -4,16 +4,19 @@ in the full company name.
 
 Requires Selenium for Python.
 Uses python 3.x.
+Requires Chromedriver and Chrome installed, 
+see https://sites.google.com/a/chromium.org/chromedriver/
+Can easily be modified to use Firefox instead.
 
 Install it like this (Ubuntu/Debian):
 sudo apt-get install python3-pip
-sudo pip3 install -U selenium
+sudo -H pip3 install -U selenium
 
 Or for Mac:
 Install homebrew
 then 
 brew install python3
-sudo -H pip3 install selenium
+sudo -H pip3 install -U selenium
 
 Get updated wine.json from http://barnivore.com/api
 It may have encoding errors, invalid utf-8 in it. 
