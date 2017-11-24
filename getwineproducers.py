@@ -127,8 +127,8 @@ def generate_name_variations(original_name):
     # discard too common words, TODO avoid that short_name becomes a too generic word
     variations -= {"hills", "creek", "view", "valley", "ridge", "grand", "alta", "house", "nuevo", "gran",
                    "chateau", "monte", "mount", "veuve", "long", "port", "martin", "royal", "urban"}
-    #TODO discard all country names and place names
-    #TODO discard all adjectives
+    # TODO discard all country names and place names
+    # TODO discard all adjectives
 
     # Discard too short name variations, but keep the short_name we created
     variations = {name for name in variations if (len(name) > 3)}
@@ -242,7 +242,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
         wine_properties["Underdistrikt"] = underdistrikt if "Øvrige" != underdistrikt else None
 
         wine_properties["Produktside"] = link
-        wine_properties["Søkeside"] = search_url
+        wine_properties["dev.search_url"] = search_url
         wine_properties["ProduktPris"] = browser.find_element_by_css_selector("span.product__price").text
         wine_properties["ProduktPrisPerEnhet"] = browser.find_element_by_css_selector("span.product__cost_per_unit").text
         wine_properties["ProduktVolum"] = browser.find_element_by_css_selector("span.product__amount").text
@@ -329,10 +329,14 @@ def find_products_from_manufacturer(company_dict, name_variations):
         for product in search_vinmonopolet_for_company_name_variation(browser, variation):
             if product_names_differ_too_much(company_dict["company_name"], product["Produsent"], variation):
                 continue
+            elif not product["Land"]:
+                print("Missing country for product %s", product["Produktnavn"])
+                product["dev.country_mismatch"] = "true"
+                pass
             elif countries_differ(company_dict, product["Land"]):
-                print("Warning: country mismatch for this product (%s), expected '%s' and got '%s'" % (
-                product["Produktnavn"], translate_country_name(company_dict["country"].lower()),
-                product["Land"].lower()))
+                print("Warning: country mismatch for this product (%s), expected '%s' and got '%s'" % (product["Produktnavn"],
+                    translate_country_name(company_dict["country"].lower()), product["Land"].lower()))
+                product["dev.country_mismatch"] = "true"
                 pass
 
             sku = product["Varenummer"]
@@ -341,7 +345,7 @@ def find_products_from_manufacturer(company_dict, name_variations):
             else:
                 # already added.. keep the entry with the longest search string hit, as that is assumed to be the most precise name
                 old_entry = company_products_found_in_search[sku]
-                if len(old_entry["Søkeside"]) < len(product["Søkeside"]):
+                if len(old_entry["dev.search_url"]) < len(product["dev.search_url"]):
                     company_products_found_in_search[sku] = product
 
     return company_products_found_in_search
@@ -375,7 +379,7 @@ def partition_by_previously_searched_companies(company_and_name_variations_tuple
             to_process.append((company_dict, name_variations))
         else:
             print("Skipping already processed company %s found in %s while resuming previous search" % (
-            company_name, inputfile))
+                company_name, inputfile))
 
         if company_name == last_company_searched_for:
             is_adding = True
