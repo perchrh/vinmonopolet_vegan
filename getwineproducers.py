@@ -412,7 +412,9 @@ def search_for_wines_and_write_results_file(company_and_name_variations_tuple, o
 
 
 if __name__ == "__main__":
-    browser = webdriver.Chrome()  # Get local browser session
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    browser = webdriver.Chrome(chrome_options=options)  # Get local browser session
     try:
         company_list = create_vegan_friendly_company_list_with_name_variations()
         print("Searching for %d vegan friendly wine companies at Vinmonopolet" % len(company_list))
