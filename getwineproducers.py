@@ -222,7 +222,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
                 value = values[i].text.strip()
                 wine_properties[key] = value
 
-        if wine_properties and wine_properties["Utvalg"] == "Partiutvalget" or wine_properties["Utvalg"] == "Testutvalget":
+        if wine_properties and wine_properties["Utvalg"] and wine_properties["Utvalg"] == "Partiutvalget" or wine_properties["Utvalg"] == "Testutvalget":
             # print("Skipping product that's not expected to stay in stores a while")
             continue
 
