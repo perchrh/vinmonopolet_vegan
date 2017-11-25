@@ -117,6 +117,7 @@ def generate_name_variations(original_name):
                                                  or variation.split()[-1].lower().endswith("winery")
                                                  or variation.split()[-1].lower().endswith("brewery")
                                                  or variation.split()[-1].lower().endswith("spirits")
+                                                 or variation.split()[-1].lower().endswith("coop")
                                                  or variation.split()[-1].lower().endswith("champagne")
                                                  or variation.split()[-1].lower().endswith("productions")):
             variation = u" ".join(variation.split()[0:-1])
