@@ -52,7 +52,7 @@ def derive_short_name(original_name):
                                  "champagne", "weingut", "weing", "weinhaus", "az,", "inc", "ag", "gebr", "gebruder",
                                  "ch", "cant", "winery", "vin",
                                  "bros", "cast", "corp", "di", "el", "dominio", "pty", "il", "est", "srl", "das", "do",
-                                 "llc", "bds", "int",
+                                 "llc", "bds", "int", "e", "and",
                                  "bryggeri", "brygghus", "bryghus", "brewery", "ab", "by", "azienda",
                                  "brewers", "breweries", "brewing", "brouwerij", "birras",
                                  "beer", "beer house", "brew house", "birra", "brauerei", "brasserie", "bieres",
@@ -164,7 +164,7 @@ def build_company_name_list(allowPartial):
     companies = list()
     for candidate in candidate_companies:
         country = candidate['company']['country']
-        if (country == 'USA'):  # Too much non-matching data on USA wines, few of them available at Vinmonopolet
+        if (country == 'USA') or (country == 'Canada'):  # Too much non-matching data on USA and Canada wines, few of them available at Vinmonopolet
             print("Skipping wine for country =", country, "company =", candidate['company']['company_name'])
             continue
 
@@ -203,7 +203,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
 
         stock_status = browser.find_element_by_css_selector("div.product-stock-status")
         wine_properties["Lagerstatus"] = stock_status.text.strip()
-        if stock_status.text.strip().lower().find("utgått") >= 0:
+        if wine_properties["Lagerstatus"].lower().find("utgått") >= 0:
             print("Ignoring product that has expired from stock: '%s' - %s " % (product_name, link))
             continue
 
@@ -223,7 +223,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
                 value = values[i].text.strip()
                 wine_properties[key] = value
 
-        if wine_properties and wine_properties["Utvalg"] and wine_properties["Utvalg"] == "Partiutvalget" or wine_properties["Utvalg"] == "Testutvalget":
+        if wine_properties["Utvalg"] and wine_properties["Utvalg"] == "Partiutvalget" or wine_properties["Utvalg"] == "Testutvalget":
             # print("Skipping product that's not expected to stay in stores a while")
             continue
 
