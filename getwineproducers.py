@@ -54,7 +54,7 @@ def derive_short_name(original_name):
                                  "bros", "cast", "corp", "di", "el", "dominio", "pty", "il", "est", "srl", "das", "do",
                                  "llc", "bds", "int", "e", "and",
                                  "bryggeri", "brygghus", "bryghus", "brewery", "ab", "by", "azienda",
-                                 "brewers", "breweries", "brewing", "brouwerij", "birras",
+                                 "brewers", "breweries", "brewing", "brouwerij", "birras", "grupo",
                                  "beer", "beer house", "brew house", "birra", "brauerei", "brasserie", "bieres",
                                  "bierbrouwerij", "abbazia"}
 
