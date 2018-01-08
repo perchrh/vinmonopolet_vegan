@@ -42,7 +42,7 @@ def sort_by_product_count(company_dict):
 
 
 def sort_by_product_price(product_dict):
-    price_raw = product_dict["ProduktPrisPerEnhet"]  # eg. Kr. 106,53 pr. liter
+    price_raw = product_dict["Literpris"]  # eg. Kr. 106,53 pr. liter
     price_numeric = trim_non_numeric(price_raw)
     return int(price_numeric)  # eg 10653
 
@@ -50,7 +50,7 @@ def sort_by_product_price(product_dict):
 import sys
 def sort_by_trønder_kvotient(product_dict):
     try:
-        price_raw = product_dict["ProduktPrisPerEnhet"]  # eg. Kr. 106,53 pr. liter
+        price_raw = product_dict["Literpris"]  # eg. Kr. 106,53 pr. liter
         price_numeric = trim_non_numeric(price_raw)
         alchohol_percentage_raw = product_dict["Alkoholprosent"]  # eg. Kr. 106,53 pr. liter
         alchohol_percentage_numeric = float(alchohol_percentage_raw.replace("%", ""))
@@ -156,9 +156,9 @@ for vintype, viner in typer.items():
     for i in range(0, min(len(viner), 3)):
         product = viner[i]
         print("<li><a href='%s'>%s</a>. %s fra %s produsert av %s (%s, %s)</li>" % (
-            product["Produktside"], product["Produktnavn"], product["Varetype"], product["Land"], product["Produsent"],
-            product["ProduktPris"].lower(),
-            product["ProduktVolum"].lower()))
+            product["Vareurl"], product["Varenavn"], product["Varetype"], product["Land"], product["Produsent"],
+            product["Pris"].lower(),
+            product["Volum"].lower()))
     print("</ul>")
 
 print("<h4>Mest alkohol per krone</h4>")
@@ -183,9 +183,9 @@ for vintype, viner in typer.items():
     for i in range(0, min(len(viner), 3)):
         product = viner[i]
         print("<li><a href='%s'>%s</a>. %s fra %s produsert av %s (%s, %s, %s)</li>" % (
-            product["Produktside"], product["Produktnavn"], product["Varetype"], product["Land"], product["Produsent"],
-            product["ProduktPris"].lower(),
-            product["ProduktVolum"].lower(),
+            product["Vareurl"], product["Varenavn"], product["Varetype"], product["Land"], product["Produsent"],
+            product["Pris"].lower(),
+            product["Volum"].lower(),
             product["Emballasjetype"].lower())
               )
     print("</ul>")
@@ -255,8 +255,8 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         for product in products.values():
             print("<li>")  # begin product
             print(" <a href='%s'>%s</a> %s fra %s (%s)." % (
-                product["Produktside"],
-                product["Produktnavn"],
+                product["Vareurl"],
+                product["Varenavn"],
                 pretty_format_type(product),
                 pretty_format_region(product),
                 product["Utvalg"].replace("Basisutvalget", "<strong>Basisutvalget</strong>")

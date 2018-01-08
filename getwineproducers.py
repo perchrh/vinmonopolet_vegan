@@ -179,7 +179,6 @@ def build_company_name_list(allowPartial):
 
     return companies
 
-
 def search_vinmonopolet_for_company_name_variation(browser, company_name):
     search_url = "https://www.vinmonopolet.no/vmpSite/search/?q=\"%s\"&searchType=product" % urllib.parse.quote(
         company_name.strip().encode("utf-8"))
@@ -199,7 +198,7 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
 
         wine_properties = {}
         product_name = browser.find_element_by_css_selector("div.product__hgroup h1").text
-        wine_properties["Produktnavn"] = product_name
+        wine_properties["Varenavn"] = product_name
 
         stock_status = browser.find_element_by_css_selector("div.product-stock-status")
         wine_properties["Lagerstatus"] = stock_status.text.strip()
@@ -242,11 +241,11 @@ def search_vinmonopolet_for_company_name_variation(browser, company_name):
         wine_properties["Distrikt"] = distrikt if "Øvrige" != distrikt else None
         wine_properties["Underdistrikt"] = underdistrikt if "Øvrige" != underdistrikt else None
 
-        wine_properties["Produktside"] = link
+        wine_properties["Vareurl"] = link
         wine_properties["dev.search_url"] = search_url
-        wine_properties["ProduktPris"] = browser.find_element_by_css_selector("span.product__price").text
-        wine_properties["ProduktPrisPerEnhet"] = browser.find_element_by_css_selector("span.product__cost_per_unit").text
-        wine_properties["ProduktVolum"] = browser.find_element_by_css_selector("span.product__amount").text
+        wine_properties["Pris"] = browser.find_element_by_css_selector("span.product__price").text
+        wine_properties["Literpris"] = browser.find_element_by_css_selector("span.product__cost_per_unit").text
+        wine_properties["Volum"] = browser.find_element_by_css_selector("span.product__amount").text
 
         for candidate in browser.find_elements_by_css_selector("ul.link-list--with-separators li a"):
             description = candidate.text
@@ -331,11 +330,11 @@ def find_products_from_manufacturer(company_dict, name_variations):
             if product_names_differ_too_much(company_dict["company_name"], product["Produsent"], variation):
                 continue
             elif not product["Land"]:
-                print("Missing country for product %s", product["Produktnavn"])
+                print("Missing country for product %s", product["Varenavn"])
                 product["dev.country_mismatch"] = "true"
                 pass
             elif countries_differ(company_dict, product["Land"]):
-                print("Warning: country mismatch for this product (%s), expected '%s' and got '%s'" % (product["Produktnavn"],
+                print("Warning: country mismatch for this product (%s), expected '%s' and got '%s'" % (product["Varenavn"],
                     translate_country_name(company_dict["country"].lower()), product["Land"].lower()))
                 product["dev.country_mismatch"] = "true"
                 pass
