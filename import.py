@@ -63,7 +63,7 @@ def remove_diacritics(s):
 from difflib import SequenceMatcher
 
 
-def LongestCommonSubstringSize(S1, S2):
+def lcs(S1, S2):
     cleanString1 = cleanString(S1)
     cleanString2 = cleanString(S2)
     matcher = SequenceMatcher(None, cleanString1, cleanString2)
@@ -75,71 +75,52 @@ def cleanString(S1):
     return S1.lower().strip()
 
 
-def calculateStringSimilarityPercentage(S1, S2):
+def name_similarity(S1, S2):
     cleanString1 = cleanString(S1)
     cleanString2 = cleanString(S2)
     return SequenceMatcher(None, cleanString1, cleanString2).ratio() * 100
 
 
-def add_normalized_names(company_list):
-    # TODO instead generate a list of the most frequent words in company names in all lists and use those as the stop words?
-    # In any case add the n% most common words as stop words
+from functools import reduce
+import operator
+from collections import Counter
 
-    generic_name_exclude_list = {"winery", "company", "pty", "ltd", "vineyard", "vineyards", "estate", "estates", "plc",
-                                 "cellar",
-                                 "winemaker", "group", "international", "wines", "limited", "agricola", "winework",
-                                 "wineries", "wine",
-                                 "farm", "family", "vigneron", "vign", "merchant", "at", "of", "the", "de", "du",
-                                 "cellars", "vintners", "sl",
-                                 "agr", "gmbh", "weinkellerei", "sa", "fe", "dr", "spa", "c", "co", "casa", "casas",
-                                 "ab", "cspa", "fatt", "supermarkets", "sca",
-                                 "champagne", "weingut", "weing", "weinhaus", "az,", "inc", "ag", "gebr", "gebruder",
-                                 "ch", "cant", "winery", "vin", "weinbau", "distillerie", "distillery",
-                                 "bros", "cast", "corp", "di", "el", "dominio", "pty", "il", "est", "srl", "das", "do",
-                                 "llc", "bds", "int", "e", "and", "y", "vinos", "viticultor", "vitivinicola",
-                                 "bryggeri", "brygghus", "bryghus", "brewery", "ab", "by", "azienda", "sociedade",
-                                 "agricola", "les", "vignerons",
-                                 "brewers", "breweries", "brewing", "brouwerij", "birras", "grupo", "vinedos",
-                                 "societa", "spanish",
-                                 "beer", "beer house", "brew house", "birra", "brauerei", "brasserie", "bieres",
-                                 "bierbrouwerij", "abbazia"}
-    generic_name_exclude_list_2 = {
-        "marques", "marq",
-        "agricola", "agr",
-        "vigneron", "vign",
-        "weingut", "weing",
-        "bodega", "bod",
-        "domaine", "dom",
-        "champagne", "champ",
-        "gebruder", "gebr",
-        "brothers", "bros",
-        "doctor", "dr",
-        "saint", "st",
-        "company", "co",
-        "cantine", "cant",
-        "cantina", "cant",
-        "compania", "comp",
-        "distilleria", "dist",
-        "chateau", "ch",
-        "vinicole", "vin",
-        "fattoria", "fatt"
-    }
-    common_words = {"hills", "creek", "view", "valley", "ridge", "grand", "alta", "house", "nuevo", "gran",
-                    "chateau", "monte", "mount", "veuve", "long", "port", "martin", "royal", "urban"}
 
-    generic_name_endings = {"wines",
-                            "vineyards",
-                            "wine",
-                            "beer",
-                            "winery",
-                            "brewery",
-                            "spirits",
-                            "coop",
-                            "champagne",
-                            "productions"}
+def get_stop_words(source_list):
+    word_list_from_product_names = []
+    for source in source_list:
+        word_list_from_product_names += [x["company"]["company_name"].split(" ") for x in source]
 
-    stopwords = set(generic_name_exclude_list | common_words | generic_name_exclude_list_2 | generic_name_endings)
+    words = reduce(operator.concat, word_list_from_product_names)
+    different_words = set(words)
+    stopword_count = int(100 * len(different_words) / len(words))  # heuristic
 
+    counter = Counter()
+
+    counter.update(words)
+    dynamic_stopwords = set([word[0] for word in counter.most_common(stopword_count)])
+
+    static_stopwords = {'bryghus', 'fatt', 'saint', 'veuve', 'doctor', 'monte', 'cspa', 'vigneron', 'brewers',
+                        'mount', 'cant', 'dr', 'the', 'distillery', 'il', 'bryggeri', 'e', 'distillerie', 'company',
+                        'dom', 'royal', 'winemaker', 'weing', 'bierbrouwerij', 'grand', 'distilleria', 'el', 'birra',
+                        'view', 'c', 'int', 'ridge', 'merchant', 'bros', 'grupo', 'coop', 'weingut', 'vintners', 'ab',
+                        'vignerons', 'spanish', 'vin', 'estates', 'vineyards', 'di', 'house', 'dist', 'gebruder',
+                        'est', 'corp', 'weinbau', 'international', 'weinkellerei', 'beer house', 'creek', 'at', 'by',
+                        'cantina', 'weinhaus', 'and', 'supermarkets', 'de', 'brasserie', 'farm', 'port', 'winery',
+                        'estate', 'family', 'of', 'comp', 'breweries', 'group', 'marq', 'ltd', 'spa', 'vineyard',
+                        'bod', 'abbazia', 'chateau', 'les', 'st', 'beer', 'co', 'martin', 'az,', 'bodega', 'casas',
+                        'gran', 'srl', 'fattoria', 'gebr', 'brothers', 'domaine', 'inc', 'brewing', 'do',
+                        'viticultor', 'brauerei', 'champagne', 'brouwerij', 'casa', 'productions', 'bieres',
+                        'marques', 'cellars', 'gmbh', 'bds', 'vinedos', 'nuevo', 'cast', 'llc', 'wineries', 'sl',
+                        'brygghus', 'hills', 'y', 'urban', 'vitivinicola', 'winework', 'sca', 'valley', 'limited',
+                        'plc', 'wine', 'du', 'birras', 'brewery', 'long', 'pty', 'dominio', 'sociedade', 'alta',
+                        'compania', 'spirits', 'azienda', 'sa', 'vign', 'societa', 'champ', 'agricola', 'fe', 'ch',
+                        'vinos', 'vinicole', 'cellar', 'brew house', 'ag', 'agr', 'das', 'cantine', 'wines'}
+
+    return static_stopwords | dynamic_stopwords
+
+
+def add_normalized_names(company_list, stopwords):
     for company in company_list:
         company_name = company["company"]["company_name"]
         name_parts = remove_diacritics(company_name).strip().lower().replace(".", "").replace(",", "").split(" ")
@@ -199,23 +180,19 @@ def create_company_list_from_vinmonpolet(products):
 def possible_name_match(a_company, another_company):
     a_name = a_company["dev.normalized_name"]
     another_name = another_company["dev.normalized_name"]
-    possible_name_match = LongestCommonSubstringSize(a_name, another_name) > 4 and calculateStringSimilarityPercentage(
-        a_name, another_name) > 80
+    possible_name_match = lcs(a_name, another_name) > 4 and name_similarity(a_name, another_name) > 80
     if possible_name_match:
         if a_company["dev.countries"].isdisjoint(another_company["dev.countries"]):
-            close_name_match = LongestCommonSubstringSize(a_name,
-                                                          another_name) > 6 and calculateStringSimilarityPercentage(
-                a_name, another_name) > 90
+            close_name_match = lcs(a_name, another_name) > 6 and name_similarity(a_name, another_name) > 90
             if close_name_match:
-                print("Warning: country mismatch for companies '{}' and '{}'".format(a_company["company_name"],
-                                                                                     another_company["company_name"]))
+                print("Warning: country mismatch for companies '{}' and '{}'".
+                      format(a_company["company_name"], another_company["company_name"]))
             return close_name_match
 
     return possible_name_match
 
-
+from timeit import default_timer as timer
 if __name__ == "__main__":
-    from timeit import default_timer as timer
 
     start = timer()
 
@@ -223,24 +200,11 @@ if __name__ == "__main__":
     products = post_process_vinmonopolet_data(products)
 
     wine_companies_at_vinmonopolet = create_company_list_from_vinmonpolet(products)
-    wine_companies_at_vinmonopolet = add_normalized_names(wine_companies_at_vinmonopolet)
-
     vegan_companies = import_products_from_barnivore(False)
-    vegan_companies = add_normalized_names(vegan_companies)
 
-    word_list_from_product_names = [x["company"]["company_name"].split(" ") for x in wine_companies_at_vinmonopolet]
-    word_list_from_product_names += [x["company"]["company_name"].split(" ") for x in vegan_companies]
-    from collections import Counter
-    counter = Counter()
-    import operator
-    from functools import reduce
-    words = reduce(operator.concat, word_list_from_product_names)
-    different_words = set(words)
-    stopword_count = int(100*len(different_words)/len(words)) # heuristic
-    counter.update(words)
-    stopwords = [ word[0] for word in counter.most_common(stopword_count)]
-    #print(stopwords)
-    #TODO use stop words when normalizing names
+    stopwords = get_stop_words([vegan_companies, wine_companies_at_vinmonopolet])
+    wine_companies_at_vinmonopolet = add_normalized_names(wine_companies_at_vinmonopolet, stopwords)
+    vegan_companies = add_normalized_names(vegan_companies, stopwords)
 
     print("Found {} wine companies at Vinmonopolet, and {} listed in Barnivore".format(
         len(wine_companies_at_vinmonopolet), len(vegan_companies)))
@@ -249,20 +213,20 @@ if __name__ == "__main__":
     for vegan_company in vegan_companies:
         for vinmonopolet_company in wine_companies_at_vinmonopolet:
             if possible_name_match(vegan_company["company"], vinmonopolet_company["company"]):
-                print("Possible match between '{}' and '{} ('{}' ~= '{}')'".format(
-                    vegan_company["company"]["company_name"],
-                    vinmonopolet_company["company"]["company_name"],
-                    vegan_company["company"]["dev.normalized_name"],
-                    vinmonopolet_company["company"]["dev.normalized_name"]))
+                vegan_company_name = vegan_company["company"]["company_name"]
+                vinmonopolet_company_name = vinmonopolet_company["company"]["company_name"]
+                print("Possible match between '{}' and '{} ('{}' ≈ '{}')'".format(vegan_company_name, vinmonopolet_company_name,
+                                                                                   vegan_company["company"]["dev.normalized_name"],
+                                                                                   vinmonopolet_company["company"]["dev.normalized_name"]))
                 match_count += 1
                 if "products_found_at_vinmonopolet" in vegan_company["company"]:
                     # Exists already, consider overwriting the old entry, if the new match is better
-                    old_similarity = calculateStringSimilarityPercentage(vegan_company["company"]["company_name"], vegan_company["company"]["products_found_at_vinmonopolet"][0]["Produsent"])
-                    new_similarity = calculateStringSimilarityPercentage(vegan_company["company"]["company_name"],
-                                                                         vinmonopolet_company["company"]["company_name"])
+                    old_similarity = name_similarity(vegan_company_name, vegan_company["company"]["products_found_at_vinmonopolet"][0]["Produsent"])
+                    new_similarity = name_similarity(vegan_company_name, vinmonopolet_company_name)
                     if new_similarity > old_similarity:
-                        #Overwrite it
-                        print("Warning overwrite of results for company {}".format(vegan_company["company"]["company_name"]))
+                        # Overwrite it
+                        print("Warning overwrite of results for company {}".format(
+                            vegan_company_name))
                         vegan_company["company"]["products_found_at_vinmonopolet"] = vinmonopolet_company["company"]["products_found_at_vinmonopolet"]
                 else:
                     # doesn't exist yet, just add it
