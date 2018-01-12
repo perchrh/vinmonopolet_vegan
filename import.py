@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+vegan_friendly_output_filename = "vegan-friendly-searchresult-vinmonopolet.json"
+some_vegan_products_output_filename = "some-vegan-options-searchresult-vinmonopolet.json"
+
 def import_products_from_vinmonopolet(filename):
     import csv
     import sys
@@ -222,6 +228,20 @@ if __name__ == "__main__":
     vegan_companies = import_products_from_barnivore(False)
     vegan_companies = add_normalized_names(vegan_companies)
 
+    word_list_from_product_names = [x["company"]["company_name"].split(" ") for x in wine_companies_at_vinmonopolet]
+    word_list_from_product_names += [x["company"]["company_name"].split(" ") for x in vegan_companies]
+    from collections import Counter
+    counter = Counter()
+    import operator
+    from functools import reduce
+    words = reduce(operator.concat, word_list_from_product_names)
+    different_words = set(words)
+    stopword_count = int(100*len(different_words)/len(words)) # heuristic
+    counter.update(words)
+    stopwords = [ word[0] for word in counter.most_common(stopword_count)]
+    #print(stopwords)
+    #TODO use stop words when normalizing names
+
     print("Found {} wine companies at Vinmonopolet, and {} listed in Barnivore".format(
         len(wine_companies_at_vinmonopolet), len(vegan_companies)))
 
@@ -237,7 +257,6 @@ if __name__ == "__main__":
                 match_count += 1
                 if "products_found_at_vinmonopolet" in vegan_company["company"]:
                     # Exists already, consider overwriting the old entry, if the new match is better
-                    # TODO check similarity of original name or normalized name?
                     old_similarity = calculateStringSimilarityPercentage(vegan_company["company"]["company_name"], vegan_company["company"]["products_found_at_vinmonopolet"][0]["Produsent"])
                     new_similarity = calculateStringSimilarityPercentage(vegan_company["company"]["company_name"],
                                                                          vinmonopolet_company["company"]["company_name"])

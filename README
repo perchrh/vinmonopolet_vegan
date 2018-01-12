@@ -11,12 +11,14 @@ Can easily be modified to use Firefox instead.
 Install it like this (Ubuntu/Debian):
 sudo apt-get install python3-pip
 sudo -H pip3 install -U selenium
+sudo -H pip3 install python-dateutil
 
 Or for Mac:
 Install homebrew
 then 
 brew install python3
 sudo -H pip3 install -U selenium
+sudo -H pip3 install python-dateutil
 
 Get updated wine.json from http://barnivore.com/api
 It may have encoding errors, invalid utf-8 in it. 
