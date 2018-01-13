@@ -134,26 +134,67 @@ def add_normalized_names(company_list, stopwords):
 
 
 def translate_country_name(country):
+    if not country: return country
+
+    country_dict = {
     # poor man's translation to Norwegian
-    return country.replace("italy", "italia"). \
-        replace("france", "frankrike"). \
-        replace("germany", "tyskland"). \
-        replace("spain", "spania"). \
-        replace("austria", "østerrike"). \
-        replace("norway", "norge"). \
-        replace("sweden", "sverige"). \
-        replace("denmark", "danmark"). \
-        replace("netherlands", "nederland"). \
-        replace("ireland", "irland"). \
-        replace("belgium", "belgia"). \
-        replace("greece", "hellas"). \
-        replace("hungary", "ungarn"). \
-        replace("croatia", "kroatia"). \
-        replace("finland", "finland"). \
-        replace("austria", "østerrike"). \
-        replace("slovakia", "slovakia"). \
-        replace("poland", "polen"). \
-        replace("south africa", "sør-afrika")
+        "italy": "italia", 
+        "france": "frankrike", 
+        "germany": "tyskland", 
+        "spain": "spania",
+        "austria": "østerrike",
+        "norway": "norge",
+        "sweden": "sverige",
+        "denmark": "danmark",
+        "netherlands": "nederland",
+        "ireland": "irland",
+        "belgium": "belgia",
+        "greece": "hellas",
+        "hungary": "ungarn",
+        "croatia": "kroatia",
+        "finland": "finland",
+        "austria": "østerrike",
+        "slovakia": "slovakia",
+        "poland": "polen",
+        "south africa": "sør-afrika",
+        "usa": "usa",
+        "england": "england",
+        "chile": "chile",
+        "uk": "storbritannia", # TODO report this to data set owner
+        "united kingdom": "storbritannia", # TODO report this to data set owner
+        "south australia": "australia", # TODO report this to data set owner
+        "argentina": "argentina",
+        "israel": "israel",
+        "mexico": "mexico",
+        "luxembourg": "luxemburg",
+        "switzerland": "sveits",
+        "lebanon": "libanon",
+        "malta": "malta",
+        "slovenia": "slovenia",
+        "montenegro": "montenegro",
+        "tasmania": "tasmania",
+        "cyprus": "kypros",
+        "turkey": "turkia",
+        "venezuela": "venezuela",
+        "scotland": "scotland",
+        "georgia": "georgia", #TODO maybe report
+        "maryland": "maryland", # TODO report
+        "thailand": "thailand",
+        "the netherlands": "nederland",
+        "new zealand": "new zealand",
+        "portugal": "portugal",
+        "uruguay": "uruguay",
+        "brazil": "brasil",
+        "japan": "japan",
+        "australia": "australia",
+        "canada": "canada"}
+	#TODO report phone number in country field errors
+
+    try: 
+        return country_dict[country]
+    except KeyError:
+        print("KeyError for {}".format(country))
+        return country
 
 
 def create_company_list_from_vinmonpolet(products):
