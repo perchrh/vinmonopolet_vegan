@@ -52,6 +52,10 @@ def post_process_vinmonopolet_data(export_data):
         product["ProdusentSide"] = None  # mangler i exporten?
         product["ProduktBilde"] = "https://bilder.vinmonopolet.no/cache/600x600-0/%s-1.jpg" % (row["Varenummer"])
 
+        if product["Produktutvalg"] == "Partiutvalget" or product["Produktutvalg"] == "Testutvalget":
+            # print("Skipping product that's not expected to stay in stores a while"))
+            continue
+
         products.append(product)
 
     return products
@@ -222,6 +226,8 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                         print("Warning overwrite of results for company {}".format(
                             vegan_company_name))
                         vegan_company["products_found_at_vinmonopolet"] = vinmonopolet_company["products_found_at_vinmonopolet"]
+                    else:
+                        print("Ignoring duplicate results for {}".format(vegan_company_name))
                 else:
                     # Doesn't exist yet, just add it
                     vegan_company["products_found_at_vinmonopolet"] = vinmonopolet_company["products_found_at_vinmonopolet"]
@@ -245,12 +251,12 @@ if __name__ == "__main__":
     stopwords = get_stop_words([vegan_companies, partly_vegan_companies, wine_companies_at_vinmonopolet])
     wine_companies_at_vinmonopolet = add_normalized_names(wine_companies_at_vinmonopolet, stopwords)
     vegan_companies = add_normalized_names(vegan_companies, stopwords)
+    partly_vegan_companies_at_vinmonopolet = add_normalized_names(partly_vegan_companies, stopwords)
 
     vegan_companies_at_vinmonopolet = find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopolet)
     write_result_file(vegan_companies, vegan_friendly_output_filename)
     print("Wrote results to {}".format(vegan_friendly_output_filename))
 
-    partly_vegan_companies_at_vinmonopolet = add_normalized_names(partly_vegan_companies, stopwords)
     partly_vegan_companies_at_vinmonopolet = find_possible_company_matches(partly_vegan_companies, wine_companies_at_vinmonopolet)
     write_result_file(vegan_companies, some_vegan_products_output_filename)
     print("Wrote results to {}".format(some_vegan_products_output_filename))
