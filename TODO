@@ -1,16 +1,5 @@
-Handle synonyms better.
-E.g. "dom." = "domaine",
-"marq." = "marques",
-"agr." = "agricola",
-"weing." = "weingut"
+Search for all wines in Barnivore data in one go, instead of two steps.
+Then split into two files later.
 
-Handle different sources, like Systembolaget
-Handle beer and liquor, very similar handling to wine.
-
-Clean up and improve name variations generation
-'Agricola Punica (Agripunica)' -> {'agr. punica (agripunica', 'agricola punica (agripunica'}'
-'Abbazia di San Gaudenzio' becomes only '{'abbazia di san gaudenzio'}', should have included a variation without abbazia too?
-'Cavas Parés Baltà, S.A.' -> '{'parés balt', 'cavas parés baltà, s.a'}'
-'Caves Bernard-Massard SA' -> '{'caves bernard-massard sa'}'
-
-
+Use dict for translation
+Verify all countries can be compared by translated name

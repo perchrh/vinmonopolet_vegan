@@ -7,13 +7,12 @@ import sys
 import unicodedata
 import string
 from difflib import SequenceMatcher
-from functools import reduce
-import operator
 from collections import Counter
 from timeit import default_timer as timer
 
 vegan_friendly_output_filename = "vegan-friendly-searchresult-vinmonopolet.json"
 some_vegan_products_output_filename = "some-vegan-options-searchresult-vinmonopolet.json"
+
 
 def import_products_from_vinmonopolet(filename):
     with open(filename, 'r', newline='', encoding='iso-8859-1') as csvfile:
@@ -28,10 +27,11 @@ def import_products_from_barnivore(partialOnly):
     companies = list()
     with open('wine.json', encoding='utf-8') as file:
         for candidate in json.loads(file.read()):
-            candidate['company']['dev.countries'] = {translate_country_name(candidate['company']['country'].lower())}
+            candidate_company = candidate["company"]
+            candidate_company['dev.countries'] = {translate_country_name(candidate_company['country'].lower())}
             status = candidate['company']['status']
             if (status == 'Has Some Vegan Options' and partialOnly) or (status == 'Vegan Friendly' and not partialOnly):
-                companies.append(candidate)
+                companies.append(candidate_company)
 
     return companies
 
@@ -50,7 +50,7 @@ def post_process_vinmonopolet_data(export_data):
         product = row
         product["Lagerstatus"] = row["Produktutvalg"]  # mangler i exporten?
         product["ProdusentSide"] = None  # mangler i exporten?
-        product["ProduktBilde"] = "https://bilder.vinmonopolet.no/cache/600x600-0/%s-1.jpg" % (product["Varenummer"])
+        product["ProduktBilde"] = "https://bilder.vinmonopolet.no/cache/600x600-0/%s-1.jpg" % (row["Varenummer"])
 
         products.append(product)
 
@@ -80,13 +80,14 @@ def name_similarity(S1, S2):
 
 
 def get_stop_words(source_list):
-    word_list_from_product_names = []
+    words = []
     for source in source_list:
-        word_list_from_product_names += [x["company"]["company_name"].split(" ") for x in source]
+        for product in source:
+            normalized_company_name = remove_diacritics(product["company_name"]).replace(".", "").replace(",", "").lower()
+            words += normalized_company_name.split(" ")
 
-    words = reduce(operator.concat, word_list_from_product_names)
     different_words = set(words)
-    stopword_count = int(100 * len(different_words) / len(words))  # heuristic
+    stopword_count = int(15 * len(words) / len(different_words))  # heuristic
 
     counter = Counter()
 
@@ -115,15 +116,15 @@ def get_stop_words(source_list):
 
 def add_normalized_names(company_list, stopwords):
     for company in company_list:
-        company_name = company["company"]["company_name"]
+        company_name = company["company_name"]
         name_parts = remove_diacritics(company_name).strip().lower().replace(".", "").replace(",", "").split(" ")
-        normalized_name_parts = [x for x in name_parts if not x in stopwords and len(x) > 2]
+        normalized_name_parts = [x for x in name_parts if not x in stopwords]
         normalized_name = " ".join(normalized_name_parts)
         # print("original, normalized name = '{}', '{}'".format(company_name, normalized_name))
         if not normalized_name:
             print("Warning: empty name after normalization, using full name instead, for {}".format(company_name))
             normalized_name = " ".join(name_parts)
-        company["company"]["dev.normalized_name"] = normalized_name
+        company["dev.normalized_name"] = normalized_name
 
     return company_list
 
@@ -164,8 +165,8 @@ def create_company_list_from_vinmonpolet(products):
     wine_companies = []
     for name, products in wine_companies_temp.items():
         # Using the same structure as Barnivore's json export, for simplicity
-        wine_companies.append({"company": {"company_name": name, "products_found_at_vinmonopolet": products,
-                                           "dev.countries": set([x["Land"].lower() for x in products])}})
+        wine_companies.append({"company_name": name, "products_found_at_vinmonopolet": products,
+                               "dev.countries": set([x["Land"].lower() for x in products])})
 
     return wine_companies
 
@@ -181,22 +182,53 @@ def possible_name_match(vegan_company, vinmonopolet_company):
             if close_name_match:
                 print("Warning: country mismatch for companies '{}' and '{}'".
                       format(vegan_company["company_name"], vinmonopolet_company["company_name"]))
-                vegan_company["dev.country_mismatch"] = True # Mark the entry for inspection
+                vegan_company["dev.country_mismatch"] = True  # Mark the entry for inspection
             return close_name_match
 
     return possible_name_match
 
+
 def write_result_file(enriched_company_list, outputfile):
     all_companies = []
     for company in enriched_company_list:
-        if "products_found_at_vinmonopolet" in company["company"]:
-            company['company']['dev.countries'] = list(company['company']['dev.countries']) # convert set to list for JSON serialization to work
+        if "products_found_at_vinmonopolet" in company:
+            company['dev.countries'] = list(company['dev.countries'])  # convert set to list for JSON serialization to work
             all_companies.append(company)
 
     # Write the current list to file, to avoid losing all data in case of network/http server/other problems)
     with open(outputfile, mode='w', encoding='utf-8') as f:
         json.dump(all_companies, f, indent=2, ensure_ascii=False, sort_keys=True)
         f.flush()
+
+
+def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopolet):
+    match_count = 0
+    for vegan_company in vegan_companies:
+        for vinmonopolet_company in wine_companies_at_vinmonopolet:
+            if possible_name_match(vegan_company, vinmonopolet_company):
+                vegan_company_name = vegan_company["company_name"]
+                vinmonopolet_company_name = vinmonopolet_company["company_name"]
+                print("Possible match between '{}' and '{}' ('{}' ≈ '{}')'".format(vegan_company_name,
+                                                                                   vinmonopolet_company_name,
+                                                                                   vegan_company["dev.normalized_name"],
+                                                                                   vinmonopolet_company["dev.normalized_name"]))
+                match_count += 1
+                if "products_found_at_vinmonopolet" in vegan_company:
+                    # Exists already. Overwrite the old entry if the new match is better
+                    old_similarity = name_similarity(vegan_company_name, vegan_company["products_found_at_vinmonopolet"][0]["Produsent"])
+                    new_similarity = name_similarity(vegan_company_name, vinmonopolet_company_name)
+                    if new_similarity > old_similarity:
+                        # Overwrite it
+                        print("Warning overwrite of results for company {}".format(
+                            vegan_company_name))
+                        vegan_company["products_found_at_vinmonopolet"] = vinmonopolet_company["products_found_at_vinmonopolet"]
+                else:
+                    # Doesn't exist yet, just add it
+                    vegan_company["products_found_at_vinmonopolet"] = vinmonopolet_company["products_found_at_vinmonopolet"]
+
+    print("Found {} possible company matches".format(match_count))
+
+    return vegan_companies
 
 if __name__ == "__main__":
     start = timer()
@@ -206,39 +238,22 @@ if __name__ == "__main__":
 
     wine_companies_at_vinmonopolet = create_company_list_from_vinmonpolet(products)
     vegan_companies = import_products_from_barnivore(False)
+    partly_vegan_companies = import_products_from_barnivore(True)
+    print("Using {} wine companies at Vinmonopolet, and {} listed in Barnivore".format(
+        len(wine_companies_at_vinmonopolet), len(vegan_companies)))
 
-    stopwords = get_stop_words([vegan_companies, wine_companies_at_vinmonopolet])
+    stopwords = get_stop_words([vegan_companies, partly_vegan_companies, wine_companies_at_vinmonopolet])
     wine_companies_at_vinmonopolet = add_normalized_names(wine_companies_at_vinmonopolet, stopwords)
     vegan_companies = add_normalized_names(vegan_companies, stopwords)
 
-    print("Found {} wine companies at Vinmonopolet, and {} listed in Barnivore".format(
-        len(wine_companies_at_vinmonopolet), len(vegan_companies)))
-
-    match_count = 0
-    for vegan_company in vegan_companies:
-        for vinmonopolet_company in wine_companies_at_vinmonopolet:
-            if possible_name_match(vegan_company["company"], vinmonopolet_company["company"]):
-                vegan_company_name = vegan_company["company"]["company_name"]
-                vinmonopolet_company_name = vinmonopolet_company["company"]["company_name"]
-                print("Possible match between '{}' and '{}' ('{}' ≈ '{}')'".format(vegan_company_name, vinmonopolet_company_name,
-                                                                                  vegan_company["company"]["dev.normalized_name"],
-                                                                                  vinmonopolet_company["company"]["dev.normalized_name"]))
-                match_count += 1
-                if "products_found_at_vinmonopolet" in vegan_company["company"]:
-                    # Exists already. Overwrite the old entry if the new match is better
-                    old_similarity = name_similarity(vegan_company_name, vegan_company["company"]["products_found_at_vinmonopolet"][0]["Produsent"])
-                    new_similarity = name_similarity(vegan_company_name, vinmonopolet_company_name)
-                    if new_similarity > old_similarity:
-                        # Overwrite it
-                        print("Warning overwrite of results for company {}".format(
-                            vegan_company_name))
-                        vegan_company["company"]["products_found_at_vinmonopolet"] = vinmonopolet_company["company"]["products_found_at_vinmonopolet"]
-                else:
-                    # Doesn't exist yet, just add it
-                    vegan_company["company"]["products_found_at_vinmonopolet"] = vinmonopolet_company["company"]["products_found_at_vinmonopolet"]
-
-    end = timer()
-    print("Found {} possible company matches in {}s".format(match_count, int(end - start + 0.5)))
-
+    vegan_companies_at_vinmonopolet = find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopolet)
     write_result_file(vegan_companies, vegan_friendly_output_filename)
     print("Wrote results to {}".format(vegan_friendly_output_filename))
+
+    partly_vegan_companies_at_vinmonopolet = add_normalized_names(partly_vegan_companies, stopwords)
+    partly_vegan_companies_at_vinmonopolet = find_possible_company_matches(partly_vegan_companies, wine_companies_at_vinmonopolet)
+    write_result_file(vegan_companies, some_vegan_products_output_filename)
+    print("Wrote results to {}".format(some_vegan_products_output_filename))
+
+    end = timer()
+    print("Total time usage: {}s".format(int(end - start + 0.5)))
