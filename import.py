@@ -1,12 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import json
+import csv
+import sys
+import unicodedata
+import string
+from difflib import SequenceMatcher
+from functools import reduce
+import operator
+from collections import Counter
+from timeit import default_timer as timer
+
 vegan_friendly_output_filename = "vegan-friendly-searchresult-vinmonopolet.json"
 some_vegan_products_output_filename = "some-vegan-options-searchresult-vinmonopolet.json"
 
 def import_products_from_vinmonopolet(filename):
-    import csv
-    import sys
     with open(filename, 'r', newline='', encoding='iso-8859-1') as csvfile:
         wine_reader = csv.DictReader(csvfile, delimiter=';')
         try:
@@ -16,7 +25,6 @@ def import_products_from_vinmonopolet(filename):
 
 
 def import_products_from_barnivore(partialOnly):
-    import json
     companies = list()
     with open('wine.json', encoding='utf-8') as file:
         for candidate in json.loads(file.read()):
@@ -29,8 +37,6 @@ def import_products_from_barnivore(partialOnly):
 
 
 def post_process_vinmonopolet_data(export_data):
-    import dateutil.parser
-
     products = []
     for row in export_data:
         # Headers are:
@@ -43,7 +49,6 @@ def post_process_vinmonopolet_data(export_data):
 
         product = row
         product["Lagerstatus"] = row["Produktutvalg"]  # mangler i exporten?
-        product["Datotid"] = dateutil.parser.parse(row["Datotid"].replace(";", "."))
         product["ProdusentSide"] = None  # mangler i exporten?
         product["ProduktBilde"] = "https://bilder.vinmonopolet.no/cache/600x600-0/%s-1.jpg" % (product["Varenummer"])
 
@@ -52,15 +57,8 @@ def post_process_vinmonopolet_data(export_data):
     return products
 
 
-import unicodedata
-import string
-
-
 def remove_diacritics(s):
     return ''.join(x for x in unicodedata.normalize('NFKD', s) if x in string.printable)
-
-
-from difflib import SequenceMatcher
 
 
 def lcs(S1, S2):
@@ -79,11 +77,6 @@ def name_similarity(S1, S2):
     cleanString1 = cleanString(S1)
     cleanString2 = cleanString(S2)
     return SequenceMatcher(None, cleanString1, cleanString2).ratio() * 100
-
-
-from functools import reduce
-import operator
-from collections import Counter
 
 
 def get_stop_words(source_list):
@@ -177,23 +170,35 @@ def create_company_list_from_vinmonpolet(products):
     return wine_companies
 
 
-def possible_name_match(a_company, another_company):
-    a_name = a_company["dev.normalized_name"]
-    another_name = another_company["dev.normalized_name"]
+def possible_name_match(vegan_company, vinmonopolet_company):
+    a_name = vegan_company["dev.normalized_name"]
+    another_name = vinmonopolet_company["dev.normalized_name"]
     possible_name_match = lcs(a_name, another_name) > 4 and name_similarity(a_name, another_name) > 80
     if possible_name_match:
-        if a_company["dev.countries"].isdisjoint(another_company["dev.countries"]):
+        if vegan_company["dev.countries"].isdisjoint(vinmonopolet_company["dev.countries"]):
+            # If countries do not match, require a very close name match
             close_name_match = lcs(a_name, another_name) > 6 and name_similarity(a_name, another_name) > 90
             if close_name_match:
                 print("Warning: country mismatch for companies '{}' and '{}'".
-                      format(a_company["company_name"], another_company["company_name"]))
+                      format(vegan_company["company_name"], vinmonopolet_company["company_name"]))
+                vegan_company["dev.country_mismatch"] = True # Mark the entry for inspection
             return close_name_match
 
     return possible_name_match
 
-from timeit import default_timer as timer
-if __name__ == "__main__":
+def write_result_file(enriched_company_list, outputfile):
+    all_companies = []
+    for company in enriched_company_list:
+        if "products_found_at_vinmonopolet" in company["company"]:
+            company['company']['dev.countries'] = list(company['company']['dev.countries']) # convert set to list for JSON serialization to work
+            all_companies.append(company)
 
+    # Write the current list to file, to avoid losing all data in case of network/http server/other problems)
+    with open(outputfile, mode='w', encoding='utf-8') as f:
+        json.dump(all_companies, f, indent=2, ensure_ascii=False, sort_keys=True)
+        f.flush()
+
+if __name__ == "__main__":
     start = timer()
 
     products = import_products_from_vinmonopolet('produkter.csv')
@@ -215,12 +220,12 @@ if __name__ == "__main__":
             if possible_name_match(vegan_company["company"], vinmonopolet_company["company"]):
                 vegan_company_name = vegan_company["company"]["company_name"]
                 vinmonopolet_company_name = vinmonopolet_company["company"]["company_name"]
-                print("Possible match between '{}' and '{} ('{}' ≈ '{}')'".format(vegan_company_name, vinmonopolet_company_name,
-                                                                                   vegan_company["company"]["dev.normalized_name"],
-                                                                                   vinmonopolet_company["company"]["dev.normalized_name"]))
+                print("Possible match between '{}' and '{}' ('{}' ≈ '{}')'".format(vegan_company_name, vinmonopolet_company_name,
+                                                                                  vegan_company["company"]["dev.normalized_name"],
+                                                                                  vinmonopolet_company["company"]["dev.normalized_name"]))
                 match_count += 1
                 if "products_found_at_vinmonopolet" in vegan_company["company"]:
-                    # Exists already, consider overwriting the old entry, if the new match is better
+                    # Exists already. Overwrite the old entry if the new match is better
                     old_similarity = name_similarity(vegan_company_name, vegan_company["company"]["products_found_at_vinmonopolet"][0]["Produsent"])
                     new_similarity = name_similarity(vegan_company_name, vinmonopolet_company_name)
                     if new_similarity > old_similarity:
@@ -229,9 +234,11 @@ if __name__ == "__main__":
                             vegan_company_name))
                         vegan_company["company"]["products_found_at_vinmonopolet"] = vinmonopolet_company["company"]["products_found_at_vinmonopolet"]
                 else:
-                    # doesn't exist yet, just add it
+                    # Doesn't exist yet, just add it
                     vegan_company["company"]["products_found_at_vinmonopolet"] = vinmonopolet_company["company"]["products_found_at_vinmonopolet"]
 
     end = timer()
-
     print("Found {} possible company matches in {}s".format(match_count, int(end - start + 0.5)))
+
+    write_result_file(vegan_companies, vegan_friendly_output_filename)
+    print("Wrote results to {}".format(vegan_friendly_output_filename))
