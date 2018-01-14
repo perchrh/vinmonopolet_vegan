@@ -1,5 +1,5 @@
-Search for all wines in Barnivore data in one go, instead of two steps.
-Then split into two files later.
+Report bad Barnivore data for country (district).
+Check what country names are present in the export from Vinmonopolet, so verify the translation and classification (e.g UK may not exist).
 
-Use dict for translation
-Verify all countries can be compared by translated name
+When there are multiple matches for a Barnivore-company at Vinmonopolet,
+create a list of candidates and select the closest match.

@@ -23,15 +23,13 @@ def import_products_from_vinmonopolet(filename):
             sys.exit('file {}, line {}: {}'.format(filename, wine_reader.line_num, e))
 
 
-def import_products_from_barnivore(partialOnly):
+def import_products_from_barnivore():
     companies = list()
     with open('wine.json', encoding='utf-8') as file:
         for candidate in json.loads(file.read()):
             candidate_company = candidate["company"]
             candidate_company['dev.countries'] = {translate_country_name(candidate_company['country'].lower())}
-            status = candidate['company']['status']
-            if (status == 'Has Some Vegan Options' and partialOnly) or (status == 'Vegan Friendly' and not partialOnly):
-                companies.append(candidate_company)
+            companies.append(candidate_company)
 
     return companies
 
@@ -137,10 +135,10 @@ def translate_country_name(country):
     if not country: return country
 
     country_dict = {
-    # poor man's translation to Norwegian
-        "italy": "italia", 
-        "france": "frankrike", 
-        "germany": "tyskland", 
+        # poor man's translation to Norwegian
+        "italy": "italia",
+        "france": "frankrike",
+        "germany": "tyskland",
         "spain": "spania",
         "austria": "østerrike",
         "norway": "norge",
@@ -153,16 +151,15 @@ def translate_country_name(country):
         "hungary": "ungarn",
         "croatia": "kroatia",
         "finland": "finland",
-        "austria": "østerrike",
         "slovakia": "slovakia",
         "poland": "polen",
         "south africa": "sør-afrika",
         "usa": "usa",
         "england": "england",
         "chile": "chile",
-        "uk": "storbritannia", # TODO report this to data set owner
-        "united kingdom": "storbritannia", # TODO report this to data set owner
-        "south australia": "australia", # TODO report this to data set owner
+        "uk": "storbritannia",  # TODO report this to data set owner
+        "united kingdom": "storbritannia",  # TODO report this to data set owner
+        "south australia": "australia",  # TODO report this to data set owner
         "argentina": "argentina",
         "israel": "israel",
         "mexico": "mexico",
@@ -177,8 +174,8 @@ def translate_country_name(country):
         "turkey": "turkia",
         "venezuela": "venezuela",
         "scotland": "scotland",
-        "georgia": "georgia", #TODO maybe report
-        "maryland": "maryland", # TODO report
+        "georgia": "georgia",  # TODO maybe report
+        "maryland": "maryland",  # TODO report
         "thailand": "thailand",
         "the netherlands": "nederland",
         "new zealand": "new zealand",
@@ -188,9 +185,9 @@ def translate_country_name(country):
         "japan": "japan",
         "australia": "australia",
         "canada": "canada"}
-	#TODO report phone number in country field errors
+    # TODO report phone number in country field errors
 
-    try: 
+    try:
         return country_dict[country]
     except KeyError:
         print("KeyError for {}".format(country))
@@ -233,16 +230,26 @@ def possible_name_match(vegan_company, vinmonopolet_company):
     return possible_name_match
 
 
-def write_result_file(enriched_company_list, outputfile):
-    all_companies = []
+def write_result_file(enriched_company_list, outputfile_all_vegan, outputfile_some_vegan):
+    all_vegan_companies = []
+    partly_vegan_companies = []
     for company in enriched_company_list:
         if "products_found_at_vinmonopolet" in company:
             company['dev.countries'] = list(company['dev.countries'])  # convert set to list for JSON serialization to work
-            all_companies.append(company)
+            status = company["status"]
+            if status == 'Has Some Vegan Options':
+                partly_vegan_companies.append(company)
+            elif (status == 'Vegan Friendly'):
+                all_vegan_companies.append(company)
 
     # Write the current list to file, to avoid losing all data in case of network/http server/other problems)
-    with open(outputfile, mode='w', encoding='utf-8') as f:
-        json.dump(all_companies, f, indent=2, ensure_ascii=False, sort_keys=True)
+    with open(outputfile_all_vegan, mode='w', encoding='utf-8') as f:
+        json.dump(all_vegan_companies, f, indent=2, ensure_ascii=False, sort_keys=True)
+        f.flush()
+
+    # Write the current list to file, to avoid losing all data in case of network/http server/other problems)
+    with open(outputfile_some_vegan, mode='w', encoding='utf-8') as f:
+        json.dump(partly_vegan_companies, f, indent=2, ensure_ascii=False, sort_keys=True)
         f.flush()
 
 
@@ -277,30 +284,26 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
 
     return vegan_companies
 
+
 if __name__ == "__main__":
     start = timer()
 
     products = import_products_from_vinmonopolet('produkter.csv')
     products = post_process_vinmonopolet_data(products)
-
     wine_companies_at_vinmonopolet = create_company_list_from_vinmonpolet(products)
-    vegan_companies = import_products_from_barnivore(False)
-    partly_vegan_companies = import_products_from_barnivore(True)
+
+    wine_companies_from_barnivore = import_products_from_barnivore()
+
     print("Using {} wine companies at Vinmonopolet, and {} listed in Barnivore".format(
-        len(wine_companies_at_vinmonopolet), len(vegan_companies)))
+        len(wine_companies_at_vinmonopolet), len(wine_companies_from_barnivore)))
 
-    stopwords = get_stop_words([vegan_companies, partly_vegan_companies, wine_companies_at_vinmonopolet])
+    stopwords = get_stop_words([wine_companies_from_barnivore, wine_companies_at_vinmonopolet])
     wine_companies_at_vinmonopolet = add_normalized_names(wine_companies_at_vinmonopolet, stopwords)
-    vegan_companies = add_normalized_names(vegan_companies, stopwords)
-    partly_vegan_companies_at_vinmonopolet = add_normalized_names(partly_vegan_companies, stopwords)
+    wine_companies_from_barnivore = add_normalized_names(wine_companies_from_barnivore, stopwords)
 
-    vegan_companies_at_vinmonopolet = find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopolet)
-    write_result_file(vegan_companies, vegan_friendly_output_filename)
-    print("Wrote results to {}".format(vegan_friendly_output_filename))
+    vegan_companies_at_vinmonopolet = find_possible_company_matches(wine_companies_from_barnivore, wine_companies_at_vinmonopolet)
 
-    partly_vegan_companies_at_vinmonopolet = find_possible_company_matches(partly_vegan_companies, wine_companies_at_vinmonopolet)
-    write_result_file(vegan_companies, some_vegan_products_output_filename)
-    print("Wrote results to {}".format(some_vegan_products_output_filename))
+    write_result_file(wine_companies_from_barnivore, wine_companies_at_vinmonopolet)
 
     end = timer()
     print("Total time usage: {}s".format(int(end - start + 0.5)))
