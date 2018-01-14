@@ -85,7 +85,7 @@ def get_stop_words(source_list):
     words = []
     for source in source_list:
         for product in source:
-            normalized_company_name = remove_diacritics(product["company_name"]).replace(".", "").replace(",", "").lower()
+            normalized_company_name = normalize_name(product["company_name"])
             words += normalized_company_name.split(" ")
 
     different_words = set(words)
@@ -119,7 +119,7 @@ def get_stop_words(source_list):
 def add_normalized_names(company_list, stopwords):
     for company in company_list:
         company_name = company["company_name"]
-        name_parts = remove_diacritics(company_name).strip().lower().replace(".", "").replace(",", "").split(" ")
+        name_parts = normalize_name(company_name).split(" ")
         normalized_name_parts = [x for x in name_parts if not x in stopwords]
         normalized_name = " ".join(normalized_name_parts)
         # print("original, normalized name = '{}', '{}'".format(company_name, normalized_name))
@@ -129,6 +129,10 @@ def add_normalized_names(company_list, stopwords):
         company["dev.normalized_name"] = normalized_name
 
     return company_list
+
+
+def normalize_name(company_name):
+    return remove_diacritics(company_name).strip().lower().replace(".", "").replace(",", "")
 
 
 def translate_country_name(country):
@@ -236,6 +240,7 @@ def write_result_file(enriched_company_list, outputfile_all_vegan, outputfile_so
     for company in enriched_company_list:
         if "products_found_at_vinmonopolet" in company:
             company['dev.countries'] = list(company['dev.countries'])  # convert set to list for JSON serialization to work
+            company['barnivore_url'] = "http://www.barnivore.com/wine/%s/company" % company['id'] # to simplify lookups later
             status = company["status"]
             if status == 'Has Some Vegan Options':
                 partly_vegan_companies.append(company)
@@ -303,7 +308,7 @@ if __name__ == "__main__":
 
     vegan_companies_at_vinmonopolet = find_possible_company_matches(wine_companies_from_barnivore, wine_companies_at_vinmonopolet)
 
-    write_result_file(wine_companies_from_barnivore, wine_companies_at_vinmonopolet)
+    write_result_file(wine_companies_from_barnivore, vegan_friendly_output_filename, some_vegan_products_output_filename)
 
     end = timer()
     print("Total time usage: {}s".format(int(end - start + 0.5)))
