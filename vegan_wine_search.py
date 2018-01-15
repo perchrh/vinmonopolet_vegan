@@ -301,6 +301,8 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
 
             if len(possible_matches) > 1:
                 print("Selected '{}' as the most closest match".format(best_candidate["company_name"]))
+            if len(best_candidate["products_found_at_vinmonopolet"]) > 1:
+                print("---- Found multiple") # FIXME error, does not happen, but is common in the import file
             vegan_company["products_found_at_vinmonopolet"] = best_candidate["products_found_at_vinmonopolet"]
 
     return vegan_companies
