@@ -1,4 +1,2 @@
-Report bad Barnivore data for country (district).
-Check what country names are present in the export from Vinmonopolet, so verify the translation and classification (e.g UK may not exist).
-
-Improve matching algorithm, especially when there are multiple matches and we want to find the best one
+Improve matching algorithm, especially when there are multiple matches and we want to find the best one. 
+Maybe both lcs and match ratio, for both normalized name and original name must factor into a composite measure.

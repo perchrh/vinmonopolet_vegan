@@ -28,7 +28,7 @@ def import_products_from_barnivore():
     with open('wine.json', encoding='utf-8') as file:
         for candidate in json.loads(file.read()):
             candidate_company = candidate["company"]
-            candidate_company['dev.countries'] = {translate_country_name(candidate_company['country'].lower())}
+            candidate_company['dev.countries'] = {translate_country_name(candidate_company['country'].lower(), candidate_company['id'])}
             companies.append(candidate_company)
 
     return companies
@@ -48,7 +48,7 @@ def post_process_vinmonopolet_data(export_data):
 
         product = row
         product["Lagerstatus"] = row["Produktutvalg"]  # mangler i exporten?
-        product["ProdusentSide"] = None  # mangler i exporten?
+        product["ProdusentSide"] = None  # mangler i exporten
         product["ProduktBilde"] = "https://bilder.vinmonopolet.no/cache/600x600-0/%s-1.jpg" % (row["Varenummer"])
 
         if product["Produktutvalg"] == "Partiutvalget" or product["Produktutvalg"] == "Testutvalget":
@@ -126,7 +126,6 @@ def add_normalized_names(company_list, stopwords):
         name_parts = normalize_name(company_name).split(" ")
         normalized_name_parts = [x for x in name_parts if not x in stopwords]
         normalized_name = " ".join(normalized_name_parts)
-        # print("original, normalized name = '{}', '{}'".format(company_name, normalized_name))
         if not normalized_name:
             print("Warning: empty name after normalization, using full name instead, for {}".format(company_name))
             normalized_name = " ".join(name_parts)
@@ -139,7 +138,7 @@ def normalize_name(company_name):
     return remove_diacritics(company_name).strip().lower().replace(".", "").replace(",", "")
 
 
-def translate_country_name(country):
+def translate_country_name(country, company_id):
     if not country: return country
 
     country_dict = {
@@ -165,9 +164,9 @@ def translate_country_name(country):
         "usa": "usa",
         "england": "england",
         "chile": "chile",
-        "uk": "storbritannia",  # TODO report this to data set owner
+        "uk": "storbritannia",  # data error
         "united kingdom": "storbritannia",
-        "south australia": "australia",  # TODO report this to data set owner
+        "south australia": "australia",  # data error
         "argentina": "argentina",
         "israel": "israel",
         "mexico": "mexico",
@@ -182,8 +181,8 @@ def translate_country_name(country):
         "turkey": "turkia",
         "venezuela": "venezuela",
         "scotland": "scotland",
-        "georgia": "georgia",  # TODO maybe report
-        "maryland": "maryland",  # TODO report
+        "georgia": "georgia",
+        "maryland": "usa",  # data error
         "thailand": "thailand",
         "the netherlands": "nederland",
         "new zealand": "new zealand",
@@ -193,12 +192,11 @@ def translate_country_name(country):
         "japan": "japan",
         "australia": "australia",
         "canada": "canada"}
-    # TODO report phone number in country field errors
 
     try:
         return country_dict[country]
     except KeyError:
-        print("KeyError for {}".format(country))
+        print("KeyError for country '{}' (company id {})".format(country, company_id))
         return country
 
 
