@@ -52,9 +52,9 @@ def sort_by_trønder_kvotient(product_dict):
     try:
         price_raw = product_dict["Literpris"]  # eg. Kr. 106,53 pr. liter
         price_numeric = trim_non_numeric(price_raw)
-        alchohol_percentage_raw = product_dict["Alkoholprosent"]  # eg. Kr. 106,53 pr. liter
-        alchohol_percentage_numeric = float(alchohol_percentage_raw.replace("%", ""))
-        if product_dict["Varetype"].lower().find("alkoholfr") >= 0:
+        alchohol_percentage_raw = product_dict["Alkohol"]  # eg. 12,50
+        alchohol_percentage_numeric = float(alchohol_percentage_raw)
+        if product_dict["Varetype"].lower().find("alkoholfri") >= 0:
             # skip these products
             raise ValueError
         return int(price_numeric) * alchohol_percentage_numeric / 100.0
