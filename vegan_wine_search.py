@@ -197,7 +197,7 @@ def create_company_list_from_vinmonpolet(products):
         produsent = product["Produsent"]
         if not produsent in wine_companies_temp:
             wine_companies_temp[produsent] = []
-            wine_companies_temp[produsent].append(product)
+        wine_companies_temp[produsent].append(product)
 
     wine_companies = []
     for name, products in wine_companies_temp.items():
@@ -289,8 +289,6 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                     best_candidate = candidate
 
             print("Selected '{}' as the most closest match".format(best_candidate["company_name"]))
-            if len(best_candidate["products_found_at_vinmonopolet"]) > 1:
-                print("---- Found multiple")  # FIXME error, does not happen, but is common in the import file
             vegan_company["products_found_at_vinmonopolet"] = best_candidate["products_found_at_vinmonopolet"]
         elif possible_matches:
             print("Possible match for company '{}'".format(vegan_company_name))
