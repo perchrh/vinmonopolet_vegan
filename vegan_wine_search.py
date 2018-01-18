@@ -67,21 +67,13 @@ def remove_diacritics(s):
     return ''.join(x for x in unicodedata.normalize('NFKD', s) if x in string.printable)
 
 
-def lcs(S1, S2):
-    cleanString1 = cleanString(S1)
-    cleanString2 = cleanString(S2)
+def lcs(cleanString1, cleanString2):
     matcher = SequenceMatcher(None, cleanString1, cleanString2)
     match = matcher.find_longest_match(0, len(cleanString1), 0, len(cleanString2))
     return match.size
 
 
-def cleanString(S1):
-    return S1.lower().strip()
-
-
-def name_similarity(S1, S2):
-    cleanString1 = cleanString(S1)
-    cleanString2 = cleanString(S2)
+def name_similarity(cleanString1, cleanString2):
     return SequenceMatcher(None, cleanString1, cleanString2).ratio() * 100
 
 
@@ -126,8 +118,8 @@ def add_normalized_names(company_list, stopwords):
         name_parts = normalize_name(company_name).split(" ")
         normalized_name_parts = [x for x in name_parts if not x in stopwords]
         normalized_name = " ".join(normalized_name_parts)
-        if not normalized_name:
-            print("Warning: empty name after normalization, using full name instead, for {}".format(company_name))
+        if not normalized_name or len(normalized_name) < 4:
+            print("Warning: empty or very short name after normalization, using full name instead, for {}".format(company_name))
             normalized_name = " ".join(name_parts)
         company["dev.normalized_name"] = normalized_name
 
@@ -164,9 +156,7 @@ def translate_country_name(country, company_id):
         "usa": "usa",
         "england": "england",
         "chile": "chile",
-        "uk": "storbritannia",  # data error
         "united kingdom": "storbritannia",
-        "south australia": "australia",  # data error
         "argentina": "argentina",
         "israel": "israel",
         "mexico": "mexico",
@@ -182,7 +172,6 @@ def translate_country_name(country, company_id):
         "venezuela": "venezuela",
         "scotland": "scotland",
         "georgia": "georgia",
-        "maryland": "usa",  # data error
         "thailand": "thailand",
         "the netherlands": "nederland",
         "new zealand": "new zealand",
@@ -273,7 +262,7 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
 
             if vegan_company["dev.countries"].isdisjoint(candidate["dev.countries"]):
                 # If countries do not match, require a very close name match
-                close_name_match = name_similarity(vegan_company_name, vinmonopolet_company_name) > 90
+                close_name_match = name_similarity(normalize_name(vegan_company_name), normalize_name(vinmonopolet_company_name)) > 90
                 if close_name_match:
                     print("Warning: country mismatch for companies '{}' and '{}'".
                           format(vegan_company_name, vinmonopolet_company_name))
@@ -284,8 +273,8 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
             else:
                 possible_matches.append(candidate)
 
-        if possible_matches:
-            print("Possible matches for company '{}':".format(vegan_company_name))
+        if len(possible_matches) > 1:
+            print("Multiple possible matches for company '{}':".format(vegan_company_name))
             for candidate in possible_matches:
                 print("    '{}' ('{}' ≈ '{}')".format(candidate["company_name"],
                                                       vegan_company["dev.normalized_name"],
@@ -295,15 +284,17 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
             most_similar_score = -1
             for candidate in possible_matches:
                 vinmonopolet_company_name = candidate["company_name"]
-                similarity = name_similarity(vegan_company_name, vinmonopolet_company_name)
+                similarity = name_similarity(normalize_name(vegan_company_name), normalize_name(vinmonopolet_company_name))
                 if similarity > most_similar_score:
                     best_candidate = candidate
 
-            if len(possible_matches) > 1:
-                print("Selected '{}' as the most closest match".format(best_candidate["company_name"]))
+            print("Selected '{}' as the most closest match".format(best_candidate["company_name"]))
             if len(best_candidate["products_found_at_vinmonopolet"]) > 1:
-                print("---- Found multiple") # FIXME error, does not happen, but is common in the import file
+                print("---- Found multiple")  # FIXME error, does not happen, but is common in the import file
             vegan_company["products_found_at_vinmonopolet"] = best_candidate["products_found_at_vinmonopolet"]
+        elif possible_matches:
+            print("Possible match for company '{}'".format(vegan_company_name))
+            vegan_company["products_found_at_vinmonopolet"] = possible_matches[0]["products_found_at_vinmonopolet"]
 
     return vegan_companies
 
