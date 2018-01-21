@@ -36,7 +36,6 @@ def import_products_from_barnivore():
 
 def post_process_vinmonopolet_data(export_data):
     products = []
-    countries = set()
     for row in export_data:
         # Headers are:
         # Datotid;Varenummer;Varenavn;Volum;Pris;Literpris;Varetype;Produktutvalg;Butikkategori;
@@ -55,10 +54,7 @@ def post_process_vinmonopolet_data(export_data):
             # print("Skipping product that's not expected to stay in stores a while"))
             continue
 
-        countries.add(product["Land"])
         products.append(product)
-
-    print("Info: origin countries at vinmonopolet are: {}".format(countries))
 
     return products
 
@@ -115,13 +111,15 @@ def get_stop_words(source_list):
 def add_normalized_names(company_list, stopwords):
     for company in company_list:
         company_name = company["company_name"]
-        name_parts = normalize_name(company_name).split(" ")
-        normalized_name_parts = [x for x in name_parts if not x in stopwords]
-        normalized_name = " ".join(normalized_name_parts)
-        if not normalized_name or len(normalized_name) < 4:
-            print("Warning: empty or very short name after normalization, using full name instead, for {}".format(company_name))
-            normalized_name = " ".join(name_parts)
-        company["dev.normalized_name"] = normalized_name
+        normalized_name = normalize_name(company_name)
+        company["dev.normalized_name"] = normalized_name # TODO expand known abbreviations here
+
+        search_string_parts = [x for x in normalized_name.split(" ") if not x in stopwords]
+        search_string = " ".join(search_string_parts)
+        if not search_string or len(search_string) < 4:
+            print("Warning: empty or very short name after normalization, using full name instead, for {} ('{}')".format(company_name, search_string))
+            search_string = normalized_name
+        company["dev.search_string"] = search_string
 
     return company_list
 
@@ -209,9 +207,9 @@ def create_company_list_from_vinmonpolet(products):
 
 
 def possible_name_match(vegan_company, vinmonopolet_company):
-    a_name = vegan_company["dev.normalized_name"]
-    another_name = vinmonopolet_company["dev.normalized_name"]
-    possible_name_match = lcs(a_name, another_name) >= 4 and name_similarity(a_name, another_name) > 80
+    a_name = vegan_company["dev.search_string"]
+    another_name = vinmonopolet_company["dev.search_string"]
+    possible_name_match = lcs(a_name, another_name) >= 4 and name_similarity(a_name, another_name) > 85 #todo test if lcs actually helps, tweak thresholds
 
     return possible_name_match
 
@@ -245,12 +243,13 @@ def write_result_file(enriched_company_list, outputfile_all_vegan, outputfile_so
 def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopolet):
     for vegan_company in vegan_companies:
         vegan_company_name = vegan_company["company_name"]
-        print("Searching for company '{}' ('{}') at Vinmonopolet...".format(vegan_company_name, vegan_company["dev.normalized_name"]))
+        print("Searching for company '{}' ('{}') at Vinmonopolet...".format(vegan_company_name, vegan_company["dev.search_string"]))
 
         possible_name_matches = []
         for vinmonopolet_company in wine_companies_at_vinmonopolet:
             if possible_name_match(vegan_company, vinmonopolet_company):
                 possible_name_matches.append(vinmonopolet_company)
+                #todo also store similarity ratio in list
 
         possible_matches = []
         for candidate in possible_name_matches:
@@ -262,7 +261,7 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
 
             if vegan_company["dev.countries"].isdisjoint(candidate["dev.countries"]):
                 # If countries do not match, require a very close name match
-                close_name_match = name_similarity(normalize_name(vegan_company_name), normalize_name(vinmonopolet_company_name)) > 90
+                close_name_match = name_similarity(vegan_company["dev.search_string"], candidate["dev.search_string"]) > 90
                 if close_name_match:
                     print("Warning: country mismatch for companies '{}' and '{}'".
                           format(vegan_company_name, vinmonopolet_company_name))
@@ -283,15 +282,16 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
             best_candidate = None
             most_similar_score = -1
             for candidate in possible_matches:
-                vinmonopolet_company_name = candidate["company_name"]
-                similarity = name_similarity(normalize_name(vegan_company_name), normalize_name(vinmonopolet_company_name))
+                similarity = name_similarity(vegan_company["dev.normalized_name"], candidate["dev.normalized_name"])
                 if similarity > most_similar_score:
                     best_candidate = candidate
+                # todo if equal similarity, use normalized name similarity as tie break
+                # todo OR - sort by similarity, and if top two matches are really close in similarity, do a tie break comparision
 
             print("Selected '{}' as the most closest match".format(best_candidate["company_name"]))
             vegan_company["products_found_at_vinmonopolet"] = best_candidate["products_found_at_vinmonopolet"]
         elif possible_matches:
-            print("Possible match for company '{}'".format(vegan_company_name))
+            print("Possible match for company '{}' ('{}')".format(vegan_company_name, possible_matches[0]["company_name"]))
             vegan_company["products_found_at_vinmonopolet"] = possible_matches[0]["products_found_at_vinmonopolet"]
 
     return vegan_companies
