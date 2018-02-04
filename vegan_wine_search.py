@@ -157,7 +157,8 @@ def get_common_abbreviations():
         "societa agricola": "soc.agr.",
         "mount": "mt.",
         "gebruder": "gebr.",
-        "champagne": "champ."
+        "champ.": "ch.", #abbreviate the abbreviation!
+        "champagne": "ch."
     }
     return common_abbreviations
 
@@ -285,7 +286,7 @@ def write_result_file(enriched_company_list, outputfile_all_vegan, outputfile_so
 def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopolet):
     for vegan_company in vegan_companies:
         vegan_company_name = vegan_company["company_name"]
-        print("Searching for company '{}' ('{}') at Vinmonopolet...".format(vegan_company_name, vegan_company["dev.search_string"]))
+        #print("Searching for company '{}' ('{}') at Vinmonopolet...".format(vegan_company_name, vegan_company["dev.search_string"]))
 
         possible_name_matches = []
         for vinmonopolet_company in wine_companies_at_vinmonopolet:

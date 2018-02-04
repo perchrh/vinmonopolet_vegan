@@ -2,12 +2,8 @@ Improve matching algorithm, especially when there are multiple matches and we wa
 Maybe both lcs and match ratio, for both normalized name and original name must factor into a composite measure.
 
 
-Report name errors to Vinmonopolet:
-Multiple possible matches for company 'Garcia Carrion':
-    'J Garcia Carrion' ('garcia carrion' ≈ 'j garcia carrion')
-    'J. Garcia Carrion' ('garcia carrion' ≈ 'j garcia carrion')
-
-Search for highly similar names in Vinmonopolet export? ratio 0.99 or so, to find similar errors
-Multiple possible matches for company 'Louis Bouillot':
-    'Dom. Louis Boillot & Fils' ('louis bouillot' ≈ 'louis boillot')
-    'Louis Bouillot' ('louis bouillot' ≈ 'louis bouillot')
+Report name errors to Vinmonopolet and to Barnivore by
+actively searching for data duplicates:
+compare every company name in each list to all other names in the same list, sort by similarity ratio,
+report on top N similar names as potential duplicates.
+There are known duplicates currently.
