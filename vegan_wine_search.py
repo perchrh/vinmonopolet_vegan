@@ -271,13 +271,11 @@ def write_result_file(enriched_company_list, outputfile_all_vegan, outputfile_so
             elif (status == 'Vegan Friendly'):
                 all_vegan_companies.append(company)
 
-    # Write the current list to file, to avoid losing all data in case of network/http server/other problems)
     with open(outputfile_all_vegan, mode='w', encoding='utf-8') as f:
         json.dump(all_vegan_companies, f, indent=2, ensure_ascii=False, sort_keys=True)
         f.flush()
     print("Found {} possible vegan wine company matches".format(len(all_vegan_companies)))
 
-    # Write the current list to file, to avoid losing all data in case of network/http server/other problems)
     with open(outputfile_some_vegan, mode='w', encoding='utf-8') as f:
         json.dump(partly_vegan_companies, f, indent=2, ensure_ascii=False, sort_keys=True)
         f.flush()
