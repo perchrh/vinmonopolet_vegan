@@ -88,37 +88,35 @@ def get_stop_words(source_list):
     counter.update(words)
     dynamic_stopwords = set([word[0] for word in counter.most_common(stopword_count)])
 
-    static_stopwords = {'bryghus', 'fatt', 'saint', 'veuve', 'doctor', 'monte', 'cspa', 'vigneron', 'brewers',
-                        'mount', 'cant', 'dr', 'the', 'distillery', 'il', 'bryggeri', 'e', 'distillerie', 'company',
-                        'dom', 'royal', 'winemaker', 'weing', 'bierbrouwerij', 'grand', 'distilleria', 'el', 'birra',
-                        'view', 'c', 'int', 'ridge', 'merchant', 'bros', 'grupo', 'coop', 'weingut', 'vintners', 'ab',
-                        'vignerons', 'spanish', 'vin', 'estates', 'vineyards', 'di', 'house', 'dist', 'gebruder',
-                        'est', 'corp', 'weinbau', 'international', 'weinkellerei', 'beer house', 'creek', 'at', 'by',
-                        'cantina', 'weinhaus', 'and', 'supermarkets', 'de', 'brasserie', 'farm', 'port', 'winery',
-                        'estate', 'family', 'of', 'comp', 'breweries', 'group', 'marq', 'ltd', 'spa', 'vineyard',
-                        'bod', 'abbazia', 'chateau', 'les', 'st', 'beer', 'co', 'martin', 'az,', 'bodega', 'casas',
-                        'gran', 'srl', 'fattoria', 'gebr', 'brothers', 'domaine', 'inc', 'brewing', 'do',
-                        'viticultor', 'brauerei', 'champagne', 'brouwerij', 'casa', 'productions', 'bieres',
-                        'marques', 'cellars', 'gmbh', 'bds', 'vinedos', 'nuevo', 'cast', 'llc', 'wineries', 'sl',
-                        'brygghus', 'hills', 'y', 'urban', 'vitivinicola', 'winework', 'sca', 'valley', 'limited',
-                        'plc', 'wine', 'du', 'birras', 'brewery', 'long', 'pty', 'dominio', 'sociedade', 'alta',
-                        'compania', 'spirits', 'azienda', 'sa', 'vign', 'societa', 'champ', 'agricola', 'fe', 'ch',
-                        'vinos', 'vinicole', 'cellar', 'brew house', 'ag', 'agr', 'das', 'cantine', 'wines'}
+    static_stopwords = {'aa', 'ab', 'abbazia', 'ag', 'alta', 'and', 'at', 'az,', 'azienda', 'bds', 'beer', 'beer house', 'bierbrouwerij', 'bieres', 'birra',
+                        'birras', 'bodega', 'brasserie', 'brauerei', 'brew house', 'breweries', 'brewers', 'brewery', 'brewing', 'brouwerij', 'bryggeri',
+                        'brygghus', 'bryghus', 'by', 'c', 'casa', 'casas', 'cellar', 'cellars', 'co', 'comp', 'compania', 'company', 'coop', 'corp', 'creek',
+                        'crl', 'cspa', 'das', 'de', 'di', 'distillerie', 'do', 'dominio', 'du', 'e', 'el', 'estates', 'family', 'farm', 'fe', 'gmbh', 'gran',
+                        'grand', 'group', 'grupo', 'hills', 'house', 'il', 'inc', 'incorporated', 'les', 'limited', 'limitee', 'llc', 'long', 'ltd', 'martin',
+                        'merchant', 'monte', 'nuevo', 'of', 'plc', 'port', 'prod', 'productions', 'pty', 'ridge', 'royal', 'sa', 'sca', 'sl', 'soc',
+                        'sociedade', 'sociedadsocieta', 'societe', 'spa', 'spanish', 'spirits', 'srl', 'ss', 'supermarkets', 'the', 'urban', 'valley', 'veuve',
+                        'view', 'vignerons', 'vinedos', 'vineyard', 'vineyards', 'vinos', 'vintners', 'vit', 'viticultor', 'vitivinicola', 'weinbau',
+                        'weinhaus', 'weinkellerei', 'wine', 'winemaker', 'wineries', 'winery', 'wines', 'winework', 'y'}
 
-    return static_stopwords | dynamic_stopwords
+    abbreviation_dict = get_common_abbreviations()
+    abbreviations = set([x.replace(".", "") for x in (abbreviation_dict.keys() | abbreviation_dict.values())])
+
+    return static_stopwords | dynamic_stopwords | abbreviations
 
 
 def add_normalized_names(company_list, stopwords):
     for company in company_list:
         company_name = company["company_name"]
-        normalized_name = normalize_name(company_name)
-        company["dev.normalized_name"] = normalized_name # TODO expand known abbreviations here
+        company["dev.normalized_name"] = normalize_name(replace_abbreviations(company_name))
 
+        normalized_name = normalize_name(company_name)
         search_string_parts = [x for x in normalized_name.split(" ") if not x in stopwords]
         search_string = " ".join(search_string_parts)
+
         if not search_string or len(search_string) < 4:
-            print("Warning: empty or very short name after normalization, using full name instead, for {} ('{}')".format(company_name, search_string))
+            print("Warning: empty or very short name after normalization, using full search name instead, for {} ('{}')".format(company_name, normalized_name))
             search_string = normalized_name
+
         company["dev.search_string"] = search_string
 
     return company_list
@@ -126,6 +124,51 @@ def add_normalized_names(company_list, stopwords):
 
 def normalize_name(company_name):
     return remove_diacritics(company_name).strip().lower().replace(".", "").replace(",", "")
+
+
+def get_common_abbreviations():
+    common_abbreviations = {
+        # poor man's abbreviation
+        "domaine": "dom.",
+        "chateau": "ch.",
+        "agricola": "agr.",
+        "weingut": "weing.",
+        "bodegas": "bod.",
+        "cantine": "cant.",
+        "cantina": "cant.",
+        "tenuta": "ten.",
+        "vinicole": "vin.",
+        "saint": "st.",
+        "estate": "est.",
+        "vigneron": "vign.",
+        "castello": "cast.",
+        "fattoria": "fatt.",
+        "distillery": "dist.",
+        "distilleria": "dist.",
+        "fratelli": "f.lli",
+        "doctor": "dr.",
+        "poderi": "pod.",
+        "marques": "marq.",
+        "marchesi": "march.",
+        "azienda agricola": "az.agr.",
+        "brothers": "bros.",
+        "sainte": "ste.",
+        "societa' agricola": "soc.agr.",
+        "societa agricola": "soc.agr.",
+        "mount": "mt.",
+        "gebruder": "gebr.",
+        "champagne": "champ."
+    }
+    return common_abbreviations
+
+
+def replace_abbreviations(word):
+    if not word: return word
+
+    try:
+        return get_common_abbreviations()[word]
+    except KeyError:
+        return word
 
 
 def translate_country_name(country, company_id):
@@ -178,7 +221,8 @@ def translate_country_name(country, company_id):
         "brazil": "brasil",
         "japan": "japan",
         "australia": "australia",
-        "canada": "canada"}
+        "canada": "canada"
+    }
 
     try:
         return country_dict[country]
@@ -209,7 +253,7 @@ def create_company_list_from_vinmonpolet(products):
 def possible_name_match(vegan_company, vinmonopolet_company):
     a_name = vegan_company["dev.search_string"]
     another_name = vinmonopolet_company["dev.search_string"]
-    possible_name_match = lcs(a_name, another_name) >= 4 and name_similarity(a_name, another_name) > 85 #todo test if lcs actually helps, tweak thresholds
+    possible_name_match = lcs(a_name, another_name) >= 4 and name_similarity(a_name, another_name) > 85  # todo test if lcs actually helps, tweak thresholds
 
     return possible_name_match
 
@@ -249,7 +293,6 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
         for vinmonopolet_company in wine_companies_at_vinmonopolet:
             if possible_name_match(vegan_company, vinmonopolet_company):
                 possible_name_matches.append(vinmonopolet_company)
-                #todo also store similarity ratio in list
 
         possible_matches = []
         for candidate in possible_name_matches:
@@ -280,12 +323,12 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                                                       candidate["dev.normalized_name"]))
 
             best_candidate = None
-            most_similar_score = -1
+            best_similarity_score = -1
             for candidate in possible_matches:
-                similarity = name_similarity(vegan_company["dev.normalized_name"], candidate["dev.normalized_name"])
-                if similarity > most_similar_score:
+                similarity_score = name_similarity(vegan_company["dev.normalized_name"], candidate["dev.normalized_name"])
+                if similarity_score > best_similarity_score:
                     best_candidate = candidate
-                # todo if equal similarity, use normalized name similarity as tie break
+                    best_similarity_score = similarity_score
                 # todo OR - sort by similarity, and if top two matches are really close in similarity, do a tie break comparision
 
             print("Selected '{}' as the most closest match".format(best_candidate["company_name"]))
