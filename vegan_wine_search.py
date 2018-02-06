@@ -91,7 +91,7 @@ def get_stop_words(source_list):
     static_stopwords = {'aa', 'ab', 'abbazia', 'ag', 'alta', 'and', 'at', 'az,', 'azienda', 'bds', 'beer', 'beer house', 'bierbrouwerij', 'bieres', 'birra',
                         'birras', 'bodega', 'brasserie', 'brauerei', 'brew house', 'breweries', 'brewers', 'brewery', 'brewing', 'brouwerij', 'bryggeri',
                         'brygghus', 'bryghus', 'by', 'c', 'casa', 'casas', 'cellar', 'cellars', 'co', 'comp', 'compania', 'company', 'coop', 'corp', 'creek',
-                        'crl', 'cspa', 'das', 'de', 'di', 'distillerie', 'do', 'dominio', 'du', 'e', 'el', 'estates', 'family', 'farm', 'fe', 'gmbh', 'gran',
+                        'crl', 'cspa', 'das', 'de', 'di', 'distillerie', 'do', 'du', 'e', 'el', 'estates', 'family', 'farm', 'fe', 'gmbh', 'gran',
                         'grand', 'group', 'grupo', 'hills', 'house', 'il', 'inc', 'incorporated', 'les', 'limited', 'limitee', 'llc', 'long', 'ltd', 'martin',
                         'merchant', 'monte', 'nuevo', 'of', 'plc', 'port', 'prod', 'productions', 'pty', 'ridge', 'royal', 'sa', 'sca', 'sl', 'soc',
                         'sociedade', 'sociedadsocieta', 'societe', 'spa', 'spanish', 'spirits', 'srl', 'ss', 'supermarkets', 'the', 'urban', 'valley', 'veuve',
@@ -130,6 +130,8 @@ def get_common_abbreviations():
     common_abbreviations = {
         # poor man's abbreviation
         "domaine": "dom.",
+        "domini": "dom.",
+        "dominio": "dom.",
         "chateau": "ch.",
         "agricola": "agr.",
         "weingut": "weing.",
@@ -157,7 +159,7 @@ def get_common_abbreviations():
         "societa agricola": "soc.agr.",
         "mount": "mt.",
         "gebruder": "gebr.",
-        "champ.": "ch.", #abbreviate the abbreviation!
+        "champ.": "ch.",  # abbreviate the abbreviation!
         "champagne": "ch."
     }
     return common_abbreviations
@@ -286,7 +288,7 @@ def write_result_file(enriched_company_list, outputfile_all_vegan, outputfile_so
 def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopolet):
     for vegan_company in vegan_companies:
         vegan_company_name = vegan_company["company_name"]
-        #print("Searching for company '{}' ('{}') at Vinmonopolet...".format(vegan_company_name, vegan_company["dev.search_string"]))
+        # print("Searching for company '{}' ('{}') at Vinmonopolet...".format(vegan_company_name, vegan_company["dev.search_string"]))
 
         possible_name_matches = []
         for vinmonopolet_company in wine_companies_at_vinmonopolet:
@@ -315,7 +317,7 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                 possible_matches.append(candidate)
 
         if len(possible_matches) > 1:
-            print("Multiple possible matches for company '{}':".format(vegan_company_name))
+            print("Multiple possible matches for company '{}' ({}):".format(vegan_company_name, vegan_company["red_yellow_green"]))
             for candidate in possible_matches:
                 print("    '{}' ('{}' ≈ '{}')".format(candidate["company_name"],
                                                       vegan_company["dev.normalized_name"],
@@ -330,10 +332,12 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                     best_similarity_score = similarity_score
                 # todo OR - sort by similarity, and if top two matches are really close in similarity, do a tie break comparision
 
-            print("Selected '{}' as the most closest match".format(best_candidate["company_name"]))
+            print("Selected '{}' as the most closest match ".format(best_candidate["company_name"]))
             vegan_company["products_found_at_vinmonopolet"] = best_candidate["products_found_at_vinmonopolet"]
         elif possible_matches:
-            print("Possible match for company '{}' ('{}')".format(vegan_company_name, possible_matches[0]["company_name"]))
+            print("Possible match for company '{}': '{}' ({})".format(vegan_company_name,
+                                                                      possible_matches[0]["company_name"],
+                                                                      vegan_company["red_yellow_green"]))
             vegan_company["products_found_at_vinmonopolet"] = possible_matches[0]["products_found_at_vinmonopolet"]
 
     return vegan_companies
