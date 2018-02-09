@@ -23,9 +23,9 @@ def import_products_from_vinmonopolet(filename):
             sys.exit('file {}, line {}: {}'.format(filename, wine_reader.line_num, e))
 
 
-def import_products_from_barnivore():
+def import_products_from_barnivore(filename):
     companies = list()
-    with open('wine.json', encoding='utf-8') as file:
+    with open(filename, encoding='utf-8') as file:
         for candidate in json.loads(file.read()):
             candidate_company = candidate["company"]
             candidate_company['dev.countries'] = {translate_country_name(candidate_company['country'].lower(), candidate_company['id'])}
@@ -123,7 +123,7 @@ def add_normalized_names(company_list, stopwords):
 
 
 def normalize_name(company_name):
-    return remove_diacritics(company_name).strip().lower().replace(".", "").replace(",", "")
+    return remove_diacritics(company_name).strip().lower().replace(".", " ").replace(",", "").replace("-", " ")
 
 
 def get_common_abbreviations():
@@ -350,7 +350,7 @@ if __name__ == "__main__":
     products = post_process_vinmonopolet_data(products)
     wine_companies_at_vinmonopolet = create_company_list_from_vinmonpolet(products)
 
-    wine_companies_from_barnivore = import_products_from_barnivore()
+    wine_companies_from_barnivore = import_products_from_barnivore('wine.json')
 
     print("Using {} wine companies at Vinmonopolet, and {} listed in Barnivore".format(
         len(wine_companies_at_vinmonopolet), len(wine_companies_from_barnivore)))
