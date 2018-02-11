@@ -64,17 +64,18 @@ def report_duplicates(wine_companies, id_map):
     with multiprocessing.Pool(processes=num_agents) as pool:
         result = pool.map(compute_similarity, dataset, chunk_size)
 
-        print("Sorting matches...")
+        print("Sorting matches by similarity...")
         result.sort(key=sort_by_ratio, reverse=True)
-        one_percent = int(0.5 + len(result) * 0.01)
-        print("Similar wine company names:")
-        for i in range(0, one_percent):
-            (ratio, company, other_company) = result[i]
+        print("Similar company names:")
+        for company in result:
+            (ratio, company, other_company) = company
             if ratio > 0.9:
                 id = id_map[company]
                 other_company_id = id_map[other_company]
                 print("{} ({}) ~ {} ({}) - {:.3f}".format(
                     company, id, other_company, other_company_id, ratio))
+            else:
+                break
 
 
 def import_products_from_barnivore(filename):
@@ -87,10 +88,10 @@ def import_products_from_barnivore(filename):
                 wine_companies.add(name)
                 company_id_map[name] = item["company"]["id"]
             else:
-                print("Identical wine company name: {} - id {} and {}".format(name,
-                                                                item["company"]["id"],
-                                                                company_id_map[name]))
-                #print("Compare {} to {}".format("http://www.barnivore.com/wine/%s/company" %item["company"]["id"],
+                print("Identical company name: {} - id {} and {}".format(name,
+                                                                              item["company"]["id"],
+                                                                              company_id_map[name]))
+                # print("Compare {} to {}".format("http://www.barnivore.com/wine/%s/company" %item["company"]["id"],
                 #                                "http://www.barnivore.com/wine/%s/company" % company_id_map[name]))
 
         report_duplicates(wine_companies, company_id_map)
