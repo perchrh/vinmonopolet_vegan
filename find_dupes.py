@@ -5,6 +5,7 @@ import csv
 import sys
 import json
 from difflib import SequenceMatcher
+import multiprocessing
 
 
 def progress_bar(iteration, total, barLength=50):
@@ -40,42 +41,40 @@ def import_products_from_vinmonopolet(filename):
             sys.exit('file {}, line {}: {}'.format(filename, wine_reader.line_num, e))
 
 
+def compute_similarity(company_tuple):
+    company, other_company = company_tuple
+    ratio = SequenceMatcher(None, company, other_company).ratio()
+    return (ratio, company, other_company)
+
+
 def report_duplicates(wine_companies, id_map):
-    matches = []
-    counter = 0
-    target_count = int(0.5 * len(wine_companies) ** 2)
-    processed_combinations = set()
-    print("Comparing company names ({} combinations)".format(target_count))
+    dataset = set()
     for company in wine_companies:
         for other_company in wine_companies:
-            if id_map[company] == id_map[other_company]:
-                # same entry
+            if other_company == company:
                 continue
-            compared_companies = sorted([company, other_company])
-            if (compared_companies[0], compared_companies[1]) in processed_combinations:
-                # same combination
-                continue
+            sorted_companies = sorted([company, other_company])
+            company_tuple = (sorted_companies[0], sorted_companies[1])
+            dataset.add(company_tuple)
 
-            ratio = SequenceMatcher(None, company, other_company).ratio()
-            matches.append((ratio, company, other_company))
-            counter += 1
+    print("Comparing company names ({} combinations)..".format(len(dataset)))
 
-            progress_bar(counter, target_count, 50)
+    num_agents = multiprocessing.cpu_count() - 1 or 1
+    chunk_size = 1000
+    with multiprocessing.Pool(processes=num_agents) as pool:
+        result = pool.map(compute_similarity, dataset, chunk_size)
 
-            processed_combinations.add((compared_companies[0], compared_companies[1]))
-    print("\n")
-
-    print("Sorting matches...")
-    matches.sort(key=sort_by_ratio, reverse=True)
-    five_percent = int(0.5 + len(matches) * 0.05)
-    print("Top 5% most similar wine company names")
-    for i in range(0, five_percent):
-        (ratio, company, other_company) = matches[i]
-        id = id_map[company]
-        other_company_id = id_map[other_company]
-        if ratio > 0.9:
-            print("{} ({}) ~ {} ({}) - {:.3f}".format(
-                company, id, other_company, other_company_id, ratio))
+        print("Sorting matches...")
+        result.sort(key=sort_by_ratio, reverse=True)
+        one_percent = int(0.5 + len(result) * 0.01)
+        print("Similar wine company names:")
+        for i in range(0, one_percent):
+            (ratio, company, other_company) = result[i]
+            if ratio > 0.9:
+                id = id_map[company]
+                other_company_id = id_map[other_company]
+                print("{} ({}) ~ {} ({}) - {:.3f}".format(
+                    company, id, other_company, other_company_id, ratio))
 
 
 def import_products_from_barnivore(filename):
@@ -84,8 +83,15 @@ def import_products_from_barnivore(filename):
         company_id_map = {}
         for item in json.loads(file.read()):
             name = item["company"]["company_name"]
-            wine_companies.add(name)
-            company_id_map[name] = item["company"]["id"]
+            if not name in wine_companies:
+                wine_companies.add(name)
+                company_id_map[name] = item["company"]["id"]
+            else:
+                print("Identical wine company name: {} - id {} and {}".format(name,
+                                                                item["company"]["id"],
+                                                                company_id_map[name]))
+                #print("Compare {} to {}".format("http://www.barnivore.com/wine/%s/company" %item["company"]["id"],
+                #                                "http://www.barnivore.com/wine/%s/company" % company_id_map[name]))
 
         report_duplicates(wine_companies, company_id_map)
 
@@ -94,5 +100,6 @@ if __name__ == "__main__":
     print("Possible duplicate wine companies at Barnivore:")
     import_products_from_barnivore("wine.json")
 
+    print("\n\n")
     print("Possible duplicate wine companies at Vinmonopolet:")
     import_products_from_vinmonopolet("produkter.csv")
