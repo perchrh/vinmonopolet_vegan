@@ -60,7 +60,7 @@ def report_duplicates(wine_companies, id_map):
     print("Comparing company names ({} combinations)..".format(len(dataset)))
 
     num_agents = multiprocessing.cpu_count() - 1 or 1
-    chunk_size = 1000
+    chunk_size = int(len(dataset) / num_agents + 0.5)
     with multiprocessing.Pool(processes=num_agents) as pool:
         result = pool.map(compute_similarity, dataset, chunk_size)
 
@@ -89,8 +89,8 @@ def import_products_from_barnivore(filename):
                 company_id_map[name] = item["company"]["id"]
             else:
                 print("Identical company name: {} - id {} and {}".format(name,
-                                                                              item["company"]["id"],
-                                                                              company_id_map[name]))
+                                                                         item["company"]["id"],
+                                                                         company_id_map[name]))
                 # print("Compare {} to {}".format("http://www.barnivore.com/wine/%s/company" %item["company"]["id"],
                 #                                "http://www.barnivore.com/wine/%s/company" % company_id_map[name]))
 
