@@ -6,16 +6,7 @@ import sys
 import json
 from difflib import SequenceMatcher
 import multiprocessing
-
-
-def progress_bar(iteration, total, barLength=50):
-    # Thanks to https://gist.github.com/azlux/7b8f449ac7fa308d45232c3a281be7bb
-    percent = int(round((iteration / total) * 100))
-    nb_bar_fill = int(round((barLength * percent) / 100))
-    bar_fill = '#' * nb_bar_fill
-    bar_empty = ' ' * (barLength - nb_bar_fill)
-    sys.stdout.write("\r  [{0}] {1}%".format(str(bar_fill + bar_empty), percent))
-    sys.stdout.flush()
+import winestrings as wines
 
 
 def sort_by_ratio(item):
@@ -34,8 +25,7 @@ def import_products_from_vinmonopolet(filename):
                 name = product["Produsent"]
                 wine_companies.add(name)
                 sku_map[name] = product["Varenummer"]
-            print("Found {} wine companies at Vinmonopolet".format(len(wine_companies)))
-            report_duplicates(wine_companies, sku_map)
+            return (wine_companies, sku_map)
 
         except csv.Error as e:
             sys.exit('file {}, line {}: {}'.format(filename, wine_reader.line_num, e))
@@ -94,13 +84,21 @@ def import_products_from_barnivore(filename):
                 # print("Compare {} to {}".format("http://www.barnivore.com/wine/%s/company" %item["company"]["id"],
                 #                                "http://www.barnivore.com/wine/%s/company" % company_id_map[name]))
 
-        report_duplicates(wine_companies, company_id_map)
+        return (wine_companies, company_id_map)
 
 
 if __name__ == "__main__":
+    barnivore_companies, barnivore_id_map = import_products_from_barnivore("wine.json")
+    barnivore_companies_normalized = [wines.normalize_name(wines.replace_abbreviations(x)) for x in barnivore_companies]
+    barnivore_id_map_normalized = {}
+    for key, value in barnivore_id_map.items():
+        barnivore_id_map_normalized[wines.normalize_name(wines.replace_abbreviations(key))] = value
+    print("Found {} wine companies at Barnivore".format(len(barnivore_companies_normalized)))
     print("Possible duplicate wine companies at Barnivore:")
-    import_products_from_barnivore("wine.json")
+    report_duplicates(barnivore_companies_normalized, barnivore_id_map_normalized)
 
     print("\n\n")
+    vinmonopolet_companies, vinmonopolet_id_map = import_products_from_vinmonopolet("produkter.csv")
+    print("Found {} wine companies at Vinmonopolet".format(len(vinmonopolet_companies)))
     print("Possible duplicate wine companies at Vinmonopolet:")
-    import_products_from_vinmonopolet("produkter.csv")
+    report_duplicates(vinmonopolet_companies, vinmonopolet_id_map)
