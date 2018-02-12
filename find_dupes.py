@@ -99,6 +99,10 @@ if __name__ == "__main__":
 
     print("\n\n")
     vinmonopolet_companies, vinmonopolet_id_map = import_products_from_vinmonopolet("produkter.csv")
+    vinmonopolet_companies_normalized = [wines.normalize_name(wines.replace_abbreviations(x)) for x in vinmonopolet_companies]
+    vinmonopolet_id_map_normalized = {}
+    for key, value in vinmonopolet_id_map.items():
+        vinmonopolet_id_map_normalized[wines.normalize_name(wines.replace_abbreviations(key))] = value
     print("Found {} wine companies at Vinmonopolet".format(len(vinmonopolet_companies)))
     print("Possible duplicate wine companies at Vinmonopolet:")
-    report_duplicates(vinmonopolet_companies, vinmonopolet_id_map)
+    report_duplicates(vinmonopolet_companies_normalized, vinmonopolet_id_map_normalized)
