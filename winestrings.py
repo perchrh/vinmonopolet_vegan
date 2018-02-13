@@ -23,6 +23,7 @@ def get_common_abbreviations():
         "chateau": "ch.",
         "agricola": "agr.",
         "weingut": "weing.",
+        "weingt": "weing.",
         "bodegas": "bod.",
         "cantine": "cant.",
         "cantina": "cant.",

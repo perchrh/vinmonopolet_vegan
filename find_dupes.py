@@ -95,7 +95,7 @@ def find_company_name_by_id(id, wine_companies):
 
 
 if __name__ == "__main__":
-    wine_companies_from_barnivore = wines.load_wine_companies_from_barnivore("wine.json")[0:100]
+    wine_companies_from_barnivore = wines.load_wine_companies_from_barnivore("wine.json")
     barnivore_companies, barnivore_id_map = import_products_from_barnivore(wine_companies_from_barnivore)
     barnivore_companies_normalized = [wines.normalize_name(wines.replace_abbreviations(x)) for x in barnivore_companies]
     barnivore_id_map_normalized = {}
@@ -105,8 +105,9 @@ if __name__ == "__main__":
     print("Possible duplicate wine companies at Barnivore:")
     duplicates = find_duplicates(barnivore_companies_normalized, barnivore_id_map_normalized)
     for (company, id, other_company, other_company_id, ratio) in duplicates:
-        print("{} ({}) ~ {} ({}) - {:.3f}".format(
-            company, id, other_company, other_company_id, ratio))
+        company_original_name = find_company_name_by_id(id, wine_companies_from_barnivore)
+        other_company_original_name = find_company_name_by_id(other_company_id, wine_companies_from_barnivore)
+        print("{} ({}) ~ {} ({}) - {:.3f}".format(company_original_name, id, other_company_original_name, other_company_id, ratio))
 
     print("\n\n")
     wine_companies_at_vinmonopolet = wines.load_wine_companies_from_vinmonopolet("produkter.csv")
