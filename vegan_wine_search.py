@@ -15,8 +15,8 @@ some_vegan_products_output_filename = "some-vegan-options-searchresult-vinmonopo
 def possible_name_match(vegan_company, vinmonopolet_company):
     a_name = vegan_company["dev.search_string"]
     another_name = vinmonopolet_company["dev.search_string"]
-    possible_name_match = wines.lcs(a_name, another_name) >= 4 and wines.name_similarity(a_name,
-                                                                                         another_name) > 0.85  # todo test if lcs actually helps, tweak thresholds
+    possible_name_match = wines.lcs(a_name, another_name) >= 4 \
+                          and wines.name_similarity(a_name, another_name) > 0.85
 
     return possible_name_match
 
@@ -78,12 +78,16 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
             possible_matches = []
             for candidate in vinmonopolet_companies:
                 vinmonopolet_company_name = candidate["company_name"]
-                close_name_match = wines.name_similarity(vegan_company["dev.search_string"], candidate["dev.search_string"]) > 0.9
                 normalized_name_similarity = wines.name_similarity(vegan_company["dev.normalized_name"], candidate["dev.normalized_name"])
+                search_name_similarity = wines.name_similarity(vegan_company["dev.search_string"], candidate["dev.search_string"])
+                close_name_match = search_name_similarity > 0.9
 
-                if not close_name_match and normalized_name_similarity < 0.6:
-                    print("Warning: ignoring match between companies '{}' and '{}', listed names vary too much".format(vegan_company_name,
-                                                                                                                       vinmonopolet_company_name))
+                if (not close_name_match and normalized_name_similarity < 0.65) or normalized_name_similarity < 0.45:
+                    print("Warning: ignoring match between companies '{}' and '{}', listed names vary too much - {:.3f}, {:.3f}".format(vegan_company_name,
+                                                                                                                                        vinmonopolet_company_name,
+                                                                                                                                        normalized_name_similarity,
+                                                                                                                                        search_name_similarity))
+                    # TODO mark as bad match, and keep in output json for manual de-marking?
                     continue
 
                 if not candidate["dev.countries"]:
@@ -121,10 +125,12 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                 vegan_company["products_found_at_vinmonopolet"] = best_candidate["products_found_at_vinmonopolet"]
             elif possible_matches:
                 normalized_name_similarity = wines.name_similarity(vegan_company["dev.normalized_name"], possible_matches[0]["dev.normalized_name"])
-                print("Possible match for company '{}': '{}' ({}) - {:.3f}".format(vegan_company_name,
-                                                                               possible_matches[0]["company_name"],
-                                                                               vegan_company["red_yellow_green"],
-                                                                               normalized_name_similarity))
+                search_name_similarity = wines.name_similarity(vegan_company["dev.search_string"], possible_matches[0]["dev.search_string"])
+                print("Possible match for company '{}': '{}' ({}) - {:.3f}, {:.3f}".format(vegan_company_name,
+                                                                                           possible_matches[0]["company_name"],
+                                                                                           vegan_company["red_yellow_green"],
+                                                                                           normalized_name_similarity,
+                                                                                           search_name_similarity))
                 vegan_company["products_found_at_vinmonopolet"] = possible_matches[0]["products_found_at_vinmonopolet"]
 
         return [x[0] for x in filtered_list]  # barnivore companies with added data
