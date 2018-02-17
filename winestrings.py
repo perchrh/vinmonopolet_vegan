@@ -152,7 +152,7 @@ def get_stop_words(words):
                         'brewing', 'brouwerij', 'bryggeri',
                         'brygghus', 'bryghus', 'by', 'c', 'casa', 'casas', 'cellar', 'cellars', 'co', 'comp',
                         'compania', 'company', 'coop', 'corp', 'creek',
-                        'crl', 'cspa', 'das', 'de', 'di', 'distillerie', 'do', 'du', 'e', 'el', 'estates', 'family',
+                        'crl', 'cspa', 'das', 'de', 'dei', 'di', 'distillerie', 'do', 'du', 'e', 'el', 'estates', 'family',
                         'farm', 'fe', 'gmbh', 'gran',
                         'grand', 'group', 'grupo', 'hills', 'house', 'il', 'inc', 'incorporated', 'les', 'limited',
                         'limitee', 'llc', 'long', 'ltd', 'martin',
