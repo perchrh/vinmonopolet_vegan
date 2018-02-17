@@ -78,14 +78,20 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
             possible_matches = []
             for candidate in vinmonopolet_companies:
                 vinmonopolet_company_name = candidate["company_name"]
+                close_name_match = wines.name_similarity(vegan_company["dev.search_string"], candidate["dev.search_string"]) > 0.9
+                normalized_name_similarity = wines.name_similarity(vegan_company["dev.normalized_name"], candidate["dev.normalized_name"])
+
+                if not close_name_match and normalized_name_similarity < 0.6:
+                    print("Warning: ignoring match between companies '{}' and '{}', listed names vary too much".format(vegan_company_name,
+                                                                                                                       vinmonopolet_company_name))
+                    continue
+
                 if not candidate["dev.countries"]:
                     print("Warning: no country data at vinmonopolet for company '{}'".format(vinmonopolet_company_name))
                     possible_matches.append(candidate)
                     continue
-
-                if vegan_company["dev.countries"].isdisjoint(candidate["dev.countries"]):
+                elif vegan_company["dev.countries"].isdisjoint(candidate["dev.countries"]):
                     # If countries do not match, require a very close name match
-                    close_name_match = wines.name_similarity(vegan_company["dev.search_string"], candidate["dev.search_string"]) > 0.9
                     if close_name_match:
                         print("Warning: country mismatch for companies '{}' and '{}'".format(vegan_company_name, vinmonopolet_company_name))
                         vegan_company["dev.country_mismatch"] = True  # Mark the entry for inspection
@@ -111,12 +117,14 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                         best_similarity_score = similarity_score
                     # todo OR - sort by similarity, and if top two matches are really close in similarity, do a tie break comparision
 
-                print("Selected '{}' as the most closest match ".format(best_candidate["company_name"]))
+                print("Selected '{}' as the most closest match - {:.3f}".format(best_candidate["company_name"], best_similarity_score))
                 vegan_company["products_found_at_vinmonopolet"] = best_candidate["products_found_at_vinmonopolet"]
             elif possible_matches:
-                print("Possible match for company '{}': '{}' ({})".format(vegan_company_name,
-                                                                          possible_matches[0]["company_name"],
-                                                                          vegan_company["red_yellow_green"]))
+                normalized_name_similarity = wines.name_similarity(vegan_company["dev.normalized_name"], possible_matches[0]["dev.normalized_name"])
+                print("Possible match for company '{}': '{}' ({}) - {:.3f}".format(vegan_company_name,
+                                                                               possible_matches[0]["company_name"],
+                                                                               vegan_company["red_yellow_green"],
+                                                                               normalized_name_similarity))
                 vegan_company["products_found_at_vinmonopolet"] = possible_matches[0]["products_found_at_vinmonopolet"]
 
         return [x[0] for x in filtered_list]  # barnivore companies with added data
