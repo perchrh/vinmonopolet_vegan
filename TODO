@@ -50,30 +50,13 @@ Possible errors in source data:
 o Multiple possible matches for company 'Champagne Palmer & Co.' (Green): <- error in Vinmonopolet data?
     'Ch. Palmer' ('champagne palmer & co ' ≈ 'ch palmer')
     'Palmer & Co.' ('champagne palmer & co ' ≈ 'palmer & co ')
-o Multiple possible matches for company 'De Martino' (Green): <- error in Barnivore data, DeMartino Wines and De Martino is the same company?
-    'De Martino' ('de martino' ≈ 'de martino') <-- error in Vinmonopolet data, these are the same companies?
-    'De Martino Vineyards' ('de martino' ≈ 'de martino vineyards')
 o Multiple possible matches for company 'E. Guigal S.A.S.' (Green): <- error in Vinmonpolet data, these are the same companies?
     'E. Guigal' ('e guigal s a s ' ≈ 'e guigal')
     'Guigal' ('e guigal s a s ' ≈ 'guigal')
 o Multiple possible matches for company 'Garcia Carrion' (Yellow): <- error in Vinmonpolet data, these are the same companies
     'J Garcia Carrion' ('garcia carrion' ≈ 'j garcia carrion')
     'J. Garcia Carrion' ('garcia carrion' ≈ 'j garcia carrion')
-o Error in Barnivore data? Garcia Carrion is the same company as J García Carrión, S.A. ?
 o Multiple possible matches for company 'Louis Bouillot' (Yellow): <- error in Vinmonopolet data, same company?
     'Dom. Louis Boillot & Fils' ('louis bouillot' ≈ 'dom louis boillot & fils')
     'Louis Bouillot' ('louis bouillot' ≈ 'louis bouillot')
-o Multiple possible matches for company 'Stag's Leap Wine Cellars' (Yellow): <- error in Vinmonopolet data, same company?
-    'Stag's Leap Wine Cellars' ('stag's leap wine cellars' ≈ 'stag's leap wine cellars')
-    'Stags' Leap Winery' ('stag's leap wine cellars' ≈ 'stags' leap winery')
-o Possible match for company 'Brown Brothers': 'Brown Brothers' (Yellow) <- error in Barnivore data?
-  Possible match for company 'Brown Estate Vineyards': 'Brown Brothers' (Green)
-o Possible match for company 'Charles de Fère': 'Charles de Fères' (Yellow) <- error in either data source
-o Possible match for company 'Codorniu Wines': 'Codorníu' (Green)  <- error in Barnivore data?
-  Possible match for company 'Codorníu, S.A.': 'Codorníu' (Green)
-o Possible match for company 'McPherson Wine Co.': 'McPherson Wines' (Yellow) <- error in Barnivore data?
-  Possible match for company 'McPhersons Cellars': 'McPherson Wines' (Green)
-o Possible match for company 'Pernod Ricard Bodegas': 'Pernod Ricard' (Yellow) <- error in Barnivore data?
-  Warning: ignoring match between companies 'Pernod Ricard USA, LLC' and 'Pernod Ricard', countries differ
-o Possible match for company 'Weingut Marcus Huber': 'Markus Huber' (Green) <- error in either data source?
-o Possible match for company 'Wildhurst Vineyards': 'Wildehurst Wines' (Yellow) <- error in either data source?
+o Error in Vinmonopolet data: Charles de Fères should be Charles de Fère.
