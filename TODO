@@ -4,39 +4,24 @@ Maybe both lcs and match ratio, for both normalized name and original name must 
 Companies with very short name can be attempted to normalize by removing a subset of stopwords.
 
 Consider if these cases could be handled better:
-o Warning: ignoring match between companies 'Pernod Ricard USA, LLC' and 'Pernod Ricard', countries differ
-o Possible match for company 'Château Richard': 'Domaine Richaud' (Green)
 Possible match for company 'Aniche Cellars': 'Antiche Cantine' (Green)
-Possible match for company 'Avalon Vineyard': 'Bodegas Navalón' (Yellow)
 ? Possible match for company 'Barefoot Wine': 'Barefoot Cellars' (Yellow)
 Possible match for company 'Bodegas Ferrera': 'A.A. Ferreira' (Green)
-Possible match for company 'Brown Estate Vineyards': 'Brown Brothers' (Green)
 ? Possible match for company 'Cape Vineyards': 'Cape Wine Company' (Green)
-Possible match for company 'Château Richard': 'Domaine Richaud' (Green)
-Possible match for company 'Crossing Vineyards and Winery, Inc.': 'The Crossings Estate' (Green)
 Possible match for company 'Dillian Winery': 'Lillian winery' (Green)
 Possible match for company 'Domaine Delmas': 'Monte Delma' (Yellow)
-Multiple possible matches for company 'Domaine Lapierre' (Green):
-Possible match for company 'Dr. Frank Wines': 'Weing. Frank' (Yellow)
 Possible match for company 'Frank Family Vineyards': 'Weing. Frank' (Yellow)
-Possible match for company 'Frey Vineyards': 'Weing. Frey' (Green)
 Possible match for company 'Grand River Cellars': 'Rivera' (Green)
-Possible match for company 'Grosset Wines': 'Gosset' (Green)
 Possible match for company 'Long Point Winery': 'Ch. la Pointe' (Green)
-Possible match for company 'Mercer House Estate Winery': 'Champagne Mercier' (Green)
 Possible match for company 'Meridian Vineyards': 'Ten. La Meridiana' (Yellow)
 Possible match for company 'Nuevo Mundo': 'Bod. del Mundo' (Green)
-Possible match for company 'Peller Estates Winery': 'Dom. Pellé' (Yellow)
-Possible match for company 'Pleasant Valley Wine Company': 'Mount Pleasant' (Green)
 Possible match for company 'Quinta da Boeira': 'Quinta da Romaneira' (Green)
-Possible match for company 'Redwood Creek': 'Renwood Winery' (Yellow)
 Possible match for company 'Reyes Winery': 'Bod. Reyes' (Green)
 ? Possible match for company 'San Antonio Winery': 'Ten. Sant' Antonio' (Yellow)
 ? Possible match for company 'Santa Julia Winery': 'Bod. Santa Julia' (Yellow)
 Possible match for company 'Santa Maria Vineyard & Winery': 'Ten. Santa Maria' (Green)
 ? Multiple possible matches for company 'Scott Cellars' (Green):
 Multiple possible matches for company 'Scott Winery' (Yellow):
-? Possible match for company 'Seghesio Family Vineyards': 'Fratelli Seghesio' (Yellow)
 Multiple possible matches for company 'St Francis Winery' (Yellow):
 Possible match for company 'Tamas Estates': 'St Tamás' (Green)
 Possible match for company 'The Darling Wines': 'Darling Cellars' (Yellow)
@@ -47,16 +32,12 @@ Possible match for company 'United Spirits, Inc.': 'United Wineries' (Green)
 
 
 Possible errors in source data:
-o Multiple possible matches for company 'Champagne Palmer & Co.' (Green): <- error in Vinmonopolet data?
-    'Ch. Palmer' ('champagne palmer & co ' ≈ 'ch palmer')
-    'Palmer & Co.' ('champagne palmer & co ' ≈ 'palmer & co ')
 o Multiple possible matches for company 'E. Guigal S.A.S.' (Green): <- error in Vinmonpolet data, these are the same companies?
     'E. Guigal' ('e guigal s a s ' ≈ 'e guigal')
     'Guigal' ('e guigal s a s ' ≈ 'guigal')
+    'E. Guigal' -> 'Guigal' new name
 o Multiple possible matches for company 'Garcia Carrion' (Yellow): <- error in Vinmonpolet data, these are the same companies
     'J Garcia Carrion' ('garcia carrion' ≈ 'j garcia carrion')
     'J. Garcia Carrion' ('garcia carrion' ≈ 'j garcia carrion')
-o Multiple possible matches for company 'Louis Bouillot' (Yellow): <- error in Vinmonopolet data, same company?
-    'Dom. Louis Boillot & Fils' ('louis bouillot' ≈ 'dom louis boillot & fils')
-    'Louis Bouillot' ('louis bouillot' ≈ 'louis bouillot')
+    'J Garcia Carrion' -> 'J. Garcia Carrion'
 o Error in Vinmonopolet data: Charles de Fères should be Charles de Fère.
