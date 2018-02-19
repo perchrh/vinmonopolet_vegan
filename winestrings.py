@@ -48,8 +48,7 @@ def get_common_abbreviations():
         "societa agricola": "soc.agr.",
         "mount": "mt.",
         "gebruder": "gebr.",
-        "champ.": "ch.",  # abbreviate the abbreviation!
-        "champagne": "ch."
+        "champagne": "champ."
     }
     return common_abbreviations
 
