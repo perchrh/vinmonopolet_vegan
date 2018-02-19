@@ -16,14 +16,14 @@ Get updated wine.json from http://barnivore.com/wine.json
 It may have encoding errors, invalid utf-8 in it. 
 Fix it with this command, iconv --verbose -f utf-8 -t utf-8//ignore wine.json > winenew.json && mv winenew.json wine.json
 
-Get the update product list from Vinmonopolet, described at
+Get the updated product list from Vinmonopolet, described at
 https://www.vinmonopolet.no/datadeling, available at https://www.vinmonopolet.no/medias/sys_master/products/products/hbc/hb0/8834253127710/produkter.csv
 
-Run python3 import.py
-and validate the resulting list in the json file
+Run python3 vegan_wine_search.py
+and validate the resulting list in the json files
 
 Tips for validating the list:
-The list will include false positives because of intentional fuzzy matching of manufacturers' names.
+The list will include false positives because of the intentional fuzzy matching of manufacturers' names.
 Regexp-search for Varenavn|manufacturer_name in the json file to highlight these fields.
 Then for each company's wine list check if there is a name mismatch.
 Also check for when countries don't match exactly (dev.country_mismatch = true entries)
