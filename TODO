@@ -3,6 +3,8 @@ Maybe both lcs and match ratio, for both normalized name and original name must 
 
 Companies with very short name can be attempted to normalize by removing a subset of stopwords.
 
+Find more data errors by removing restrictions on Vinmonopolet assortment-groups.
+
 Consider if these cases could be handled better:
 Possible match for company 'Aniche Cellars': 'Antiche Cantine' (Green)
 ? Possible match for company 'Barefoot Wine': 'Barefoot Cellars' (Yellow)
@@ -36,8 +38,4 @@ o Multiple possible matches for company 'E. Guigal S.A.S.' (Green): <- error in 
     'E. Guigal' ('e guigal s a s ' ≈ 'e guigal')
     'Guigal' ('e guigal s a s ' ≈ 'guigal')
     'E. Guigal' -> 'Guigal' new name
-o Multiple possible matches for company 'Garcia Carrion' (Yellow): <- error in Vinmonpolet data, these are the same companies
-    'J Garcia Carrion' ('garcia carrion' ≈ 'j garcia carrion')
-    'J. Garcia Carrion' ('garcia carrion' ≈ 'j garcia carrion')
-    'J Garcia Carrion' -> 'J. Garcia Carrion'
 o Error in Vinmonopolet data: Charles de Fères should be Charles de Fère.
