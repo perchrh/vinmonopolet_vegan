@@ -279,9 +279,29 @@ def load_beer_companies_from_vinmonopolet(filename):
                      or "lager" in x["Varetype"].lower()
                      or "kloster" in x["Varetype"].lower()
                      or "øl" in x["Varetype"].lower()
+                     or "porter" in x["Varetype"].lower()
+                     or "stout" in x["Varetype"].lower()
+                     or "bitter" in x["Varetype"].lower()
                      ]
 
     return create_company_list_from_vinmonpolet(beer_products)
+
+def load_spirits_companies_from_vinmonopolet(filename):
+    products = load_vinmonopolet_data(filename)
+
+    spirits_products = [x for x in products if
+                        "Akevitt" in x["Varetype"]
+                        or "Gin" in x["Varetype"]
+                        or "Madeira" in x["Varetype"]
+                        or "Rom" in x["Varetype"]
+                        or "Sake" in x["Varetype"]
+                        or "Sherry" in x["Varetype"]
+                        or "Vermut" in x["Varetype"]
+                        or "Vodka" in x["Varetype"]
+                        or "Whisky" in x["Varetype"]
+                        ]
+
+    return create_company_list_from_vinmonpolet(spirits_products)
 
 
 def load_vinmonopolet_data(filename):
