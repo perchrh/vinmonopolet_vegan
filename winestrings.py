@@ -282,6 +282,7 @@ def load_beer_companies_from_vinmonopolet(filename):
                      or "porter" in x["Varetype"].lower()
                      or "stout" in x["Varetype"].lower()
                      or "bitter" in x["Varetype"].lower()
+                     or "barley" in x["Varetype"].lower()
                      ]
 
     return create_company_list_from_vinmonpolet(beer_products)
@@ -297,6 +298,8 @@ def load_spirits_companies_from_vinmonopolet(filename):
                         or "Sake" in x["Varetype"]
                         or "Sherry" in x["Varetype"]
                         or "Vermut" in x["Varetype"]
+                        or "Likør" in x["Varetype"]
+                        or "Genever" in x["Varetype"]
                         or "Vodka" in x["Varetype"]
                         or "Whisky" in x["Varetype"]
                         ]
