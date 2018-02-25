@@ -140,7 +140,7 @@ if __name__ == "__main__":
     start = timer()
 
     wine_companies_at_vinmonopolet = wines.load_wine_companies_from_vinmonopolet('produkter.csv')
-    wine_companies_from_barnivore = wines.load_wine_companies_from_barnivore('wine.json')
+    wine_companies_from_barnivore = wines.load_companies_from_barnivore('wine.json')
     print("Using {} wine companies at Vinmonopolet, and {} listed in Barnivore".format(
         len(wine_companies_at_vinmonopolet), len(wine_companies_from_barnivore)))
 

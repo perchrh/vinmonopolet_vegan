@@ -10,15 +10,15 @@ def sort_by_ratio(item):
     return item[0]
 
 
-def import_products_from_vinmonopolet(wine_companies_at_vinmonopolet):
-    wine_companies = set()
+def import_products_from_vinmonopolet(companies_at_vinmonopolet):
+    company_names = set()
     company_id_map = {}
-    for item in wine_companies_at_vinmonopolet:
+    for item in companies_at_vinmonopolet:
         name = item["company_name"]
-        wine_companies.add(name)
+        company_names.add(name)
         company_id_map[name] = item["id"]
 
-    return (wine_companies, company_id_map)
+    return (company_names, company_id_map)
 
 
 def compute_similarity(company_tuple):
@@ -27,10 +27,10 @@ def compute_similarity(company_tuple):
     return (ratio, company, other_company)
 
 
-def find_duplicates(wine_companies, id_map):
+def find_duplicates(companies, id_map):
     dataset = set()
-    for company in wine_companies:
-        for other_company in wine_companies:
+    for company in companies:
+        for other_company in companies:
             if other_company == company:
                 continue
             sorted_companies = sorted([company, other_company])
@@ -60,13 +60,13 @@ def find_duplicates(wine_companies, id_map):
     return duplicates
 
 
-def import_products_from_barnivore(wine_companies_from_barnivore):
-    wine_companies = set()
+def import_products_from_barnivore(companies):
+    company_names = set()
     company_id_map = {}
-    for item in wine_companies_from_barnivore:
+    for item in companies:
         name = item["company_name"]
-        if not name in wine_companies:
-            wine_companies.add(name)
+        if not name in company_names:
+            company_names.add(name)
             company_id_map[name] = item["id"]
         else:
             print("Identical company name: {} - id {} and {}".format(name,
@@ -75,27 +75,27 @@ def import_products_from_barnivore(wine_companies_from_barnivore):
             # print("Compare {} to {}".format("http://www.barnivore.com/wine/%s/company" %item["company"]["id"],
             #                                "http://www.barnivore.com/wine/%s/company" % company_id_map[name]))
 
-    return (wine_companies, company_id_map)
+    return (company_names, company_id_map)
 
 
-def find_product_ids_by_company_id(id, wine_companies):
+def find_product_ids_by_company_id(id, companies):
     product_ids = []
-    for company in wine_companies:
+    for company in companies:
         if company["id"] == id:
             for product in company["products_found_at_vinmonopolet"]:
                 product_ids.append(product["Varenummer"])
     return product_ids
 
 
-def find_company_name_by_id(id, wine_companies):
-    for company in wine_companies:
+def find_company_name_by_id(id, companies):
+    for company in companies:
         if company["id"] == id:
             return company["company_name"]
     return None
 
 
 if __name__ == "__main__":
-    wine_companies_from_barnivore = wines.load_wine_companies_from_barnivore("wine.json")
+    wine_companies_from_barnivore = wines.load_companies_from_barnivore("wine.json")
     barnivore_companies, barnivore_id_map = import_products_from_barnivore(wine_companies_from_barnivore)
     barnivore_companies_normalized = [wines.normalize_name(wines.replace_abbreviations(x)) for x in barnivore_companies]
     barnivore_id_map_normalized = {}

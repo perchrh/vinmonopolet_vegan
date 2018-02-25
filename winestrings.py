@@ -112,7 +112,42 @@ def translate_country_name(country, company_id):
         "brazil": "brasil",
         "japan": "japan",
         "australia": "australia",
-        "canada": "canada"
+        "canada": "canada",
+        'belgium': "belgia",
+        'belize': "belize",
+        'bermuda': "bermuda",
+        'bulgaria': "bulgaria",
+        'cayman islands': "caymanøyene",
+        'china': "kina",
+        'columbia': "kolombia",
+        'costa rica': "costa rica",
+        'czech republic': "tsjekkia",
+        'dominican republic': 'den dominikanske republikk',
+        'estonia': "estland",
+        'ethiopia': "etiopia",
+        'fiji': "fiji",
+        'french guinea': "guinea",
+        'guatemala': "guatemala",
+        'hong kong': "hong kong",
+        'iceland': "island",
+        'india': "india",
+        'isle of man': "man",
+        'jamaica': "jamaica",
+        'kenya': "kenya",
+        'latvia': "latvia",
+        'lithuania': "litauen",
+        'malaysia': "malaysia",
+        'namibia': "namibia",
+        'northern ireland': "nord-irland",
+        'palestine': "palestina",
+        'philippines': "filipinene",
+        'puerto rico': "puerto rico",
+        'romania': "romania",
+        'russia': "russland",
+        'singapore': "singapore",
+        'slovak republic': "slovakia",
+        'south korea': "sør-korea",
+        'taiwan': "taiwan"
     }
 
     try:
@@ -145,23 +180,17 @@ def get_stop_words(words):
     counter.update(words)
     dynamic_stopwords = set([word[0] for word in counter.most_common(stopword_count)])
 
-    static_stopwords = {'aa', 'ab', 'abbazia', 'ag', 'alta', 'and', 'at', 'az,', 'azienda', 'bds', 'beer', 'beer house',
-                        'bierbrouwerij', 'bieres', 'birra',
-                        'birras', 'bodega', 'brasserie', 'brauerei', 'brew house', 'breweries', 'brewers', 'brewery',
-                        'brewing', 'brouwerij', 'bryggeri',
-                        'brygghus', 'bryghus', 'by', 'c', 'casa', 'casas', 'cellar', 'cellars', 'co', 'comp',
-                        'compania', 'company', 'coop', 'corp', 'creek',
-                        'crl', 'cspa', 'das', 'de', 'dei', 'di', 'distillerie', 'do', 'du', 'e', 'el', 'estates', 'family',
-                        'farm', 'fe', 'gmbh', 'gran',
-                        'grand', 'group', 'grupo', 'hills', 'house', 'il', 'inc', 'incorporated', 'les', 'limited',
-                        'limitee', 'llc', 'long', 'ltd', 'martin',
-                        'merchant', 'monte', 'nuevo', 'of', 'plc', 'port', 'prod', 'productions', 'pty', 'ridge',
-                        'royal', 'sa', 'sca', 'sl', 'soc',
-                        'sociedade', 'sociedadsocieta', 'societe', 'spa', 'spanish', 'spirits', 'srl', 'ss',
-                        'supermarkets', 'the', 'urban', 'valley', 'veuve',
-                        'view', 'vignerons', 'vinedos', 'vineyard', 'vineyards', 'vinos', 'vintners', 'vit',
-                        'viticultor', 'vitivinicola', 'weinbau',
-                        'weinhaus', 'weinkellerei', 'wine', 'winemaker', 'wineries', 'winery', 'wines', 'winework', 'y'}
+    static_stopwords = {'aa', 'ab', 'abbazia', 'ag', 'alta', 'at', 'az,', 'azienda', 'bds', 'beer house',
+                        'bierbrouwerij', 'bieres', 'birra', 'birras', 'bodega', 'brew house', 'brewers', 'brygghus',
+                        'bryghus', 'by', 'c', 'casa', 'casas', 'cellar', 'cellars', 'comp', 'compania', 'coop', 'corp',
+                        'crl', 'cspa', 'das', 'dei', 'di', 'distillerie', 'do', 'du', 'e', 'el', 'estates', 'family',
+                        'farm', 'fe', 'gran', 'grand', 'group', 'grupo', 'hills', 'il', 'inc', 'incorporated', 'les',
+                        'limitee', 'long', 'martin', 'merchant', 'monte', 'nuevo', 'of', 'plc', 'port', 'prod',
+                        'productions', 'pty', 'ridge', 'royal', 'sa', 'sca', 'sl', 'soc', 'sociedade',
+                        'sociedadsocieta', 'societe', 'spa', 'spanish', 'spirits', 'srl', 'ss', 'supermarkets', 'urban',
+                        'veuve', 'view', 'vignerons', 'vinedos', 'vineyard', 'vineyards', 'vinos', 'vintners', 'vit',
+                        'viticultor', 'vitivinicola', 'weinbau', 'weinhaus', 'weinkellerei', 'wine', 'winemaker',
+                        'wineries', 'wines', 'winework', 'y'}
 
     abbreviation_dict = get_common_abbreviations()
     abbreviations = set([x.replace(".", "") for x in (abbreviation_dict.keys() | abbreviation_dict.values())])
@@ -170,20 +199,18 @@ def get_stop_words(words):
 
 
 def create_company_list_from_vinmonpolet(products):
-    wine_products = [x for x in products if "vin" in x["Varetype"] or "Champagne" in x["Varetype"]]
-
-    wine_companies_temp = {}
-    for product in wine_products:
+    companies_temp = {}
+    for product in products:
         produsent = product["Produsent"]
-        if not produsent in wine_companies_temp:
-            wine_companies_temp[produsent] = []
-        wine_companies_temp[produsent].append(product)
+        if not produsent in companies_temp:
+            companies_temp[produsent] = []
+        companies_temp[produsent].append(product)
 
-    wine_companies = []
+    companies = []
     company_id_counter = 0
-    for name, products in wine_companies_temp.items():
+    for name, products in companies_temp.items():
         # Using the same structure as Barnivore's json export, for simplicity
-        wine_companies.append(
+        companies.append(
             {"company_name": name,
              "id": company_id_counter,
              "products_found_at_vinmonopolet": products,
@@ -191,16 +218,16 @@ def create_company_list_from_vinmonpolet(products):
              })
         company_id_counter += 1
 
-    return wine_companies
+    return companies
 
 
 def import_products_from_vinmonopolet(filename):
     with open(filename, 'r', newline='', encoding='iso-8859-1') as csvfile:
-        wine_reader = csv.DictReader(csvfile, delimiter=';')
+        cvs_reader = csv.DictReader(csvfile, delimiter=';')
         try:
-            return list(wine_reader)  # read it all into memory
+            return list(cvs_reader)  # read it all into memory
         except csv.Error as e:
-            sys.exit('file {}, line {}: {}'.format(filename, wine_reader.line_num, e))
+            sys.exit('file {}, line {}: {}'.format(filename, cvs_reader.line_num, e))
 
 
 def post_process_vinmonopolet_data(export_data):
@@ -228,7 +255,7 @@ def post_process_vinmonopolet_data(export_data):
     return products
 
 
-def load_wine_companies_from_barnivore(filename):
+def load_companies_from_barnivore(filename):
     companies = list()
     with open(filename, encoding='utf-8') as file:
         for candidate in json.loads(file.read()):
@@ -240,9 +267,27 @@ def load_wine_companies_from_barnivore(filename):
 
 
 def load_wine_companies_from_vinmonopolet(filename):
+    products = load_vinmonopolet_data(filename)
+    wine_products = [x for x in products if "vin" in x["Varetype"] or "Champagne" in x["Varetype"]]
+
+    return create_company_list_from_vinmonpolet(wine_products)
+
+
+def load_beer_companies_from_vinmonopolet(filename):
+    products = load_vinmonopolet_data(filename)
+    beer_products = [x for x in products if "ale" in x["Varetype"].lower()
+                     or "lager" in x["Varetype"].lower()
+                     or "kloster" in x["Varetype"].lower()
+                     or "øl" in x["Varetype"].lower()
+                     ]
+
+    return create_company_list_from_vinmonpolet(beer_products)
+
+
+def load_vinmonopolet_data(filename):
     products = import_products_from_vinmonopolet(filename)
     products = post_process_vinmonopolet_data(products)
-    return create_company_list_from_vinmonpolet(products)
+    return products
 
 
 def get_normalized_company_names(source_list):
@@ -254,9 +299,9 @@ def get_normalized_company_names(source_list):
     return words
 
 
-def create_stopword_list(wine_companies_from_barnivore, wine_companies_at_vinmonopolet):
-    wine_company_names = get_normalized_company_names([wine_companies_from_barnivore, wine_companies_at_vinmonopolet])
-    return get_stop_words(wine_company_names)
+def create_stopword_list(companies_from_barnivore, companies_at_vinmonopolet):
+    company_names = get_normalized_company_names([companies_from_barnivore, companies_at_vinmonopolet])
+    return get_stop_words(company_names)
 
 
 def add_normalized_names(company_list, stopwords):
