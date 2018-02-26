@@ -147,7 +147,15 @@ def translate_country_name(country, company_id):
         'singapore': "singapore",
         'slovak republic': "slovakia",
         'south korea': "sør-korea",
-        'taiwan': "taiwan"
+        'taiwan': "taiwan",
+        "peru": "peru",
+        "republic of trinidad and tobago": "trinidad og tobago",
+        "nicaragua": "nicaragua",
+        "cuba": "cuba",
+        "barbados": "barbados",
+        "ukraine": "ukraina",
+        "serbia": "serbia",
+        "holland": "nederland"
     }
 
     try:
