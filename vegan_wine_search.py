@@ -88,6 +88,8 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                                                                                                                                         normalized_name_similarity,
                                                                                                                                         search_name_similarity))
                     # TODO mark as bad match, and keep in output json for manual de-marking?
+                    print("  {}".format(vegan_company["barnivore_url"]))
+                    print("  {}".format(candidate["products_found_at_vinmonopolet"][0]["Vareurl"]))
                     continue
 
                 if not candidate["dev.countries"]:
@@ -132,6 +134,8 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                                                                                            normalized_name_similarity,
                                                                                            search_name_similarity))
                 vegan_company["products_found_at_vinmonopolet"] = possible_matches[0]["products_found_at_vinmonopolet"]
+                print("  {}".format(vegan_company["barnivore_url"]))
+                print("  {}".format(vegan_company["products_found_at_vinmonopolet"][0]["Vareurl"]))
 
         return [x[0] for x in filtered_list]  # barnivore companies with added data
 

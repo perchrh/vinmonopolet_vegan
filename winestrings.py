@@ -269,6 +269,7 @@ def load_companies_from_barnivore(filename):
         for candidate in json.loads(file.read()):
             candidate_company = candidate["company"]
             candidate_company['dev.countries'] = {translate_country_name(candidate_company['country'].lower(), candidate_company['id'])}
+            candidate_company["barnivore_url"] = "http://www.barnivore.com/wine/{}/company".format(candidate_company["id"])
             companies.append(candidate_company)
 
     return companies
