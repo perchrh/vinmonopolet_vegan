@@ -23,7 +23,9 @@ def get_webpage(url):
         url = "http://" + url
 
     try:
-        r = requests.get(url)
+        #use a fake custom user agent string to avoid silly webpages rejecting the library's default agent string
+        custom_user_agent = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36"}
+        r = requests.get(url, headers = custom_user_agent, verify=False)
         r.raise_for_status()
         return r.text
     except requests.exceptions.RequestException as ex:
