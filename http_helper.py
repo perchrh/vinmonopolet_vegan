@@ -14,6 +14,8 @@ def parse_title(html_doc):
     return None
 
 
+import urllib3
+urllib3.disable_warnings()
 import requests
 from urllib.parse import urlparse
 
