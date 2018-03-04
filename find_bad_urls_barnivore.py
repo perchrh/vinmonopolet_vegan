@@ -20,6 +20,6 @@ if __name__ == "__main__":
                 try:
                     body = http_helper.get_webpage(url)
                 except requests.exceptions.RequestException as ex:
-                    print("Broken link;color={};id={};{}".format(company["red_yellow_green"], company["id"], str(ex)))
+                    print("Website retrieval error;color={};id={};{}".format(company["red_yellow_green"], company["id"], str(ex)))
             else:
                 print("Missing 'url' key;color={};company;id={}".format(company["red_yellow_green"], company["id"]))

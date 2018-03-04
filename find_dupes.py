@@ -109,7 +109,6 @@ if __name__ == "__main__":
                                                   other_company_id, ratio))
         print("    http://www.barnivore.com/wine/{}/company".format(id))
         print("    http://www.barnivore.com/wine/{}/company".format(other_company_id))
-
     print("\n\n")
     companies_at_vinmonopolet = wines.load_wine_companies_from_vinmonopolet("produkter.csv")
     vinmonopolet_companies, vinmonopolet_id_map = import_products_from_vinmonopolet(companies_at_vinmonopolet)
@@ -120,9 +119,11 @@ if __name__ == "__main__":
     print("Found {} companies at Vinmonopolet".format(len(vinmonopolet_companies)))
     print("Possible duplicate companies at Vinmonopolet:")
     duplicates = find_duplicates(vinmonopolet_companies_normalized, vinmonopolet_id_map_normalized)
+    counter = 1
     for (company, id, other_company, other_company_id, ratio) in duplicates:
         company_original_name = find_company_name_by_id(id, companies_at_vinmonopolet)
         other_company_original_name = find_company_name_by_id(other_company_id, companies_at_vinmonopolet)
-        print("{} ({}) ~ {} ({}) - {:.3f}".format(company_original_name, id, other_company_original_name, other_company_id, ratio))
-        print("   product ids, first company = {}".format(sorted(find_product_ids_by_company_id(id, companies_at_vinmonopolet))))
-        print("   product ids, second company = {}".format(sorted(find_product_ids_by_company_id(other_company_id, companies_at_vinmonopolet))))
+        print("{}. {} ({}) ~ {} ({}) - {:.3f}".format(counter, company_original_name, id, other_company_original_name, other_company_id, ratio))
+        print("    product ids, first company = {}".format(sorted(find_product_ids_by_company_id(id, companies_at_vinmonopolet))))
+        print("    product ids, second company = {}".format(sorted(find_product_ids_by_company_id(other_company_id, companies_at_vinmonopolet))))
+        counter += 1
