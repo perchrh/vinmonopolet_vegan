@@ -24,20 +24,20 @@ def get_webpage(url):
     if not urlparse(url).scheme:
         url = "http://" + url
 
-    try:
-        #use a fake custom user agent string to avoid silly webpages rejecting the library's default agent string
-        custom_user_agent = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36"}
-        r = requests.get(url, headers = custom_user_agent, verify=False)
-        r.raise_for_status()
-        return r.text
-    except requests.exceptions.RequestException as ex:
-        print(str(ex))
-        return None
+    # use a fake custom user agent string to avoid silly webpages rejecting the library's default agent string
+    custom_user_agent = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36"}
+    r = requests.get(url, headers=custom_user_agent, verify=False)
+    r.raise_for_status()
+    return r.text
 
 
 def get_title(url):
-    body = get_webpage(url)
-    if body:
-        return parse_title(body)
-    else:
+    try:
+        body = get_webpage(url)
+        if body:
+            return parse_title(body)
+        else:
+            return None
+    except requests.exceptions.RequestException as ex:
+        print("Error retrieving web page: {} ".format(type(ex)))
         return None
