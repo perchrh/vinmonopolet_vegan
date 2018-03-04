@@ -6,6 +6,11 @@ Companies with very short name can be attempted to normalize by removing a subse
 Find more data errors by removing restrictions on Vinmonopolet assortment-groups.
 
 Consider if these cases could be handled better:
+Warning: ignoring match between companies 'Aalto Bodegas y Viñedos' and 'Bod. Aalto', listed names vary too much - 0.312, 1.000
+Warning: ignoring match between companies 'Champagne Krug' and 'Krug', listed names vary too much - 0.444, 1.000
+Warning: ignoring match between companies 'Rippon' and 'Rippon Vineyard & Winery', listed names vary too much - 0.400, 1.000
+Warning: ignoring match between companies 'Vietti s.r.l.' and 'Vietti', listed names vary too much - 0.632, 0.857
+
 Possible match for company 'Aniche Cellars': 'Antiche Cantine' (Green)
 ? Possible match for company 'Barefoot Wine': 'Barefoot Cellars' (Yellow)
 Possible match for company 'Bodegas Ferrera': 'A.A. Ferreira' (Green)
@@ -39,3 +44,10 @@ o Multiple possible matches for company 'E. Guigal S.A.S.' (Green): <- error in 
     'Guigal' ('e guigal s a s ' ≈ 'guigal')
     'E. Guigal' -> 'Guigal' new name
 o Error in Vinmonopolet data: Charles de Fères should be Charles de Fère.
+Barnivore:
+o Company url for Aalto Bodegas y Viñedos <- http://www.aalto.es/
+o Company url for Cantine Lenotti <- https://www.lenotti.com/
+o Company url for Fattoria Poggerino <- http://poggerino-chianti-italy.com/
+o Company url for La Cantina Pizzolato <- https://www.lacantinapizzolato.com/
+o Company url for Paul Jaboulet Aîné <- http://www.jaboulet.com/
+

@@ -7,6 +7,7 @@ import winestrings as wines
 
 import multiprocessing
 from itertools import repeat
+import http_helper
 
 vegan_friendly_output_filename = "vegan-friendly-searchresult-vinmonopolet.json"
 some_vegan_products_output_filename = "some-vegan-options-searchresult-vinmonopolet.json"
@@ -88,6 +89,7 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                                                                                                                                         normalized_name_similarity,
                                                                                                                                         search_name_similarity))
                     # TODO mark as bad match, and keep in output json for manual de-marking?
+                    print_possible_match_detail(vegan_company, candidate)
                     continue
 
                 if not candidate["dev.countries"]:
@@ -122,6 +124,7 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                     # todo OR - sort by similarity, and if top two matches are really close in similarity, do a tie break comparision
 
                 print("Selected '{}' as the most closest match - {:.3f}".format(best_candidate["company_name"], best_similarity_score))
+                print_possible_match_detail(vegan_company, best_candidate)
                 vegan_company["products_found_at_vinmonopolet"] = best_candidate["products_found_at_vinmonopolet"]
             elif possible_matches:
                 normalized_name_similarity = wines.name_similarity(vegan_company["dev.normalized_name"], possible_matches[0]["dev.normalized_name"])
@@ -132,8 +135,23 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                                                                                            normalized_name_similarity,
                                                                                            search_name_similarity))
                 vegan_company["products_found_at_vinmonopolet"] = possible_matches[0]["products_found_at_vinmonopolet"]
+                print_possible_match_detail(vegan_company, possible_matches[0])
 
         return [x[0] for x in filtered_list]  # barnivore companies with added data
+
+
+def print_possible_match_detail(vegan_company, vinmonopolet_company):
+    url = None
+    if 'url' in vegan_company.keys():
+        url = vegan_company["url"].strip()
+
+    if url:
+        print("  {} - \"{}\"".format(url, http_helper.get_title(url)))
+    else:
+        print("Warning: missing 'url' key for company {}".format(vegan_company["id"]))
+        print("  {}".format(vegan_company["barnivore_url"]))
+
+    print("  {}".format(vinmonopolet_company["products_found_at_vinmonopolet"][0]["Vareurl"]))
 
 
 if __name__ == "__main__":

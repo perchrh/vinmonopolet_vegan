@@ -12,6 +12,9 @@ Install homebrew
 then 
 brew install python3
 
+sudo -H pip3 install beautifulsoup4 --upgrade
+sudo -H pip3 install requests --upgrade
+
 Get updated wine.json from http://barnivore.com/wine.json
 It may have encoding errors, invalid utf-8 in it. 
 Fix it with this command, iconv --verbose -f utf-8 -t utf-8//ignore wine.json > winenew.json && mv winenew.json wine.json
@@ -31,3 +34,12 @@ Then delete bad ones.
 
 After that, parse the json using generatehtml.py to produce a printable version
 
+
+
+Data washing, Barnivore
+---
+Get tls cert subject organizationName, and compare with company_name
+https://gist.github.com/zed/7901011
+
+Make http-request to registered company web page, return title
+https://stackoverflow.com/questions/35956045/extract-title-with-beautifulsoup
