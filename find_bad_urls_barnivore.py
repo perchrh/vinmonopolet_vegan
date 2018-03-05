@@ -16,11 +16,11 @@ if __name__ == "__main__":
                 (got_url if ('url' in c.keys() and c["url"].strip()) else missing_url).append(c)
 
         for company in missing_url:
-            print("Missing 'url' key;color={};company;id={}".format(company["red_yellow_green"], company["id"]))
+            print("Missing 'url' key;{};{};{}".format(company["red_yellow_green"], company["company_name"], company["id"]))
 
         for company in got_url:
             try:
                 print("DEBUG: fetching {}".format(company["url"]))
-                body = http_helper.get_webpage(company["url"])
+                body = http_helper.get_webpage(company["url"], company["id"], company["company_name"])
             except requests.exceptions.RequestException as ex:
-                print("Website retrieval error;color={};id={};{}".format(company["red_yellow_green"], company["id"], str(ex)))
+                print("Website retrieval error;{};{};{};{}".format(company["red_yellow_green"], company["company_name"], company["id"], str(ex)))
