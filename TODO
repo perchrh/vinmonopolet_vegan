@@ -43,11 +43,4 @@ o Multiple possible matches for company 'E. Guigal S.A.S.' (Green): <- error in 
     'E. Guigal' ('e guigal s a s ' ≈ 'e guigal')
     'Guigal' ('e guigal s a s ' ≈ 'guigal')
     'E. Guigal' -> 'Guigal' new name
-o Error in Vinmonopolet data: Charles de Fères should be Charles de Fère.
-Barnivore:
-o Company url for Aalto Bodegas y Viñedos <- http://www.aalto.es/
-o Company url for Cantine Lenotti <- https://www.lenotti.com/
-o Company url for Fattoria Poggerino <- http://poggerino-chianti-italy.com/
-o Company url for La Cantina Pizzolato <- https://www.lacantinapizzolato.com/
-o Company url for Paul Jaboulet Aîné <- http://www.jaboulet.com/
 
