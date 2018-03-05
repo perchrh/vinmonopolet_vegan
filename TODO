@@ -1,46 +1,10 @@
 Improve matching algorithm, especially when there are multiple matches and we want to find the best one. 
 Maybe both lcs and match ratio, for both normalized name and original name must factor into a composite measure.
 
-Companies with very short name can be attempted to normalize by removing a subset of stopwords.
-
-Find more data errors by removing restrictions on Vinmonopolet assortment-groups.
+Companies with very short names can be attempted to normalize by removing a subset of stopwords.
 
 Consider if these cases could be handled better:
 Warning: ignoring match between companies 'Aalto Bodegas y Viñedos' and 'Bod. Aalto', listed names vary too much - 0.312, 1.000
 Warning: ignoring match between companies 'Champagne Krug' and 'Krug', listed names vary too much - 0.444, 1.000
 Warning: ignoring match between companies 'Rippon' and 'Rippon Vineyard & Winery', listed names vary too much - 0.400, 1.000
 Warning: ignoring match between companies 'Vietti s.r.l.' and 'Vietti', listed names vary too much - 0.632, 0.857
-
-Possible match for company 'Aniche Cellars': 'Antiche Cantine' (Green)
-? Possible match for company 'Barefoot Wine': 'Barefoot Cellars' (Yellow)
-Possible match for company 'Bodegas Ferrera': 'A.A. Ferreira' (Green)
-? Possible match for company 'Cape Vineyards': 'Cape Wine Company' (Green)
-Possible match for company 'Dillian Winery': 'Lillian winery' (Green)
-Possible match for company 'Domaine Delmas': 'Monte Delma' (Yellow)
-Possible match for company 'Frank Family Vineyards': 'Weing. Frank' (Yellow)
-Possible match for company 'Grand River Cellars': 'Rivera' (Green)
-Possible match for company 'Long Point Winery': 'Ch. la Pointe' (Green)
-Possible match for company 'Meridian Vineyards': 'Ten. La Meridiana' (Yellow)
-Possible match for company 'Nuevo Mundo': 'Bod. del Mundo' (Green)
-Possible match for company 'Quinta da Boeira': 'Quinta da Romaneira' (Green)
-Possible match for company 'Reyes Winery': 'Bod. Reyes' (Green)
-? Possible match for company 'San Antonio Winery': 'Ten. Sant' Antonio' (Yellow)
-? Possible match for company 'Santa Julia Winery': 'Bod. Santa Julia' (Yellow)
-Possible match for company 'Santa Maria Vineyard & Winery': 'Ten. Santa Maria' (Green)
-? Multiple possible matches for company 'Scott Cellars' (Green):
-Multiple possible matches for company 'Scott Winery' (Yellow):
-Multiple possible matches for company 'St Francis Winery' (Yellow):
-Possible match for company 'Tamas Estates': 'St Tamás' (Green)
-Possible match for company 'The Darling Wines': 'Darling Cellars' (Yellow)
-? Possible match for company 'Trinchero Family Vineyards': 'Trinchero' (Yellow)
-Possible match for company 'United Spirits, Inc.': 'United Wineries' (Green)
-? Multiple possible matches for company 'Vintage Wine Estates' (Yellow):
-? Possible match for company 'Wine Insights': 'Insight' (Yellow)
-
-
-Possible errors in source data:
-o Multiple possible matches for company 'E. Guigal S.A.S.' (Green): <- error in Vinmonpolet data, these are the same companies?
-    'E. Guigal' ('e guigal s a s ' ≈ 'e guigal')
-    'Guigal' ('e guigal s a s ' ≈ 'guigal')
-    'E. Guigal' -> 'Guigal' new name
-
