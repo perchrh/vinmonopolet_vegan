@@ -2,14 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
-
+import string
 
 def parse_title(html_doc):
     soup = BeautifulSoup(html_doc, 'html.parser')
     if soup.title:
         title = soup.title.string
         if title:
-            return title.strip()
+            clean_title = ''.join([x for x in title if x in string.printable])
+            return clean_title.strip()
 
     return None
 
