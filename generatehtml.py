@@ -286,4 +286,4 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         print("\n".join(skus))
         print("<br/>")
 
-    print("</body></html>")
+print("</body></html>")
