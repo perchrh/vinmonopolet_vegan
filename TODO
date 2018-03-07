@@ -2,9 +2,7 @@ Improve matching algorithm, especially when there are multiple matches and we wa
 Maybe both lcs and match ratio, for both normalized name and original name must factor into a composite measure.
 If the shortest word is length n, n>4, require a lcs of that length?
 
-Companies with very short name can be attempted to normalize by removing a subset of stopwords.
-
-Find more data errors by removing restrictions on Vinmonopolet assortment-groups.
+Companies with very short names can be attempted to normalize by removing a subset of stopwords.
 
 Consider if these cases could be handled better:
 Warning: ignoring match between companies 'Aalto Bodegas y Viñedos' and 'Bod. Aalto', listed names vary too much - 0.312, 1.000
