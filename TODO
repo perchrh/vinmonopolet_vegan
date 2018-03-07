@@ -1,5 +1,6 @@
 Improve matching algorithm, especially when there are multiple matches and we want to find the best one. 
 Maybe both lcs and match ratio, for both normalized name and original name must factor into a composite measure.
+If the shortest word is length n, n>4, require a lcs of that length?
 
 Companies with very short name can be attempted to normalize by removing a subset of stopwords.
 
@@ -10,44 +11,27 @@ Warning: ignoring match between companies 'Aalto Bodegas y Viñedos' and 'Bod. A
 Warning: ignoring match between companies 'Champagne Krug' and 'Krug', listed names vary too much - 0.444, 1.000
 Warning: ignoring match between companies 'Rippon' and 'Rippon Vineyard & Winery', listed names vary too much - 0.400, 1.000
 Warning: ignoring match between companies 'Vietti s.r.l.' and 'Vietti', listed names vary too much - 0.632, 0.857
-
-Possible match for company 'Aniche Cellars': 'Antiche Cantine' (Green)
-? Possible match for company 'Barefoot Wine': 'Barefoot Cellars' (Yellow)
-Possible match for company 'Bodegas Ferrera': 'A.A. Ferreira' (Green)
-? Possible match for company 'Cape Vineyards': 'Cape Wine Company' (Green)
-Possible match for company 'Dillian Winery': 'Lillian winery' (Green)
-Possible match for company 'Domaine Delmas': 'Monte Delma' (Yellow)
-Possible match for company 'Frank Family Vineyards': 'Weing. Frank' (Yellow)
-Possible match for company 'Grand River Cellars': 'Rivera' (Green)
-Possible match for company 'Long Point Winery': 'Ch. la Pointe' (Green)
-Possible match for company 'Meridian Vineyards': 'Ten. La Meridiana' (Yellow)
-Possible match for company 'Nuevo Mundo': 'Bod. del Mundo' (Green)
-Possible match for company 'Quinta da Boeira': 'Quinta da Romaneira' (Green)
-Possible match for company 'Reyes Winery': 'Bod. Reyes' (Green)
-? Possible match for company 'San Antonio Winery': 'Ten. Sant' Antonio' (Yellow)
-? Possible match for company 'Santa Julia Winery': 'Bod. Santa Julia' (Yellow)
-Possible match for company 'Santa Maria Vineyard & Winery': 'Ten. Santa Maria' (Green)
-? Multiple possible matches for company 'Scott Cellars' (Green):
-Multiple possible matches for company 'Scott Winery' (Yellow):
-Multiple possible matches for company 'St Francis Winery' (Yellow):
-Possible match for company 'Tamas Estates': 'St Tamás' (Green)
-Possible match for company 'The Darling Wines': 'Darling Cellars' (Yellow)
-? Possible match for company 'Trinchero Family Vineyards': 'Trinchero' (Yellow)
-Possible match for company 'United Spirits, Inc.': 'United Wineries' (Green)
-? Multiple possible matches for company 'Vintage Wine Estates' (Yellow):
-? Possible match for company 'Wine Insights': 'Insight' (Yellow)
+Warning: ignoring match between companies 'Rippon' and 'Rippon Vineyard & Winery', listed names vary too much - 0.400, 1.000
+Possible match for company 'Dillian Winery': 'Lillian winery' (Green) - 0.929, 0.857
+Possible match for company 'Domaine Lapierre': 'Domaine Pierre Martin' (Green) - 0.757, 0.857
+Possible match for company 'Grand River Cellars': 'Rivera' (Green) - 0.480, 0.909
+Possible match for company 'Grosset Wines': 'Gosset' (Green) - 0.632, 0.923
+Possible match for company 'Long Point Winery': 'Ch. la Pointe' (Green) - 0.552, 0.909
+Possible match for company 'McPhersons Cellars': 'McPherson Wines' (Green) - 0.606, 0.947
+Possible match for company 'Nuevo Mundo': 'Bod. del Mundo' (Green) - 0.583, 1.000
+Possible match for company 'Paladin spa': 'Paladin' (Green) - 0.778, 1.000
+Possible match for company 'Quinta da Boeira': 'Quinta da Romaneira' (Green) - 0.857, 0.857
+Possible match for company 'Reyes Winery': 'Bod. Reyes' (Green) - 0.476, 1.000
+Possible match for company 'Santa Maria Vineyard & Winery': 'Ten. Santa Maria' (Green) - 0.500, 1.000
+Possible match for company 'Scott Cellars': 'Scott Family Estate' (Green) - 0.500, 1.000
+Possible match for company 'Spanish Valley Vineyards': 'AB Valley Wines' (Green) - 0.667, 1.000
+Possible match for company 'Tamas Estates': 'St Tamás' (Green) - 0.476, 1.000
+Possible match for company 'Three Wine Company': 'The Spanish Wine Company' (Green) - 0.762, 0.917
+Possible match for company 'United Spirits, Inc.': 'United Wineries' (Green) - 0.647, 1.000
 
 
-Possible errors in source data:
-o Multiple possible matches for company 'E. Guigal S.A.S.' (Green): <- error in Vinmonpolet data, these are the same companies?
-    'E. Guigal' ('e guigal s a s ' ≈ 'e guigal')
-    'Guigal' ('e guigal s a s ' ≈ 'guigal')
-    'E. Guigal' -> 'Guigal' new name
-o Error in Vinmonopolet data: Charles de Fères should be Charles de Fère.
-Barnivore:
-o Company url for Aalto Bodegas y Viñedos <- http://www.aalto.es/
-o Company url for Cantine Lenotti <- https://www.lenotti.com/
-o Company url for Fattoria Poggerino <- http://poggerino-chianti-italy.com/
-o Company url for La Cantina Pizzolato <- https://www.lacantinapizzolato.com/
-o Company url for Paul Jaboulet Aîné <- http://www.jaboulet.com/
 
+Data washing, Barnivore
+---
+Get tls cert subject organizationName, and compare with company_name?
+https://gist.github.com/zed/7901011

@@ -33,13 +33,3 @@ Also check for when countries don't match exactly (dev.country_mismatch = true e
 Then delete bad ones.
 
 After that, parse the json using generatehtml.py to produce a printable version
-
-
-
-Data washing, Barnivore
----
-Get tls cert subject organizationName, and compare with company_name
-https://gist.github.com/zed/7901011
-
-Make http-request to registered company web page, return title
-https://stackoverflow.com/questions/35956045/extract-title-with-beautifulsoup

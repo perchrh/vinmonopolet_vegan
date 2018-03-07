@@ -79,6 +79,12 @@ print_skus = False # Print all SKUs
 sku_whitelist_file = open("whitelist-skus", encoding='utf-8')
 sku_whitelist = [sku.strip() for sku in sku_whitelist_file.readlines()]
 
+print("""<html>
+   <head>
+       <meta charset='UTF-8'/>
+   </head>
+   <body>""")
+
 total_product_count = 0
 basisutvalg_count = 0
 all_companies = []
@@ -202,7 +208,6 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
     companies = json.loads(file.read())
     file.close()
 
-
     print("<ul>")
 
     companies.sort(key=sort_by_company_name)
@@ -280,3 +285,5 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         print("<h6>SKUs</h6>")
         print("\n".join(skus))
         print("<br/>")
+
+    print("</body></html>")

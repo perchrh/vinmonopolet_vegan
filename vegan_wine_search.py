@@ -152,6 +152,7 @@ def print_possible_match_detail(vegan_company, vinmonopolet_company):
         print("  {}".format(vegan_company["barnivore_url"]))
 
     print("  {}".format(vinmonopolet_company["products_found_at_vinmonopolet"][0]["Vareurl"]))
+    print("  {} products found".format(len(vinmonopolet_company["products_found_at_vinmonopolet"])))
 
 
 if __name__ == "__main__":
