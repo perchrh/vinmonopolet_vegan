@@ -28,12 +28,19 @@ def get_webpage(url, identifier=None, name=None):
     # use a fake custom user agent string to avoid silly webpages rejecting the library's default agent string
     custom_user_agent = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36"}
     r = requests.get(url, headers=custom_user_agent, verify=False, timeout=30)
-    if r.status_code == 404:
+    if r.status_code // 100 != 2:
         root_page = urlparse(url)
         new_url = "{}://{}".format(root_page.scheme, root_page.netloc)
         r2 = requests.get(new_url, headers=custom_user_agent, verify=False, timeout=30)
-        if r2.status_code == 200:
+        if r2.status_code // 100== 2:
             print("WARNING: error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
+        elif root_page.scheme is "http":
+            new_url = "{}://{}".format("https", root_page.netloc)
+            r3 = requests.get(new_url, headers=custom_user_agent, verify=False, timeout=30)
+            if r3.status_code // 100== 2:
+                print("WARNING: error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
+            r3.raise_for_status()
+        r2.raise_for_status()
     r.raise_for_status()
     return r.text
 
