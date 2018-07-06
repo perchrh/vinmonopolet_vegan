@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from difflib import SequenceMatcher
+from fuzzywuzzy import fuzz
 import multiprocessing
 import winestrings as wines
 
@@ -23,7 +23,7 @@ def import_products_from_vinmonopolet(companies_at_vinmonopolet):
 
 def compute_similarity(company_tuple):
     company, other_company = company_tuple
-    ratio = SequenceMatcher(None, company, other_company).ratio()
+    ratio = fuzz.token_sort_ratio(company, other_company)
     return (ratio, company, other_company)
 
 
@@ -50,7 +50,7 @@ def find_duplicates(companies, id_map):
         print("Similar company names:")
         for company in result:
             (ratio, company, other_company) = company
-            if ratio > 0.9:
+            if ratio > 90:
                 id = id_map[company]
                 other_company_id = id_map[other_company]
                 duplicate_tuple = (company, id, other_company, other_company_id, ratio)
@@ -93,7 +93,7 @@ def find_company_name_by_id(id, companies):
 
 
 if __name__ == "__main__":
-    companies_from_barnivore = wines.load_companies_from_barnivore("wine.json")
+    companies_from_barnivore = wines.load_companies_from_barnivore("liquor.json")
     barnivore_companies, barnivore_id_map = import_products_from_barnivore(companies_from_barnivore)
     barnivore_companies_normalized = [wines.normalize_name(wines.replace_abbreviations(x)) for x in barnivore_companies]
     barnivore_id_map_normalized = {}
