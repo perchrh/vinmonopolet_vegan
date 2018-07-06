@@ -14,8 +14,9 @@ brew install python3
 
 sudo -H pip3 install beautifulsoup4 --upgrade
 sudo -H pip3 install requests --upgrade
+sudo -H pip3 install fuzzywuzzy[speedup] --upgrade
 
-Get updated wine.json from http://barnivore.com/wine.json
+Get the updated wine.json from http://barnivore.com/wine.json
 It may have encoding errors, invalid utf-8 in it. 
 Fix it with this command, iconv --verbose -f utf-8 -t utf-8//ignore wine.json > winenew.json && mv winenew.json wine.json
 
