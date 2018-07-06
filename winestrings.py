@@ -174,9 +174,9 @@ def lcs(cleanString1, cleanString2):
     match = matcher.find_longest_match(0, len(cleanString1), 0, len(cleanString2))
     return match.size
 
-
+from fuzzywuzzy import fuzz
 def name_similarity(cleanString1, cleanString2):
-    return SequenceMatcher(None, cleanString1, cleanString2).ratio()
+    return fuzz.token_sort_ratio(cleanString1, cleanString2)
 
 
 def get_stop_words(words):

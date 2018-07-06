@@ -17,7 +17,7 @@ def possible_name_match(vegan_company, vinmonopolet_company):
     a_name = vegan_company["dev.search_string"]
     another_name = vinmonopolet_company["dev.search_string"]
     possible_name_match = wines.lcs(a_name, another_name) >= 4 \
-                          and wines.name_similarity(a_name, another_name) > 0.85
+                          and wines.name_similarity(a_name, another_name) > 85
 
     return possible_name_match
 
