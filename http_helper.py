@@ -3,6 +3,10 @@
 
 from bs4 import BeautifulSoup
 import string
+import logging
+
+logger = logging.getLogger()
+
 
 def parse_title(html_doc):
     soup = BeautifulSoup(html_doc, 'html.parser')
@@ -16,6 +20,7 @@ def parse_title(html_doc):
 
 
 import urllib3
+
 urllib3.disable_warnings()
 import requests
 from urllib.parse import urlparse
@@ -32,13 +37,14 @@ def get_webpage(url, identifier=None, name=None):
         root_page = urlparse(url)
         new_url = "{}://{}".format(root_page.scheme, root_page.netloc)
         r2 = requests.get(new_url, headers=custom_user_agent, verify=False, timeout=30)
-        if r2.status_code // 100== 2:
-            print("WARNING: error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
+        if r2.status_code // 100 == 2:
+            logging.debug("Will retry after error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
         elif root_page.scheme is "http":
+            logging.debug("Retrying with https scheme, url={}".format(root_page.netloc))
             new_url = "{}://{}".format("https", root_page.netloc)
             r3 = requests.get(new_url, headers=custom_user_agent, verify=False, timeout=30)
-            if r3.status_code // 100== 2:
-                print("WARNING: error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
+            if r3.status_code // 100 == 2:
+                logging.debug("error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
             r3.raise_for_status()
         r2.raise_for_status()
     r.raise_for_status()
@@ -53,5 +59,5 @@ def get_title(url):
         else:
             return None
     except requests.exceptions.RequestException as ex:
-        print("Error retrieving web page: {} ".format(type(ex)))
+        logging.debug("Error retrieving web page: {} ".format(type(ex)))
         return None
