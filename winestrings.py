@@ -77,7 +77,6 @@ def translate_country_name(country, company_id):
         "denmark": "danmark",
         "netherlands": "nederland",
         "ireland": "irland",
-        "belgium": "belgia",
         "greece": "hellas",
         "hungary": "ungarn",
         "croatia": "kroatia",
@@ -155,7 +154,9 @@ def translate_country_name(country, company_id):
         "barbados": "barbados",
         "ukraine": "ukraina",
         "serbia": "serbia",
-        "holland": "nederland"
+        "holland": "nederland",
+        "wales": "wales",
+        "indonesia": "indonesia"
     }
 
     try:
@@ -174,7 +175,10 @@ def lcs(cleanString1, cleanString2):
     match = matcher.find_longest_match(0, len(cleanString1), 0, len(cleanString2))
     return match.size
 
+
 from fuzzywuzzy import fuzz
+
+
 def name_similarity(cleanString1, cleanString2):
     return fuzz.token_sort_ratio(cleanString1, cleanString2)
 
@@ -295,6 +299,7 @@ def load_beer_companies_from_vinmonopolet(filename):
                      ]
 
     return create_company_list_from_vinmonpolet(beer_products)
+
 
 def load_spirits_companies_from_vinmonopolet(filename):
     products = load_vinmonopolet_data(filename)
