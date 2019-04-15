@@ -284,18 +284,18 @@ def load_companies_from_barnivore(filename):
     companies = list()
     with open(filename, encoding='utf-8') as file:
         for candidate in json.loads(file.read()):
-            if not candidate["country"]:
-                print("Error: Skipping entry due to missing country for company {}, id {}".format(candidate["company_name"], candidate["id"]))
+            company = candidate["company"]
+            if "country" not in company.keys() or not company["country"]:
+                print("Error: Skipping entry due to missing country for company {}, id {}".format(company["company_name"], company["id"]))
                 continue
-            elif not candidate["url"]:
-                print("Error: Skipping entry due to missing url for company {}, id {}".format(candidate["company_name"], candidate["id"]))
+            elif "url" not in company.keys() or not company["url"]:
+                print("Error: Skipping entry due to missing url for company {}, id {}".format(company["company_name"], company["id"]))
                 continue
 
-            candidate_company = candidate["company"]
-            candidate_company['dev.countries'] = {translate_country_name(candidate_company['country'].lower(), candidate_company['id'])}
-            candidate_company["barnivore_url"] = "http://www.barnivore.com/wine/{}/company".format(candidate_company["id"])
+            company['dev.countries'] = {translate_country_name(company['country'].lower(), company['id'])}
+            company["barnivore_url"] = "http://www.barnivore.com/wine/{}/company".format(company["id"])
 
-            companies.append(candidate_company)
+            companies.append(company)
 
     return companies
 
