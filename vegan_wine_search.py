@@ -121,7 +121,7 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                     if similarity_score > best_similarity_score:
                         best_candidate = candidate
                         best_similarity_score = similarity_score
-                    # todo OR - sort by similarity, and if top two matches are really close in similarity, do a tie break comparision
+                    # todo OR - sort by similarity, and if top two matches are really close in similarity, do a tie break comparision in more detail
 
                 print("Selected '{}' as the most closest match - {:.3f}".format(best_candidate["company_name"], best_similarity_score))
                 print_possible_match_detail(vegan_company, best_candidate)
