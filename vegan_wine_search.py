@@ -91,10 +91,8 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                     # TODO mark as bad match, and keep in output json for manual de-marking?
                     print_possible_match_detail(vegan_company, candidate)
                     continue
-                if not vegan_company["country"]:
-                    print("Error: no country data from Barnivore for company '{}'".format(vegan_company_name))
-                    possible_matches.append(candidate)
-                elif not candidate["dev.countries"]:
+
+                if not candidate["dev.countries"]:
                     print("Error: no country data from Vinmonopolet for company '{}'".format(vinmonopolet_company_name))
                     possible_matches.append(candidate)
                     continue
@@ -147,15 +145,8 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
 
 
 def print_possible_match_detail(vegan_company, vinmonopolet_company):
-    url = None
-    if 'url' in vegan_company.keys():
-        url = vegan_company["url"].strip()
-
-    if url:
-        print("  {} - \"{}\"".format(url, http_helper.get_title(url)))
-    else:
-        print("Warning: missing 'url' key for company {}".format(vegan_company["id"]))
-        print("  {}".format(vegan_company["barnivore_url"]))
+    url = vegan_company["url"].strip()
+    print("  {} - \"{}\"".format(url, http_helper.get_title(url)))
 
     print("  {}".format(vinmonopolet_company["products_found_at_vinmonopolet"][0]["Vareurl"]))
     print("  {} products found".format(len(vinmonopolet_company["products_found_at_vinmonopolet"])))

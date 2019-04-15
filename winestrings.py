@@ -161,7 +161,7 @@ def translate_country_name(country, company_id):
     }
 
     try:
-        return country_dict[country]
+        return country_dict[country.strip()]
     except KeyError:
         print("KeyError for country '{}' (company id {})".format(country, company_id))
         return country
@@ -227,7 +227,7 @@ def create_company_list_from_vinmonpolet(products):
             {"company_name": name,
              "id": company_id_counter,
              "products_found_at_vinmonopolet": products,
-             "dev.countries": set([x["Land"].lower() for x in products])
+             "dev.countries": set([x["Land"].lower().strip() for x in products if x["Land"]])
              })
         company_id_counter += 1
 
@@ -284,9 +284,17 @@ def load_companies_from_barnivore(filename):
     companies = list()
     with open(filename, encoding='utf-8') as file:
         for candidate in json.loads(file.read()):
+            if not candidate["country"]:
+                print("Error: Skipping entry due to missing country for company {}, id {}".format(candidate["company_name"], candidate["id"]))
+                continue
+            elif not candidate["url"]:
+                print("Error: Skipping entry due to missing url for company {}, id {}".format(candidate["company_name"], candidate["id"]))
+                continue
+
             candidate_company = candidate["company"]
             candidate_company['dev.countries'] = {translate_country_name(candidate_company['country'].lower(), candidate_company['id'])}
             candidate_company["barnivore_url"] = "http://www.barnivore.com/wine/{}/company".format(candidate_company["id"])
+
             companies.append(candidate_company)
 
     return companies
