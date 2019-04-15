@@ -91,9 +91,11 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                     # TODO mark as bad match, and keep in output json for manual de-marking?
                     print_possible_match_detail(vegan_company, candidate)
                     continue
-
-                if not candidate["dev.countries"]:
-                    print("Warning: no country data at vinmonopolet for company '{}'".format(vinmonopolet_company_name))
+                if not vegan_company["country"]:
+                    print("Error: no country data from Barnivore for company '{}'".format(vegan_company_name))
+                    possible_matches.append(candidate)
+                elif not candidate["dev.countries"]:
+                    print("Error: no country data from Vinmonopolet for company '{}'".format(vinmonopolet_company_name))
                     possible_matches.append(candidate)
                     continue
                 elif vegan_company["dev.countries"].isdisjoint(candidate["dev.countries"]):
@@ -101,7 +103,11 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                     if close_name_match:
                         print("Warning: country mismatch for companies '{}' and '{}'".format(vegan_company_name, vinmonopolet_company_name))
                         vegan_company["dev.country_mismatch"] = True  # Mark the entry for inspection
-                        possible_matches.append(candidate)
+                        if "usa" in vegan_company["dev.countries"] or "canada" in vegan_company["dev.countries"]:
+                            # Barnivore contains many of these entries, but Vinmonpolet does not, so we skip them in order to simplify manual post-processing
+                            print("Skipping entry for USA or Canada company with country value mismatch")
+                        else:
+                            possible_matches.append(candidate)
                     else:
                         print("Warning: ignoring match between companies '{}' and '{}', countries differ".format(vegan_company_name, vinmonopolet_company_name))
                 else:

@@ -63,7 +63,8 @@ def replace_abbreviations(word):
 
 
 def translate_country_name(country, company_id):
-    if not country: return country
+    if not country:
+        return country
 
     country_dict = {
         # poor man's translation to Norwegian
@@ -256,7 +257,6 @@ def post_process_vinmonopolet_data(export_data):
 
         product = row
         product["Lagerstatus"] = row["Produktutvalg"]  # mangler i exporten?
-        product["ProdusentSide"] = None  # mangler i exporten
         product["ProduktBilde"] = "https://bilder.vinmonopolet.no/cache/600x600-0/%s-1.jpg" % (row["Varenummer"])
 
         misspellings = {
