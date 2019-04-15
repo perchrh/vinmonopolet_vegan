@@ -246,6 +246,7 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
             for (company_dict, p) in products:
                 isFairtrade = p["Fairtrade"] == "true"
                 isOrganic = p["Okologisk"] == "true"
+                isEco = p["Miljosmart_emballasje"] == "true"
                 print("<li>{} - <a href='{}'>{}</a> {}. Laget på {}. {}{}{}. {} kr. <a href='{}'>[Barnivore]</a></li>".format(
                     p["Produsent"],
                     p["Vareurl"],
@@ -255,6 +256,7 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
                     p["Produktutvalg"].replace("Basisutvalget", "<strong>Basisutvalget</strong>"),
                     ", fairtrade" if isFairtrade else "",
                     ", økologisk" if isOrganic else "",
+                    ", miljøvennlig emballasje" if isEco else "",
                     p["Pris"],
                     company_dict['barnivore_url'])
                 )
