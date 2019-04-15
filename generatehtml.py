@@ -19,8 +19,10 @@ def pretty_format_type(product):
 
 
 def pretty_join(items, lowercase_tail=True):
-    if not items: return None
-    elif len(items) == 1: return next(iter(items))
+    if not items:
+        return None
+    elif len(items) == 1:
+        return next(iter(items))
 
     item_list = list(items)
     modified_list = []
@@ -48,6 +50,8 @@ def sort_by_product_price(product_dict):
 
 
 import sys
+
+
 def sort_by_trønder_kvotient(product_dict):
     try:
         price_raw = product_dict["Literpris"]  # eg. Kr. 106,53 pr. liter
@@ -74,11 +78,6 @@ def sort_by_company_name(company_dict):
     return next(iter(values))["Produsent"]
 
 
-use_whitelist = False  # Ignore all wines not in existing white list
-print_skus = False # Print all SKUs
-sku_whitelist_file = open("whitelist-skus", encoding='utf-8')
-sku_whitelist = [sku.strip() for sku in sku_whitelist_file.readlines()]
-
 print("""<html>
    <head>
        <meta charset='UTF-8'/>
@@ -94,14 +93,6 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
     file.close()
 
     for company_dict in companies:
-
-        if use_whitelist:
-            whitelisted_products = {}
-            for key, value in company_dict["products_found_at_vinmonopolet"].items():
-                if key in sku_whitelist:
-                    whitelisted_products[key] = value
-            company_dict["products_found_at_vinmonopolet"] = whitelisted_products
-
         products = company_dict["products_found_at_vinmonopolet"]
 
         if filename.find("some") >= 0:
@@ -152,19 +143,20 @@ glass_flasker_i_basis = [x for x in all_products if x["Produktutvalg"] == "Basis
 
 hvitvin = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("hvitvin") >= 0]
 rødvin = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("rødvin") >= 0]
-rosevin = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("rosevin") >= 0]
 musserende = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("musserende") >= 0]
-typer = {"Hvitvin": hvitvin, "Rødvin": rødvin, "Rosévin": rosevin, "Musserende vin": musserende}
+typer = {"Hvitvin": hvitvin, "Rødvin": rødvin, "Musserende vin": musserende}
 for vintype, viner in typer.items():
     viner.sort(key=sort_by_product_price)
     print(vintype)
     print("<ul>")
     for i in range(0, min(len(viner), 3)):
         product = viner[i]
-        print("<li><a href='%s'>%s</a>. %s fra %s produsert av %s (%s, %s)</li>" % (
+        print("<li><a href='%s'>%s</a>. %s fra %s produsert av %s (kr %s, %sL, %s)</li>" % (
             product["Vareurl"], product["Varenavn"], product["Varetype"], product["Land"], product["Produsent"],
             product["Pris"].lower(),
-            product["Volum"].lower()))
+            product["Volum"].lower(),
+            product["Emballasjetype"].lower())
+        )
     print("</ul>")
 
 print("<h4>Mest alkohol per krone</h4>")
@@ -174,9 +166,8 @@ for company in all_companies:
 
 hvitvin = [x for x in all_products if x["Varetype"].lower().find("hvitvin") >= 0]
 rødvin = [x for x in all_products if x["Varetype"].lower().find("rødvin") >= 0]
-rosevin = [x for x in all_products if x["Varetype"].lower().find("rosevin") >= 0]
 musserende = [x for x in all_products if x["Varetype"].lower().find("musserende") >= 0]
-typer = {"Hvitvin": hvitvin, "Rødvin": rødvin, "Rosévin": rosevin, "Musserende vin": musserende}
+typer = {"Hvitvin": hvitvin, "Rødvin": rødvin, "Musserende vin": musserende}
 
 hvitvin.sort(key=sort_by_trønder_kvotient)
 rødvin.sort(key=sort_by_trønder_kvotient)
@@ -188,7 +179,7 @@ for vintype, viner in typer.items():
     print("<ul>")
     for i in range(0, min(len(viner), 3)):
         product = viner[i]
-        print("<li><a href='%s'>%s</a>. %s fra %s produsert av %s (%s, %s, %s)</li>" % (
+        print("<li><a href='%s'>%s</a>. %s fra %s produsert av %s (kr %s, %sL, %s)</li>" % (
             product["Vareurl"], product["Varenavn"], product["Varetype"], product["Land"], product["Produsent"],
             product["Pris"].lower(),
             product["Volum"].lower(),
@@ -221,14 +212,6 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         company_url = company_dict['barnivore_url']
         company_name = company_dict['company_name']
 
-        if use_whitelist:
-            whitelisted_products = {}
-            for key, value in company_dict["products_found_at_vinmonopolet"].items():
-                if key in sku_whitelist:
-                    whitelisted_products[key] = value
-            company_dict["products_found_at_vinmonopolet"] = whitelisted_products
-
-
         products = company_dict["products_found_at_vinmonopolet"]
         if not products:
             continue
@@ -245,6 +228,10 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         company_search_result_page = next(iter(company_search_pages))
         basisutvalget = "Basisutvalget" in selections
 
+        if product_count < 2 and not basisutvalget:
+            # skip these guys to simplify manual post processing of results
+            continue
+
         print("<li>")  # begin company
         print("<a href='%s'>%s</a>. %s. %s. %s fra %s. <a href='%s'>[Barnivore]</a>" % (
             company_search_result_page,
@@ -257,33 +244,20 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         ))
         print("<ul>")  # begin product list
         for product in products:
+            isFairtrade = product["Fairtrade"] == "true"
             print("<li>")  # begin product
-            print(" <a href='%s'>%s</a> %s fra %s (%s)." % (
+            print(" <a href='%s'>%s</a> %s fra %s (%s%s)." % (
                 product["Vareurl"],
                 product["Varenavn"],
                 pretty_format_type(product),
                 pretty_format_region(product),
-                product["Produktutvalg"].replace("Basisutvalget", "<strong>Basisutvalget</strong>")
+                product["Produktutvalg"].replace("Basisutvalget", "<strong>Basisutvalget</strong>"),
+                ", Fairtrade" if isFairtrade else ""
             ))
             print("</li>")  # end product
         print("</ul>")  # end end product list
         print("</li>")  # end company
 
     print("</ul>")  # end category
-
-    if use_whitelist:
-        with open("filtered-%s" %(filename), 'w') as outfile:
-            json.dump(companies, outfile, indent=4)
-
-    if print_skus:
-        # print skus for later
-        skus = set()
-        for company_dict in companies:
-            products = company_dict["products_found_at_vinmonopolet"]
-            for sku in products.keys():
-                skus.add(sku)
-        print("<h6>SKUs</h6>")
-        print("\n".join(skus))
-        print("<br/>")
 
 print("</body></html>")
