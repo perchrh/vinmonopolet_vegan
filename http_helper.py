@@ -38,13 +38,13 @@ def get_webpage(url, identifier=None, name=None):
         new_url = "{}://{}".format(root_page.scheme, root_page.netloc)
         r2 = requests.get(new_url, headers=custom_user_agent, verify=False, timeout=30)
         if r2.status_code // 100 == 2:
-            logging.debug("Will retry after error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
+            logging.info("Error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
         elif root_page.scheme is "http":
             logging.debug("Retrying with https scheme, url={}".format(root_page.netloc))
             new_url = "{}://{}".format("https", root_page.netloc)
             r3 = requests.get(new_url, headers=custom_user_agent, verify=False, timeout=30)
             if r3.status_code // 100 == 2:
-                logging.debug("error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
+                logging.info("error retrieving url={}, id={}, name={}, but {} worked".format(url, identifier, name, new_url))
             r3.raise_for_status()
         r2.raise_for_status()
     r.raise_for_status()

@@ -8,13 +8,14 @@ import winestrings as wines
 import http_helper
 import requests
 
+
 # multiprocessor logging courtesy of https://stackoverflow.com/a/34964369/788913
 
 def worker_init(q):
     # all records from worker processes go to qh and then into q
     qh = QueueHandler(q)
     logger = logging.getLogger()
-    logger.setLevel(logging.WARN)
+    logger.setLevel(logging.INFO)
     logger.addHandler(qh)
 
 
@@ -29,7 +30,7 @@ def logger_init():
     ql.start()
 
     logger = logging.getLogger()
-    logger.setLevel(logging.WARN)
+    logger.setLevel(logging.INFO)
     # add the handler to the logger so records from this process are handled
     logger.addHandler(handler)
 
@@ -42,9 +43,9 @@ def visit_company_site(company):
         http_helper.get_webpage(company["url"], company["id"], company["company_name"])
     except requests.exceptions.RequestException as ex:
         logging.error("Website retrieval error;{};{};{};{}".format(company["red_yellow_green"],
-                                                           company["company_name"],
-                                                           company["id"],
-                                                           str(ex)))
+                                                                   company["company_name"],
+                                                                   company["id"],
+                                                                   str(ex)))
 
 
 if __name__ == "__main__":
@@ -61,10 +62,10 @@ if __name__ == "__main__":
 
         for company in missing_url:
             logging.error("Missing 'url' key;{};{};{}".format(company["red_yellow_green"],
-                                                      company["company_name"],
-                                                      company["id"]))
+                                                              company["company_name"],
+                                                              company["id"]))
 
-        num_agents = multiprocessing.cpu_count() - 1 or 1
-        chunk_size = int(len(got_url) / num_agents + 0.5)
+        num_agents = 4 * (multiprocessing.cpu_count() - 1 or 1)  # Let's us many processes for the IO-heavy work
+        chunk_size = min(50, len(got_url))
         with multiprocessing.Pool(num_agents, worker_init, [q]) as pool:
             result = pool.map(visit_company_site, got_url, chunk_size)
