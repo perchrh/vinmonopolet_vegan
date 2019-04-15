@@ -143,18 +143,18 @@ print("</ul>")
 
 print("<h5>Billig-liste</h5>")
 print("<a name='billig'></a>")
-print("<h4>De billigste veganske vinflaskene</h4>")
+print("<h4>De billigste veganske vinene</h4>")
 all_products = []
 for company in all_companies:
     all_products += company["products_found_at_vinmonopolet"]
 
-glass_flasker_i_basis = [x for x in all_products if x["Produktutvalg"] == "Basisutvalget" and x["Emballasjetype"] == "Glass"]
+glass_flasker_i_basis = [x for x in all_products if x["Produktutvalg"] == "Basisutvalget"]
 
 hvitvin = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("hvitvin") >= 0]
 rødvin = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("rødvin") >= 0]
-# rosevin = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("rosevin") >= 0]
+rosevin = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("rosevin") >= 0]
 musserende = [x for x in glass_flasker_i_basis if x["Varetype"].lower().find("musserende") >= 0]
-typer = {"Hvitvin": hvitvin, "Rødvin": rødvin, "Musserende": musserende}
+typer = {"Hvitvin": hvitvin, "Rødvin": rødvin, "Rosévin": rosevin, "Musserende vin": musserende}
 for vintype, viner in typer.items():
     viner.sort(key=sort_by_product_price)
     print(vintype)
@@ -174,9 +174,9 @@ for company in all_companies:
 
 hvitvin = [x for x in all_products if x["Varetype"].lower().find("hvitvin") >= 0]
 rødvin = [x for x in all_products if x["Varetype"].lower().find("rødvin") >= 0]
-# rosevin = [x for x in all_products if x["Varetype"].lower().find("rosevin") >= 0]
+rosevin = [x for x in all_products if x["Varetype"].lower().find("rosevin") >= 0]
 musserende = [x for x in all_products if x["Varetype"].lower().find("musserende") >= 0]
-typer = {"Hvitvin": hvitvin, "Rødvin": rødvin, "Musserende": musserende}
+typer = {"Hvitvin": hvitvin, "Rødvin": rødvin, "Rosévin": rosevin, "Musserende vin": musserende}
 
 hvitvin.sort(key=sort_by_trønder_kvotient)
 rødvin.sort(key=sort_by_trønder_kvotient)

@@ -196,9 +196,9 @@ def get_stop_words(words):
                         'bierbrouwerij', 'bieres', 'birra', 'birras', 'bodega', 'brew house', 'brewers', 'brygghus',
                         'bryghus', 'by', 'c', 'casa', 'casas', 'cellar', 'cellars', 'comp', 'compania', 'coop', 'corp',
                         'crl', 'cspa', 'das', 'dei', 'di', 'distillerie', 'do', 'du', 'e', 'el', 'estates', 'family',
-                        'farm', 'fe', 'gran', 'grand', 'group', 'grupo', 'hills', 'il', 'inc', 'incorporated', 'les',
-                        'limitee', 'long', 'martin', 'merchant', 'monte', 'nuevo', 'of', 'plc', 'port', 'prod',
-                        'productions', 'pty', 'ridge', 'royal', 'sa', 'sca', 'sl', 'soc', 'sociedade',
+                        'farm', 'fe', 'gran', 'grand', 'group', 'grupo', 'hills', 'il', 'inc', 'incorporated', 'la',
+                        'le', 'les', 'limitee', 'long', 'martin', 'merchant', 'monte', 'nuevo', 'of', 'plc', 'port',
+                        'prod', 'productions', 'pty', 'ridge', 'royal', 'sa', 'sca', 'sl', 'soc', 'sociedade',
                         'sociedadsocieta', 'societe', 'spa', 'spanish', 'spirits', 'srl', 'ss', 'supermarkets', 'urban',
                         'veuve', 'view', 'vignerons', 'vinedos', 'vineyard', 'vineyards', 'vinos', 'vintners', 'vit',
                         'viticultor', 'vitivinicola', 'weinbau', 'weinhaus', 'weinkellerei', 'wine', 'winemaker',
@@ -247,16 +247,29 @@ def post_process_vinmonopolet_data(export_data):
     for row in export_data:
         # Headers are:
         # Datotid;Varenummer;Varenavn;Volum;Pris;Literpris;Varetype;Produktutvalg;Butikkategori;
-        # Fylde;Friskhet;Garvestoffer;Bitterhet;Sodme;Farge;Lukt;Smak;Passertil01;Passertil02;Passertil03;
-        # Land;Distrikt;Underdistrikt;
-        # Argang;Rastoff;Metode;Alkohol;Sukker;Syre;Lagringsgrad;
-        # Produsent;Grossist;Distributor;
-        # Emballasjetype;Korktype;Vareurl
+        # Fylde;Friskhet; Garvestoffer; Bitterhet; Sodme; Farge; Lukt; Smak; Passertil01; Passertil02; Passertil03;
+        # Land; Distrikt; Underdistrikt;
+        # Argang; Rastoff; Metode; Alkohol; Sukker; Syre; Lagringsgrad;
+        # Produsent; Grossist; Distributor;
+        # Emballasjetype; Korktype; Vareurl;
+        # Okologisk; Biodynamisk; Fairtrade; Miljosmart_emballasje; Gluten_lav_pa; Kosher; HovedGTIN; AndreGTINs
 
         product = row
         product["Lagerstatus"] = row["Produktutvalg"]  # mangler i exporten?
         product["ProdusentSide"] = None  # mangler i exporten
         product["ProduktBilde"] = "https://bilder.vinmonopolet.no/cache/600x600-0/%s-1.jpg" % (row["Varenummer"])
+
+        misspellings = {
+            "Les Grands Chais de France": "Les Grand Chais de France",
+            "Rocca di Frasinello": "Rocca di Frassinello",
+            "Pian delle Querce": "Pian delle Querci",
+            "Mercy, Dom. du Ch. Val de": "Dom. du Ch. du Val de Mercy",
+            "Cellier des Tiercelines": "Le Cellier des Tiercelines",
+            "Cave des Hautes-Côtes": "La Cave des Hautes-Côtes",
+            "Dom. Matrot, Thierry et Pascal": "Thierry et Pascale Matrot"
+        }
+        if product["Produsent"] in misspellings:
+            product["Produsent"] = misspellings[product["Produsent"]]
 
         if product["Produktutvalg"] == "Partiutvalget" or product["Produktutvalg"] == "Testutvalget":
             # print("Skipping product that's not expected to stay in stores a while"))
