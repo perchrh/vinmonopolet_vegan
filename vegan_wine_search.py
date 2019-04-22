@@ -96,7 +96,9 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                     if close_name_match:
                         if "usa" in vegan_company["dev.countries"] or "canada" in vegan_company["dev.countries"]:
                             # Barnivore contains many of these entries, but Vinmonpolet does not, so we skip them in order to simplify manual post-processing
-                            print("Skipping entry for USA or Canada company with country value mismatch")
+                            print("Warning: skipping entry for USA or Canada company with country value mismatch: companies '{}' and '{}' ".format(vegan_company_name,
+                                                                                                                                         vinmonopolet_company_name))
+
                         else:
                             print("Warning: country mismatch for companies '{}' and '{}'".format(vegan_company_name, vinmonopolet_company_name))
                             vegan_company["dev.country_mismatch"] = True  # Mark the entry for inspection
