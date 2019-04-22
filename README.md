@@ -9,17 +9,22 @@ Install it like this (Ubuntu/Debian):
     sudo apt-get install python3
 
 Or for Mac:
-Install homebrew
-then
+Install homebrew, then
  
     brew install python3
+    
+Then install required dependencies:
+
     pip3 install beautifulsoup4 --upgrade
     pip3 install requests --upgrade
     pip3 install fuzzywuzzy[speedup] --upgrade
 
-Get the updated wine.json from http://barnivore.com/wine.json
+Get the updated wine.json from http://barnivore.com/wine.json \
 It may have encoding errors, invalid utf-8 in it. 
-Fix it with this command, iconv --verbose -f utf-8 -t utf-8//ignore wine.json > winenew.json && mv winenew.json wine.json
+
+Fix it with this command: 
+     
+    iconv --verbose -f utf-8 -t utf-8//ignore wine.json > winenew.json && mv winenew.json wine.json
 
 Get the updated product list from Vinmonopolet, described at
 https://www.vinmonopolet.no/datadeling, available at
@@ -37,7 +42,7 @@ Tips for validating the list
 The list will include false positives because of the intentional fuzzy matching of manufacturers' names.
 Regexp-search for Varenavn|manufacturer_name in the json file to highlight these fields.
 Then for each company's wine list check if there is a name mismatch.
-Also check for when countries don't match exactly (dev.country_mismatch = true entries)
+Also check for when countries don't match exactly (dev.country_mismatch = true entries). 
 Then delete bad ones.
 
-After that, parse the json using generatehtml.py to produce a printable version
+After that, parse the json using generatehtml.py to produce a human-readable HTML page
