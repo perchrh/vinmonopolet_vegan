@@ -140,15 +140,14 @@ for company in companies_with_the_most_products[:9]:
     types = set()
     regions = set()
     products = company["products_found_at_vinmonopolet"]
-    company_link = next(iter(products))["ProdusentSide"] if products else None
     company_name_from_vinmonopolet = next(iter(products))["Produsent"] if products else None
     for product in products:
         types.add(pretty_format_type(product))
         regions.add(pretty_format_region(product, subregion_count=1))
     types_list = pretty_join(types)
     regions_list = pretty_join(regions, lowercase_tail=False)
-    print("<li><a href='%s'>%s</a>. %s. %s (%d varer i basisutvalget)</li>" % (
-        company_link, company_name_from_vinmonopolet, types_list, regions_list, sort_by_product_count(company)))
+    print("<li>%s. %s. %s (%d varer i basisutvalget)</li>" % (
+        company_name_from_vinmonopolet, types_list, regions_list, sort_by_product_count(company)))
 print("</ul>")
 
 print("<h2>Billig-liste</h2>")
