@@ -89,22 +89,17 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                                                                                                                                         normalized_name_similarity,
                                                                                                                                         search_name_similarity))
                     # TODO mark as bad match, and keep in output json for manual de-marking?
-                    print_possible_match_detail(vegan_company, candidate)
                     continue
 
-                if not candidate["dev.countries"]:
-                    print("Error: no country data from Vinmonopolet for company '{}'".format(vinmonopolet_company_name))
-                    possible_matches.append(candidate)
-                    continue
-                elif vegan_company["dev.countries"].isdisjoint(candidate["dev.countries"]):
+                if vegan_company["dev.countries"].isdisjoint(candidate["dev.countries"]):
                     # If countries do not match, require a very close name match
                     if close_name_match:
-                        print("Warning: country mismatch for companies '{}' and '{}'".format(vegan_company_name, vinmonopolet_company_name))
-                        vegan_company["dev.country_mismatch"] = True  # Mark the entry for inspection
                         if "usa" in vegan_company["dev.countries"] or "canada" in vegan_company["dev.countries"]:
                             # Barnivore contains many of these entries, but Vinmonpolet does not, so we skip them in order to simplify manual post-processing
                             print("Skipping entry for USA or Canada company with country value mismatch")
                         else:
+                            print("Warning: country mismatch for companies '{}' and '{}'".format(vegan_company_name, vinmonopolet_company_name))
+                            vegan_company["dev.country_mismatch"] = True  # Mark the entry for inspection
                             possible_matches.append(candidate)
                     else:
                         print("Warning: ignoring match between companies '{}' and '{}', countries differ".format(vegan_company_name, vinmonopolet_company_name))
@@ -128,8 +123,8 @@ def find_possible_company_matches(vegan_companies, wine_companies_at_vinmonopole
                     # todo OR - sort by similarity, and if top two matches are really close in similarity, do a tie break comparision in more detail
 
                 print("Selected '{}' as the most closest match - {:.3f}".format(best_candidate["company_name"], best_similarity_score))
-                print_possible_match_detail(vegan_company, best_candidate)
                 vegan_company["products_found_at_vinmonopolet"] = best_candidate["products_found_at_vinmonopolet"]
+                print_possible_match_detail(vegan_company, best_candidate)
             elif possible_matches:
                 normalized_name_similarity = wines.name_similarity(vegan_company["dev.normalized_name"], possible_matches[0]["dev.normalized_name"])
                 search_name_similarity = wines.name_similarity(vegan_company["dev.search_string"], possible_matches[0]["dev.search_string"])
