@@ -268,12 +268,22 @@ def post_process_vinmonopolet_data(export_data):
             "Cave des Hautes-Côtes": "La Cave des Hautes-Côtes",
             "Dom. Matrot, Thierry et Pascal": "Thierry et Pascale Matrot"
         }
-        if product["Produsent"] in misspellings:
-            product["Produsent"] = misspellings[product["Produsent"]]
+
+        if product["Varetype"] is "Tilbehør":
+            # not a beverage
+            continue
 
         if product["Produktutvalg"] == "Partiutvalget" or product["Produktutvalg"] == "Testutvalget":
             # print("Skipping product that's not expected to stay in stores a while"))
             continue
+
+        if not product["Land"]:
+            print("Error: Skipping entry due to missing country for product {}, id {}".format(product["Varenavn"],
+                                                                                              product["Varenummer"]))
+            continue
+
+        if product["Produsent"] in misspellings:
+            product["Produsent"] = misspellings[product["Produsent"]]
 
         products.append(product)
 
