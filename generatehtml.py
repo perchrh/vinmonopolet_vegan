@@ -222,7 +222,7 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
     for company_dict in companies:
         for product in company_dict["products_found_at_vinmonopolet"]:
             land = product["Land"]
-            if not land in products_by_country:
+            if land not in products_by_country:
                 products_by_country[land] = []
             products_by_country[land].append((company_dict, product))
 
@@ -236,17 +236,17 @@ for filename in ["vegan-friendly-searchresult-vinmonopolet.json", "some-vegan-op
         products_by_type = {}
         for (company_dict, p) in products:
             type_name = pretty_format_type(p)
-            if not type_name in products_by_type:
+            if type_name not in products_by_type:
                 products_by_type[type_name] = []
             products_by_type[type_name].append((company_dict, p))
-        for product_type, products in products_by_type.items():
+        for product_type, company_products in products_by_type.items():
             print("<h4>{}</h4>".format(product_type))
             print("<ul>")
-            for (company_dict, p) in products:
+            for (company_dict, p) in company_products:
                 isFairtrade = p["Fairtrade"] == "true"
                 isOrganic = p["Okologisk"] == "true"
                 isEco = p["Miljosmart_emballasje"] == "true"
-                print("<li>{} - <a href='{}'>{}</a> {}. Laget på {}. {}{}{}. {} kr. <a href='{}'>[Barnivore]</a></li>".format(
+                print("<li>{} - <a href='{}'>{}</a> {}. Laget på {}. {} {}{}{}. {} kr. <a href='{}'>[Barnivore]</a></li>".format(
                     p["Produsent"],
                     p["Vareurl"],
                     p["Varenavn"],
