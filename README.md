@@ -27,7 +27,7 @@ Fix it with this command:
     iconv --verbose -f utf-8 -t utf-8//ignore wine.json > winenew.json && mv winenew.json wine.json
 
 Get the updated product list from Vinmonopolet, described at
-https://www.vinmonopolet.no/datadeling, available at
+https://www.vinmonopolet.no/datadeling/csv,  available at
 https://www.vinmonopolet.no/medias/sys_master/products/products/hbc/hb0/8834253127710/produkter.csv
 
 Run
